@@ -1,0 +1,20 @@
+moduledependenciestarget: \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.2.sdk/SDKSettings.json \
+  /Users/admin/Documents/development/Voc/Voc_autumn_2026/build/macos/Build/Intermediates.noindex/ExplicitPrecompiledModules/_DarwinFoundation1-CN5VK08IM9FGNZ6RZ0XVD5OA6.pcm \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.2.sdk/usr/include/DarwinFoundation1.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/include/module.modulemap \
+  /Users/admin/Documents/development/Voc/Voc_autumn_2026/build/macos/Build/Intermediates.noindex/ExplicitPrecompiledModules/CoreServices-9ZUPX3MMQTQIPU1A9KIU22139.pcm \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.2.sdk/usr/include/DarwinFoundation2.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.2.sdk/System/Library/Frameworks/CoreFoundation.framework/Modules/module.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.2.sdk/System/Library/Frameworks/CoreServices.framework/Modules/module.modulemap \
+  /Users/admin/Documents/development/Voc/Voc_autumn_2026/build/macos/Build/Intermediates.noindex/ExplicitPrecompiledModules/CoreText-AWI2ERQ08GV32B2YRI1ETOJOW.pcm \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.2.sdk/System/Library/Frameworks/CoreGraphics.framework/Modules/module.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.2.sdk/System/Library/Frameworks/CoreText.framework/Modules/module.modulemap \
+  /Users/admin/Documents/development/Voc/Voc_autumn_2026/build/macos/Build/Intermediates.noindex/ExplicitPrecompiledModules/ColorSync-AZNMV7LMIWX6872WZSKS7ZJOZ.pcm \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.2.sdk/System/Library/Frameworks/ColorSync.framework/Modules/module.modulemap \
+  /Users/admin/Documents/development/Voc/Voc_autumn_2026/build/macos/Build/Intermediates.noindex/ExplicitPrecompiledModules/ImageIO-6PI8O1JPA9TVDSIQSQ74OQYUW.pcm \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.2.sdk/System/Library/Frameworks/ImageIO.framework/Modules/module.modulemap \
+  /Users/admin/Documents/development/Voc/Voc_autumn_2026/build/macos/Build/Intermediates.noindex/ExplicitPrecompiledModules/Foundation-DWS3XWURO35DX74RLIYWCB08U.pcm \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.2.sdk/System/Library/Frameworks/Foundation.framework/Modules/module.modulemap \
+  /Users/admin/Documents/development/Voc/Voc_autumn_2026/build/macos/Build/Intermediates.noindex/ExplicitPrecompiledModules/CUPS-838N3M6A9Y13L0P94AZL3IUDY.pcm \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.2.sdk/usr/include/cups.modulemap
