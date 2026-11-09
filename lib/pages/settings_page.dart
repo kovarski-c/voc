@@ -68,6 +68,69 @@ class SettingsPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               _Section(
+                title: 'Denní cíl',
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${c.dailyGoal} karet denně',
+                      style: const TextStyle(
+                          fontSize: 17, fontWeight: FontWeight.w700),
+                    ),
+                    Slider(
+                      value: c.dailyGoal.toDouble(),
+                      min: 5,
+                      max: 100,
+                      divisions: 19,
+                      label: '${c.dailyGoal}',
+                      onChanged: (v) => c.setDailyGoal(v.round()),
+                    ),
+                    const Text(
+                      'Do cíle se počítají zopakovaná i naučená slova. '
+                      'Den se do série započítá už od 5 karet; ve 4:00 ráno začíná nový den.',
+                      style: TextStyle(fontSize: 12.5, color: kMuted),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              _Section(
+                title: 'Odezva',
+                child: Row(
+                  children: [
+                    const Expanded(
+                      child: Text('Vibrace při swipu',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w600)),
+                    ),
+                    Switch(
+                      value: c.settings.haptics,
+                      onChanged: c.setHaptics,
+                    ),
+                  ],
+                ),
+              ),
+              if (c.course.hasVulgar) ...[
+                const SizedBox(height: 16),
+                _Section(
+                  title: 'Obsah',
+                  child: Row(
+                    children: [
+                      const Expanded(
+                        child: Text('Skrýt vulgární slova',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600)),
+                      ),
+                      Switch(
+                        value: c.settings.hideVulgar,
+                        onChanged: c.setHideVulgar,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+              const SizedBox(height: 16),
+              _Section(
                 title: 'Směr karet při opakování',
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

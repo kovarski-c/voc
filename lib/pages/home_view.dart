@@ -28,7 +28,7 @@ class HomeView extends StatelessWidget {
     final due = s.dueCount;
     final learning = s.learningCount;
     final unseen = s.unseenCount;
-    final total = c.course.length;
+    final total = c.totalWords;
     final learned = c.learnedCount;
     final solid = c.solidCount;
     final percent = total == 0 ? 0 : (learned * 100 / total).round();
@@ -150,35 +150,114 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final streak = c.streak;
+    final done = c.doneToday;
+    final goal = c.dailyGoal;
+    final reached = done >= goal;
     return Row(
       children: [
-        Material(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(26),
-          elevation: 0,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(26),
-            onTap: onTap,
-            child: Ink(
+        Expanded(
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
               decoration: BoxDecoration(
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(26),
                 boxShadow: softShadow(),
               ),
-              padding: const EdgeInsets.fromLTRB(14, 9, 10, 9),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CourseFlag(course: c.course, width: 30, height: 21),
-                  const SizedBox(width: 10),
-                  Text(c.course.backLabel,
-                      style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: kInk)),
-                  const SizedBox(width: 4),
-                  const Icon(Icons.expand_more_rounded, color: kMuted),
-                ],
+              child: Material(
+                type: MaterialType.transparency,
+                borderRadius: BorderRadius.circular(26),
+                clipBehavior: Clip.antiAlias,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(26),
+                  onTap: onTap,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(14, 9, 10, 9),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CourseFlag(course: c.course, width: 30, height: 21),
+                        const SizedBox(width: 10),
+                        Flexible(
+                          child: Text(c.course.backLabel,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: kInk)),
+                        ),
+                        const SizedBox(width: 4),
+                        const Icon(Icons.expand_more_rounded, color: kMuted),
+                      ],
+                    ),
+                  ),
+                ),
               ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Tooltip(
+          message: 'Dnešní cíl: $done / $goal karet',
+          child: Container(
+            width: 46,
+            height: 46,
+            padding: const EdgeInsets.all(7),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              boxShadow: softShadow(),
+            ),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox.expand(
+                  child: CircularProgressIndicator(
+                    value: (done / goal).clamp(0.0, 1.0),
+                    strokeWidth: 4.5,
+                    strokeCap: StrokeCap.round,
+                    backgroundColor: const Color(0xFFE3E7EE),
+                    color: reached ? const Color(0xFF2EAE6B) : kBlue,
+                  ),
+                ),
+                reached
+                    ? const Icon(Icons.check_rounded,
+                        size: 18, color: Color(0xFF2EAE6B))
+                    : Text('$done',
+                        style: const TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.w800)),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Tooltip(
+          message: 'Série dní (nejdelší: ${c.bestStreak})',
+          child: Container(
+            height: 46,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(23),
+              boxShadow: softShadow(),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.local_fire_department_rounded,
+                    size: 24,
+                    color: streak > 0
+                        ? const Color(0xFFFF7A00)
+                        : const Color(0xFFB4BBC7)),
+                const SizedBox(width: 2),
+                Text('$streak',
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w800,
+                        color: streak > 0 ? kInk : kMuted)),
+              ],
             ),
           ),
         ),

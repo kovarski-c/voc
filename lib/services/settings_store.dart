@@ -16,16 +16,31 @@ class AppSettings {
   /// Naposledy zvolený kurz (jazyk); null = ještě nezvolen (první spuštění).
   String? courseId;
 
+  /// Denní cíl v kartách (zopakované + naučené).
+  int dailyGoal;
+
+  /// Lehké vibrace při swipu.
+  bool haptics;
+
+  /// Skrýt vulgární slova (vulgar=1). Výchozí je zapnuto.
+  bool hideVulgar;
+
   AppSettings({
     this.directionMode = DirectionMode.auto,
     this.nativeFrontProb = 0.65,
     this.courseId,
+    this.dailyGoal = 20,
+    this.haptics = true,
+    this.hideVulgar = true,
   });
 
   Map<String, dynamic> toJson() => {
         'dir': directionMode.index,
         'p': nativeFrontProb,
         'course': courseId,
+        'goal': dailyGoal,
+        'hap': haptics ? 1 : 0,
+        'vul': hideVulgar ? 1 : 0,
       };
 
   factory AppSettings.fromJson(Map<String, dynamic> m) => AppSettings(
@@ -34,6 +49,9 @@ class AppSettings {
         nativeFrontProb:
             ((m['p'] as num?)?.toDouble() ?? 0.65).clamp(0.0, 1.0),
         courseId: m['course'] as String?,
+        dailyGoal: ((m['goal'] as num?)?.toInt() ?? 20).clamp(5, 100),
+        haptics: ((m['hap'] as num?)?.toInt() ?? 1) == 1,
+        hideVulgar: ((m['vul'] as num?)?.toInt() ?? 1) == 1,
       );
 }
 

@@ -8,8 +8,18 @@ import 'package:path_provider/path_provider.dart';
 import '../models/card_progress.dart';
 import 'scheduler.dart';
 
+/// Statistiky před jednou akcí (pro tlačítko Zpět). Odznaky se nevracejí.
+class StatsSnapshot {
+  final int day;
+  final List<int>? today;
+  final int streak, bestStreak, lastActiveDay, freezes, goalCelebratedDay;
+  const StatsSnapshot(this.day, this.today, this.streak, this.bestStreak,
+      this.lastActiveDay, this.freezes, this.goalCelebratedDay);
+}
+
 /// Ukládá pokrok jednoho kurzu do progress_<courseId>.json (verze 3).
-/// Ukládají se jen karty, které už uživatel viděl (řídký formát).
+/// Ukládají se jen karty, které už uživatel viděl (řídký formát),
+/// plus statistiky: historie po dnech, série, odznaky.
 /// Starší formáty (verze 2 a původní skills.json) se při načtení převedou.
 class ProgressStore {
   ProgressStore(this.courseId);
@@ -17,31 +27,49 @@ class ProgressStore {
   final String courseId;
   final Map<int, CardProgress> cards = {};
 
-  // Denní statistika (studijní den začíná ve 4:00).
-  int _dayId = 0;
-  int _reviewed = 0;
-  int _learned = 0;
+  // --- statistiky ---
+  /// číslo studijního dne -> [zopakováno, naučeno]
+  final Map<int, List<int>> history = {};
+  int streak = 0;
+  int bestStreak = 0;
+  int lastActiveDay = 0;
+  int freezes = 0;
+  int goalCelebratedDay = 0;
+  final Set<int> badges = {};
+  bool badgesSeeded = false;
 
-  int get _today {
-    final d = Scheduler.studyDate(DateTime.now());
-    return d.year * 10000 + d.month * 100 + d.day;
-  }
-
-  int get reviewedToday => _dayId == _today ? _reviewed : 0;
-  int get learnedToday => _dayId == _today ? _learned : 0;
+  List<int> get _todayCounts =>
+      history[Scheduler.studyDayNumber(DateTime.now())] ?? const [0, 0];
+  int get reviewedToday => _todayCounts[0];
+  int get learnedToday => _todayCounts[1];
+  int get doneToday => reviewedToday + learnedToday;
 
   /// Volá se, když karta definitivně opustí frontu (zopakována / naučena).
   void recordDone(bool learned) {
-    if (_dayId != _today) {
-      _dayId = _today;
-      _reviewed = 0;
-      _learned = 0;
-    }
-    if (learned) {
-      _learned++;
+    final day = Scheduler.studyDayNumber(DateTime.now());
+    final h = history.putIfAbsent(day, () => [0, 0]);
+    h[learned ? 1 : 0]++;
+    scheduleSave();
+  }
+
+  StatsSnapshot snapshotStats() {
+    final day = Scheduler.studyDayNumber(DateTime.now());
+    final h = history[day];
+    return StatsSnapshot(day, h == null ? null : List.of(h), streak,
+        bestStreak, lastActiveDay, freezes, goalCelebratedDay);
+  }
+
+  void restoreStats(StatsSnapshot s) {
+    if (s.today == null) {
+      history.remove(s.day);
     } else {
-      _reviewed++;
+      history[s.day] = List.of(s.today!);
     }
+    streak = s.streak;
+    bestStreak = s.bestStreak;
+    lastActiveDay = s.lastActiveDay;
+    freezes = s.freezes;
+    goalCelebratedDay = s.goalCelebratedDay;
     scheduleSave();
   }
 
@@ -61,12 +89,7 @@ class ProgressStore {
             jsonDecode(await file.readAsString()) as Map<String, dynamic>;
         final version = (data['version'] as num?)?.toInt() ?? 2;
         final raw = (data['cards'] as Map<String, dynamic>?) ?? {};
-        final daily = data['daily'] as Map<String, dynamic>?;
-        if (daily != null) {
-          _dayId = (daily['d'] as num?)?.toInt() ?? 0;
-          _reviewed = (daily['r'] as num?)?.toInt() ?? 0;
-          _learned = (daily['l'] as num?)?.toInt() ?? 0;
-        }
+        _loadStats(data['stats'] as Map<String, dynamic>?);
         final now = DateTime.now();
         raw.forEach((k, v) {
           final i = int.parse(k);
@@ -75,7 +98,6 @@ class ProgressStore {
               : Scheduler.fromLegacySkill(i, (v as List)[0] as int, now);
         });
         if (version < 3) {
-          // záloha verze 2 a zápis nového formátu
           await file.copy('${file.path}.v2.bak');
           await flush();
         }
@@ -84,9 +106,41 @@ class ProgressStore {
         debugPrint('Poškozený soubor s pokrokem: $e');
         await file.rename('${file.path}.corrupt');
         cards.clear();
+        history.clear();
       }
     }
     if (migrateLegacy) await _migrateLegacy();
+  }
+
+  void _loadStats(Map<String, dynamic>? m) {
+    if (m == null) return;
+    final h = (m['h'] as Map<String, dynamic>?) ?? {};
+    h.forEach((k, v) {
+      final l = List<int>.from(v as List);
+      history[int.parse(k)] = [l[0], l[1]];
+    });
+    streak = (m['s'] as num?)?.toInt() ?? 0;
+    bestStreak = (m['b'] as num?)?.toInt() ?? 0;
+    lastActiveDay = (m['l'] as num?)?.toInt() ?? 0;
+    freezes = (m['f'] as num?)?.toInt() ?? 0;
+    goalCelebratedDay = (m['g'] as num?)?.toInt() ?? 0;
+    badges.addAll(List<int>.from((m['badges'] as List?) ?? const []));
+    badgesSeeded = ((m['seeded'] as num?)?.toInt() ?? 0) == 1;
+  }
+
+  Map<String, dynamic> _statsJson() {
+    final today = Scheduler.studyDayNumber(DateTime.now());
+    history.removeWhere((day, _) => day < today - 180);
+    return {
+      'h': {for (final e in history.entries) '${e.key}': e.value},
+      's': streak,
+      'b': bestStreak,
+      'l': lastActiveDay,
+      'f': freezes,
+      'g': goalCelebratedDay,
+      'badges': badges.toList()..sort(),
+      'seeded': badgesSeeded ? 1 : 0,
+    };
   }
 
   /// Převod z úplně starého skills.json (dva dlouhé seznamy skills a activations).
@@ -137,7 +191,7 @@ class ProgressStore {
       final tmp = File('${file.path}.tmp');
       final json = jsonEncode({
         'version': 3,
-        'daily': {'d': _dayId, 'r': _reviewed, 'l': _learned},
+        'stats': _statsJson(),
         'cards': {for (final e in cards.entries) '${e.key}': e.value.toJson()},
       });
       await tmp.writeAsString(json, flush: true);

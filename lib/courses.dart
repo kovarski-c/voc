@@ -1,28 +1,56 @@
-import 'data/LU_english.dart' as english_words;
-import 'data/LU_luganda.dart' as luganda;
-import 'models/course.dart';
+import 'package:flutter/foundation.dart';
 
-/// Registr všech kurzů. Nový jazyk = přidat sem další Course.
+import 'data/LU_english.dart' as lu_english;
+import 'data/LU_luganda.dart' as lu_luganda;
+import 'data/final_english_table.dart' as en_table;
+import 'data/final_pronunciations_table.dart' as en_pron;
+import 'data/final_translates_table.dart' as cs_for_en;
+import 'models/course.dart';
+import 'services/word_loader.dart';
+
+/// Cesta k francouzskému seznamu (musí být v pubspec.yaml v sekci assets).
+const String frenchAsset = 'assets/words/french/french.tsv';
+
+/// Načte všechny kurzy. Nový jazyk = přidat sem další Course.
 ///
 /// Pozor: `fronts` = rodná strana karty (slova, která už znáš),
 /// `backs` = učený jazyk. `id` se nesmí měnit, podle něj se ukládá pokrok.
-final List<Course> allCourses = [
-  Course(
+Future<List<Course>> loadCourses() async {
+  final courses = <Course>[
+    Course(
+      id: 'english',
+      frontLabel: 'Čeština',
+      backLabel: 'English',
+      fronts: cs_for_en.translations,
+      backs: en_table.english,
+      pronunciations: en_pron.pronunciations,
+      flagCode: 'GB',
+    ),
+  ];
+
+  try {
+    final words = await WordLoader.loadTsv(frenchAsset);
+    if (words.isNotEmpty) {
+      courses.add(Course.fromWords(
+        id: 'french',
+        frontLabel: 'Čeština',
+        backLabel: 'Francouzština',
+        words: words,
+        flagCode: 'FR',
+      ));
+    }
+  } catch (e) {
+    debugPrint('Načtení francouzštiny selhalo: $e');
+  }
+
+  courses.add(Course(
     id: 'luganda',
     frontLabel: 'English',
     backLabel: 'Luganda',
-    fronts: english_words.english,
-    backs: luganda.translations,
+    fronts: lu_english.english,
+    backs: lu_luganda.translations,
     flagCode: 'UG',
     migratesLegacyProgress: true, // pokrok ze starého skills.json patří sem
-  ),
-  // Příklad dalšího kurzu (až budou data hotová):
-  // Course(
-  //   id: 'french',
-  //   frontLabel: 'Čeština',
-  //   backLabel: 'Francouzština',
-  //   fronts: czech_for_french.words,
-  //   backs: french.words,
-  //   flagCode: 'FR',
-  // ),
-];
+  ));
+  return courses;
+}

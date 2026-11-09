@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import '../services/study_session.dart';
 import '../study_controller.dart';
 import '../theme.dart';
+import '../widgets/achievement_dialog.dart';
 import '../widgets/app_bottom_bar.dart';
 import 'home_view.dart';
 import 'session_views.dart';
 import 'settings_page.dart';
 import 'word_list_page.dart';
 
-/// Hlavní kostra aplikace se spodní lištou: domů / karty / seznam slov / nastavení.
+/// Hlavní kostra aplikace se spodní lištou: domů / karty / slova / nastavení.
 class HomeShell extends StatefulWidget {
   final StudyController controller;
   final VoidCallback onChangeCourse;
@@ -29,6 +30,7 @@ class _HomeShellState extends State<HomeShell> {
   static const int _cards = 1;
 
   int _tab = _home;
+  bool _celebrating = false;
 
   @override
   void initState() {
@@ -42,11 +44,30 @@ class _HomeShellState extends State<HomeShell> {
     super.dispose();
   }
 
-  // Když relace skončí (např. "Skončit" na mezi-obrazovce), vrátí se uživatel domů.
   void _onController() {
+    // Když relace skončí (např. "Skončit" na mezi-obrazovce), vrátí se uživatel domů.
     if (_tab == _cards && widget.controller.phase == Phase.idle && mounted) {
       setState(() => _tab = _home);
     }
+    _maybeCelebrate();
+  }
+
+  /// Úspěchy se oslaví jen mezi dávkami (mezi-obrazovka nebo domů), ne uprostřed karet.
+  void _maybeCelebrate() {
+    final c = widget.controller;
+    if (_celebrating || !c.hasAchievements) return;
+    if (c.phase != Phase.idle && c.phase != Phase.interlude) return;
+    final list = c.takeAchievements();
+    _celebrating = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) {
+        _celebrating = false;
+        return;
+      }
+      await showAchievements(context, c, list);
+      _celebrating = false;
+      _maybeCelebrate();
+    });
   }
 
   void _select(int i) {
@@ -71,15 +92,16 @@ class _HomeShellState extends State<HomeShell> {
         children: [
           ListenableBuilder(
             listenable: c,
-            builder: (_, __) => HomeView(
-              c: c,
-              onStart: _start,
-              onChangeCourse: widget.onChangeCourse,
-            ),
+            builder:
+                (_, _) => HomeView(
+                  c: c,
+                  onStart: _start,
+                  onChangeCourse: widget.onChangeCourse,
+                ),
           ),
           ListenableBuilder(
             listenable: c,
-            builder: (_, __) {
+            builder: (_, _) {
               switch (c.phase) {
                 case Phase.idle:
                   return const SizedBox.shrink();

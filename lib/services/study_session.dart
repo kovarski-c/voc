@@ -10,11 +10,55 @@ enum InterludeKind { reviewsDone, groupDone, blockDone, allDone }
 /// Režim procvičování zvolený na domovské stránce.
 enum StudyMode { both, reviewOnly, learnOnly }
 
+/// Stav relace před jednou akcí (pro tlačítko Zpět).
+class SessionSnapshot {
+  final int? key; // karta, které se akce týkala
+  final CardProgress? prev; // její pokrok před akcí (null = ještě nebyla v úložišti)
+  final StudyMode mode;
+  final Phase phase;
+  final InterludeKind? interlude;
+  final List<int> intro;
+  final List<int> queue;
+  final int newCursor;
+  final int phaseDone,
+      phaseTotal,
+      newInBlock,
+      reviewedInBlock,
+      learnedInBlock,
+      skippedInBlock,
+      answeredInBlock,
+      correctInBlock,
+      backlog;
+  final Map<int, int> wrong;
+
+  const SessionSnapshot({
+    required this.key,
+    required this.prev,
+    required this.mode,
+    required this.phase,
+    required this.interlude,
+    required this.intro,
+    required this.queue,
+    required this.newCursor,
+    required this.phaseDone,
+    required this.phaseTotal,
+    required this.newInBlock,
+    required this.reviewedInBlock,
+    required this.learnedInBlock,
+    required this.skippedInBlock,
+    required this.answeredInBlock,
+    required this.correctInBlock,
+    required this.backlog,
+    required this.wrong,
+  });
+}
+
 /// Logika jedné studijní relace: opakování -> skupiny po pěti novinkách.
 /// "Blok" = až 40 splatných opakování + až 20 nových slov. Po bloku lze pokračovat dalším.
 class StudySession {
   StudySession({
-    required this.cardCount,
+    required this.order,
+    required this.isHidden,
     required this.cards,
     DateTime Function()? clock,
     this.onCardDone,
@@ -25,7 +69,11 @@ class StudySession {
   static const int reviewBatch = 40;
   static const int earlyBatch = 20; // předčasné opakování nesplatných karet
 
-  final int cardCount;
+  /// Viditelné klíče karet v pořadí učení (bez skrytých).
+  final List<int> order;
+
+  /// Skrytá karta (vulgární při zapnutém filtru, neznámý klíč): nikde se neobjeví.
+  final bool Function(int key) isHidden;
   final Map<int, CardProgress> cards; // sdílená mapa s ProgressStore
   final DateTime Function() _clock;
 
@@ -48,6 +96,22 @@ class StudySession {
   int reviewedInBlock = 0;
   int learnedInBlock = 0;
   int skippedInBlock = 0;
+  int answeredInBlock = 0;
+  int correctInBlock = 0;
+  final Map<int, int> _wrongInBlock = {};
+
+  /// Karta, která se v dávce nejvíc pletla (aspoň 2 chyby), jinak null.
+  int? get hardestInBlock {
+    int? best;
+    var n = 1;
+    _wrongInBlock.forEach((k, v) {
+      if (v > n) {
+        n = v;
+        best = k;
+      }
+    });
+    return best;
+  }
   int backlog = 0; // splatná opakování po dokončení dávky
 
   int? get current => _intro.isNotEmpty
@@ -59,22 +123,90 @@ class StudySession {
   int get dueCount {
     final now = _clock().millisecondsSinceEpoch;
     var n = 0;
-    for (final p in cards.values) {
-      if (p.stage == CardStage.review && p.dueMs <= now) n++;
+    for (final e in cards.entries) {
+      if (e.value.stage == CardStage.review &&
+          e.value.dueMs <= now &&
+          !isHidden(e.key)) {
+        n++;
+      }
     }
     return n;
   }
 
-  int get learningCount =>
-      cards.values.where((p) => p.stage == CardStage.learning).length;
+  int get learningCount => cards.entries
+      .where((e) => e.value.stage == CardStage.learning && !isHidden(e.key))
+      .length;
 
-  int get unseenCount => math.max(0, cardCount - cards.length);
+  int get unseenCount => order.where((k) => !cards.containsKey(k)).length;
 
+  /// Další nová karta v pořadí (kurzor je POZICE v `order`, ne klíč).
   int? _nextUnseen() {
-    while (_newCursor < cardCount && cards.containsKey(_newCursor)) {
+    while (_newCursor < order.length && cards.containsKey(order[_newCursor])) {
       _newCursor++;
     }
-    return _newCursor < cardCount ? _newCursor : null;
+    return _newCursor < order.length ? order[_newCursor] : null;
+  }
+
+  // ---- zpět ----
+
+  /// Uloží stav před akcí (odpověď, "dál", "už umím").
+  SessionSnapshot snapshot() {
+    final k = current;
+    return SessionSnapshot(
+      key: k,
+      prev: k == null ? null : cards[k],
+      mode: mode,
+      phase: phase,
+      interlude: interlude,
+      intro: List.of(_intro),
+      queue: List.of(_queue),
+      newCursor: _newCursor,
+      phaseDone: phaseDone,
+      phaseTotal: phaseTotal,
+      newInBlock: newInBlock,
+      reviewedInBlock: reviewedInBlock,
+      learnedInBlock: learnedInBlock,
+      skippedInBlock: skippedInBlock,
+      answeredInBlock: answeredInBlock,
+      correctInBlock: correctInBlock,
+      backlog: backlog,
+      wrong: Map.of(_wrongInBlock),
+    );
+  }
+
+  /// Vrátí stav relace i pokrok karty do podoby před akcí.
+  void restore(SessionSnapshot s) {
+    mode = s.mode;
+    phase = s.phase;
+    interlude = s.interlude;
+    _intro
+      ..clear()
+      ..addAll(s.intro);
+    _queue
+      ..clear()
+      ..addAll(s.queue);
+    _newCursor = s.newCursor;
+    phaseDone = s.phaseDone;
+    phaseTotal = s.phaseTotal;
+    newInBlock = s.newInBlock;
+    reviewedInBlock = s.reviewedInBlock;
+    learnedInBlock = s.learnedInBlock;
+    skippedInBlock = s.skippedInBlock;
+    answeredInBlock = s.answeredInBlock;
+    correctInBlock = s.correctInBlock;
+    backlog = s.backlog;
+    _wrongInBlock
+      ..clear()
+      ..addAll(s.wrong);
+    final k = s.key;
+    if (k != null) {
+      if (s.prev == null) {
+        cards.remove(k);
+      } else {
+        cards[k] = s.prev!;
+      }
+    }
+    serial++;
   }
 
   // ---- spouštění fází ----
@@ -85,6 +217,9 @@ class StudySession {
     reviewedInBlock = 0;
     learnedInBlock = 0;
     skippedInBlock = 0;
+    answeredInBlock = 0;
+    correctInBlock = 0;
+    _wrongInBlock.clear();
     switch (mode) {
       case StudyMode.learnOnly:
         startLearning();
@@ -105,6 +240,7 @@ class StudySession {
     final due = cards.entries
         .where((e) =>
             e.value.stage == CardStage.review &&
+            !isHidden(e.key) &&
             (early ? e.value.dueMs > now : e.value.dueMs <= now))
         .toList()
       ..sort((a, b) => a.value.dueMs.compareTo(b.value.dueMs));
@@ -125,7 +261,7 @@ class StudySession {
 
   void startLearning() {
     final learning = cards.entries
-        .where((e) => e.value.stage == CardStage.learning)
+        .where((e) => e.value.stage == CardStage.learning && !isHidden(e.key))
         .map((e) => e.key)
         .toList()
       ..sort();
@@ -135,7 +271,7 @@ class StudySession {
       final i = _nextUnseen();
       if (i == null) break;
       group.add(i);
-      _newCursor = i + 1;
+      _newCursor++;
       newInBlock++;
     }
     if (group.isEmpty) {
@@ -213,6 +349,13 @@ class StudySession {
     if (p == null) return;
     final now = _clock();
     final nowMs = now.millisecondsSinceEpoch;
+
+    answeredInBlock++;
+    if (known) {
+      correctInBlock++;
+    } else {
+      _wrongInBlock[c] = (_wrongInBlock[c] ?? 0) + 1;
+    }
 
     if (p.stage == CardStage.review) {
       if (known) {

@@ -24,6 +24,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   final GlobalKey<NavigatorState> _nav = GlobalKey<NavigatorState>();
   AppSettings? _settings;
+  List<Course> _courses = const [];
   StudyController? _controller;
 
   @override
@@ -48,12 +49,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Future<void> _boot() async {
     final settings = await SettingsStore.load();
     _settings = settings;
+    _courses = await loadCourses();
     Course? course;
-    for (final c in allCourses) {
+    for (final c in _courses) {
       if (c.id == settings.courseId) course = c;
     }
     // S jediným kurzem se výběr jazyka přeskočí.
-    course ??= allCourses.length == 1 ? allCourses.first : null;
+    course ??= _courses.length == 1 ? _courses.first : null;
     if (course != null) {
       await _open(course);
     } else {
@@ -82,7 +84,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     _nav.currentState!.push(
       MaterialPageRoute(
         builder: (_) => LanguagePickerPage(
-          courses: allCourses,
+          courses: _courses,
           currentId: current,
           onSelected: (c) {
             _nav.currentState!.pop();
@@ -100,7 +102,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       home = const Scaffold(body: Center(child: CircularProgressIndicator()));
     } else if (_controller == null) {
       home = LanguagePickerPage(
-        courses: allCourses,
+        courses: _courses,
         firstRun: true,
         onSelected: _open,
       );

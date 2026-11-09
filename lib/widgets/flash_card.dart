@@ -1,9 +1,11 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../models/card_progress.dart';
 import '../models/course.dart';
 import 'card_status.dart';
+import 'multi_form_text.dart';
 
 // ---- Vzhled karty: tady si můžeš hrát ----
 const double kCardRadius = 16; // zaoblení rohů
@@ -11,18 +13,28 @@ const double kCardElevation = 2; // síla stínu
 const Color kCardShadowColor = Colors.black; // barva stínu
 const double kCardSize = 300; // šířka i výška karty
 const int kFlipMs = 350; // délka otočení karty
+const double kCardMaxHeight = 440; // karta se s dlouhým textem protáhne nejvýš sem, pak se scrolluje
+
+/// Odkud (od horního okraje karty) začíná slovo. Střed karty je 150,
+/// jednořádkové slovo tak vychází přesně doprostřed.
+const double kWordTop = 134;
 
 /// Karta. Klepnutím se otočí (animace), swipem se odhodí
-/// (doprava = umím, doleva = neumím). V režimu představení ukazuje obě strany.
-/// Slovo je vždy uprostřed karty; výslovnost a překlad visí pod ním.
+/// (doprava = umím, doleva = neumím; při představení nového slova doprava = dál,
+/// doleva = už umím). V režimu představení ukazuje obě strany.
+/// Slovo začíná vždy na stejném místě; když je textu moc, posouvá se
+/// uvnitř karty (svisle), takže se nic nepřekrývá.
 class FlashCard extends StatefulWidget {
   final Course course;
-  final int index;
+  final int index; // klíč karty (id slova)
+  final int number; // číslo v UI (pozice ve viditelném seznamu)
   final CardInfo info;
   final bool showBack;
   final bool nativeFront; // true = první se ukáže rodné slovo (course.front)
   final bool interactive;
   final bool introMode;
+  final bool haptics;
+  final double maxHeight; // nejvyšší povolená výška karty (dál se scrolluje)
   final VoidCallback onFlip;
   final void Function(bool known) onAnswered;
 
@@ -30,6 +42,7 @@ class FlashCard extends StatefulWidget {
     super.key,
     required this.course,
     required this.index,
+    required this.number,
     required this.info,
     required this.showBack,
     required this.nativeFront,
@@ -37,6 +50,8 @@ class FlashCard extends StatefulWidget {
     required this.onAnswered,
     this.interactive = true,
     this.introMode = false,
+    this.haptics = true,
+    this.maxHeight = kCardMaxHeight,
   });
 
   @override
@@ -94,6 +109,14 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
     final answered = known || unknown;
     final endX = known ? 500.0 : (unknown ? -500.0 : 0.0);
 
+    if (answered && widget.haptics) {
+      if (known) {
+        HapticFeedback.lightImpact();
+      } else {
+        HapticFeedback.mediumImpact();
+      }
+    }
+
     _anim = Tween<double>(begin: _offsetX, end: endX).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
     );
@@ -107,12 +130,10 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
     }
   }
 
-  Widget _centered(Alignment a, Widget child) => Align(
-        alignment: a,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: child,
-        ),
+  Widget _scrollable(List<Widget> children) => SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(mainAxisSize: MainAxisSize.min, children: children),
       );
 
   Widget _faceContent(bool showBack) {
@@ -122,57 +143,47 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
     const grey = Color(0xFF767676);
 
     if (widget.introMode) {
+      // Nejdřív učený jazyk s výslovností, pod čárou teprve rodný význam.
       final pron = c.pronunciation(i);
-      return Stack(children: [
-        _centered(
-          Alignment.center,
-          Text(c.front(i),
-              style: const TextStyle(
-                  fontSize: 26, fontWeight: FontWeight.w500, color: dark),
-              textAlign: TextAlign.center),
-        ),
-        if (pron.isNotEmpty)
-          _centered(const Alignment(0, 0.27),
-              Text(pron, style: const TextStyle(fontSize: 16, color: grey))),
-        _centered(
-          const Alignment(0, 0.6),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(width: 120, child: Divider(height: 1)),
-              const SizedBox(height: 10),
-              Text(c.back(i),
-                  style: const TextStyle(fontSize: 22, color: dark),
-                  textAlign: TextAlign.center),
-            ],
-          ),
-        ),
+      return _scrollable([
+        MultiFormText(c.back(i),
+            style: const TextStyle(
+                fontSize: 26, fontWeight: FontWeight.w500, color: dark)),
+        if (pron.isNotEmpty) ...[
+          const SizedBox(height: 4),
+          MultiFormText(pron,
+              style: const TextStyle(fontSize: 16, color: grey)),
+        ],
+        const SizedBox(height: 14),
+        const SizedBox(width: 120, child: Divider(height: 1)),
+        const SizedBox(height: 14),
+        MultiFormText(c.front(i),
+            style: const TextStyle(fontSize: 22, color: dark)),
       ]);
     }
 
     final showNative = showBack != widget.nativeFront;
-    final pron = showNative ? c.pronunciation(i) : '';
-    return Stack(children: [
-      _centered(
-        Alignment.center,
-        Text(
-          showNative ? c.front(i) : c.back(i),
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: showNative ? FontWeight.w500 : FontWeight.normal,
-            color: dark,
-          ),
-          textAlign: TextAlign.center,
+    // Výslovnost patří k učené straně (back).
+    final pron = showNative ? '' : c.pronunciation(i);
+    return _scrollable([
+      MultiFormText(
+        showNative ? c.front(i) : c.back(i),
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: showNative ? FontWeight.w500 : FontWeight.normal,
+          color: dark,
         ),
       ),
-      if (pron.isNotEmpty)
-        _centered(const Alignment(0, 0.27),
-            Text(pron, style: const TextStyle(fontSize: 16, color: grey))),
+      if (pron.isNotEmpty) ...[
+        const SizedBox(height: 4),
+        MultiFormText(pron, style: const TextStyle(fontSize: 16, color: grey)),
+      ],
     ]);
   }
 
   Widget _card(bool showBack) {
     final alpha = _offsetX.abs().toInt().clamp(0, 255);
+    final intro = widget.introMode;
     return Card(
       elevation: kCardElevation,
       shadowColor: kCardShadowColor,
@@ -181,20 +192,35 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
         borderRadius: BorderRadius.circular(kCardRadius),
       ),
       color: Colors.white,
-      child: SizedBox(
-        width: kCardSize,
-        height: kCardSize,
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16),
+      child: ConstrainedBox(
+          // Výška: aspoň čtverec, s dlouhým textem se protáhne (karta zůstane
+          // vycentrovaná) až do maxHeight, pak se text uvnitř scrolluje.
+          constraints: BoxConstraints(
+            minWidth: kCardSize,
+            maxWidth: kCardSize,
+            minHeight: kCardSize,
+            maxHeight: math.max(kCardSize, widget.maxHeight),
+          ),
+          child: Stack(
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: kWordTop),
+                  Flexible(child: _faceContent(showBack)),
+                  SizedBox(height: intro ? 16 : 46),
+                ],
+              ),
+              Positioned(
+                top: 16,
+                left: 0,
+                right: 0,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      '${widget.index + 1}',
+                      '${widget.number}',
                       style: const TextStyle(
                           fontSize: 14, color: Color(0xFF767676)),
                     ),
@@ -203,25 +229,33 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-            ),
-            _faceContent(showBack),
-            if (!widget.introMode)
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 24),
-                  child: Icon(
-                    _offsetX > 0 ? Icons.check_outlined : Icons.close_outlined,
-                    size: 24,
-                    color: _offsetX > 0
-                        ? Color.fromARGB(alpha, 76, 175, 80)
-                        : Color.fromARGB(alpha, 244, 67, 54),
-                  ),
+              // Ikona při tažení: v běžném režimu umím / neumím,
+              // při představení nového slova doleva už umím, doprava dál.
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 14,
+                child: Icon(
+                  intro
+                      ? (_offsetX > 0
+                          ? Icons.arrow_forward_rounded
+                          : Icons.check_outlined)
+                      : (_offsetX > 0
+                          ? Icons.check_outlined
+                          : Icons.close_outlined),
+                  size: 24,
+                  color: intro
+                      ? (_offsetX > 0
+                          ? Color.fromARGB(alpha, 47, 111, 237)
+                          : Color.fromARGB(alpha, 76, 175, 80))
+                      : (_offsetX > 0
+                          ? Color.fromARGB(alpha, 76, 175, 80)
+                          : Color.fromARGB(alpha, 244, 67, 54)),
                 ),
               ),
-          ],
+            ],
+          ),
         ),
-      ),
     );
   }
 

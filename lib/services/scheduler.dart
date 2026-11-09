@@ -45,6 +45,14 @@ class Scheduler {
     return DateTime(d.year, d.month, d.day);
   }
 
+  /// Pořadové číslo studijního dne (pro série a historii).
+  static int studyDayNumber(DateTime now) {
+    final d = studyDate(now);
+    return DateTime.utc(d.year, d.month, d.day)
+        .difference(DateTime.utc(2020, 1, 1))
+        .inDays;
+  }
+
   static int dueAfterDays(DateTime now, int days) {
     final b = studyDate(now);
     return DateTime(b.year, b.month, b.day + days, dayStartHour)
