@@ -11,6 +11,7 @@ import '../widgets/intro_card.dart';
 import '../widgets/ipa_help_sheet.dart';
 import '../widgets/pill_button.dart';
 import '../widgets/rounded_progress_bar.dart';
+import '../widgets/tone_button.dart';
 
 /// Obrazovka mezi fázemi (po opakování, po pětici, po dávce): shrnutí a volba, jak dál.
 class InterludeView extends StatelessWidget {
@@ -337,7 +338,7 @@ class PracticeView extends StatelessWidget {
                 const SizedBox(height: 8),
                 RoundedProgressBar(
                   value: c.phaseProgress,
-                  color: reviewing ? kReviewColor : kLearningColor,
+                  color: reviewing ? kToneGreen.solidA : kLearningColor,
                 ),
               ],
             ),
@@ -417,11 +418,10 @@ class PracticeView extends StatelessWidget {
                         child: Row(
                           children: [
                             Expanded(
-                              child: PillButton(
+                              child: ToneButton(
                                 label: 'Už umím',
                                 icon: Icons.check_rounded,
-                                filled: false,
-                                color: const Color(0xFF2EAE6B),
+                                tone: kToneGreen,
                                 height: kIntroButtonHeight,
                                 fontSize: 15,
                                 onPressed: c.skipIntro,
@@ -429,9 +429,10 @@ class PracticeView extends StatelessWidget {
                             ),
                             const SizedBox(width: 12),
                             Expanded(
-                              child: PillButton(
+                              child: ToneButton(
                                 label: 'Dál',
                                 icon: Icons.arrow_forward_rounded,
+                                tone: kToneBlue,
                                 height: kIntroButtonHeight,
                                 fontSize: 15,
                                 onPressed: c.ackIntro,

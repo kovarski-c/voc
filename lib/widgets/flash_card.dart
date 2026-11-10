@@ -8,12 +8,13 @@ import 'card_status.dart';
 import 'multi_form_text.dart';
 
 // ---- Vzhled karty: tady si můžeš hrát ----
-const double kCardRadius = 16; // zaoblení rohů
-const double kCardElevation = 2; // síla stínu
-const Color kCardShadowColor = Colors.black; // barva stínu
+const double kCardRadius = 30; // zaoblení rohů
+const double kCardElevation = 5; // síla stínu
+const Color kCardShadowColor = Color.fromARGB(100, 5, 5, 5); // barva stínu
 const double kCardSize = 300; // šířka i výška karty
 const int kFlipMs = 350; // délka otočení karty
-const double kCardMaxHeight = 440; // karta se s dlouhým textem protáhne nejvýš sem, pak se scrolluje
+const double kCardMaxHeight =
+    440; // karta se s dlouhým textem protáhne nejvýš sem, pak se scrolluje
 
 /// Odkud (od horního okraje karty) začíná slovo. Střed karty je 150,
 /// jednořádkové slovo tak vychází přesně doprostřed.
@@ -72,9 +73,9 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 300),
     )..addListener(() {
-        final a = _anim;
-        if (a != null) setState(() => _offsetX = a.value);
-      });
+      final a = _anim;
+      if (a != null) setState(() => _offsetX = a.value);
+    });
     _flip = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: kFlipMs),
@@ -117,9 +118,10 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
       }
     }
 
-    _anim = Tween<double>(begin: _offsetX, end: endX).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _anim = Tween<double>(
+      begin: _offsetX,
+      end: endX,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
     _controller.reset();
     await _controller.forward();
     if (!mounted) return;
@@ -131,10 +133,10 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
   }
 
   Widget _scrollable(List<Widget> children) => SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(mainAxisSize: MainAxisSize.min, children: children),
-      );
+    physics: const ClampingScrollPhysics(),
+    padding: const EdgeInsets.symmetric(horizontal: 16),
+    child: Column(mainAxisSize: MainAxisSize.min, children: children),
+  );
 
   Widget _faceContent(bool showBack) {
     final c = widget.course;
@@ -146,19 +148,28 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
       // Nejdřív učený jazyk s výslovností, pod čárou teprve rodný význam.
       final pron = c.pronunciation(i);
       return _scrollable([
-        MultiFormText(c.back(i),
-            style: const TextStyle(
-                fontSize: 26, fontWeight: FontWeight.w500, color: dark)),
+        MultiFormText(
+          c.back(i),
+          style: const TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.w500,
+            color: dark,
+          ),
+        ),
         if (pron.isNotEmpty) ...[
           const SizedBox(height: 4),
-          MultiFormText(pron,
-              style: const TextStyle(fontSize: 16, color: grey)),
+          MultiFormText(
+            pron,
+            style: const TextStyle(fontSize: 16, color: grey),
+          ),
         ],
         const SizedBox(height: 14),
         const SizedBox(width: 120, child: Divider(height: 1)),
         const SizedBox(height: 14),
-        MultiFormText(c.front(i),
-            style: const TextStyle(fontSize: 22, color: dark)),
+        MultiFormText(
+          c.front(i),
+          style: const TextStyle(fontSize: 22, color: dark),
+        ),
       ]);
     }
 
@@ -193,69 +204,72 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
       ),
       color: Colors.white,
       child: ConstrainedBox(
-          // Výška: aspoň čtverec, s dlouhým textem se protáhne (karta zůstane
-          // vycentrovaná) až do maxHeight, pak se text uvnitř scrolluje.
-          constraints: BoxConstraints(
-            minWidth: kCardSize,
-            maxWidth: kCardSize,
-            minHeight: kCardSize,
-            maxHeight: math.max(kCardSize, widget.maxHeight),
-          ),
-          child: Stack(
-            children: [
-              Column(
+        // Výška: aspoň čtverec, s dlouhým textem se protáhne (karta zůstane
+        // vycentrovaná) až do maxHeight, pak se text uvnitř scrolluje.
+        constraints: BoxConstraints(
+          minWidth: kCardSize,
+          maxWidth: kCardSize,
+          minHeight: kCardSize,
+          maxHeight: math.max(kCardSize, widget.maxHeight),
+        ),
+        child: Stack(
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: kWordTop),
+                Flexible(child: _faceContent(showBack)),
+                SizedBox(height: intro ? 16 : 46),
+              ],
+            ),
+            Positioned(
+              top: 16,
+              left: 0,
+              right: 0,
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const SizedBox(height: kWordTop),
-                  Flexible(child: _faceContent(showBack)),
-                  SizedBox(height: intro ? 16 : 46),
+                  Text(
+                    '${widget.number}',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF767676),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  CardStatus(info: widget.info),
                 ],
               ),
-              Positioned(
-                top: 16,
-                left: 0,
-                right: 0,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      '${widget.number}',
-                      style: const TextStyle(
-                          fontSize: 14, color: Color(0xFF767676)),
-                    ),
-                    const SizedBox(height: 10),
-                    CardStatus(info: widget.info),
-                  ],
-                ),
+            ),
+            // Ikona při tažení: v běžném režimu umím / neumím,
+            // při představení nového slova doleva už umím, doprava dál.
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 14,
+              child: Icon(
+                intro
+                    ? (_offsetX > 0
+                        ? Icons.arrow_forward_rounded
+                        : Icons.check_outlined)
+                    : (_offsetX > 0
+                        ? Icons.check_outlined
+                        : Icons.close_outlined),
+                size: 24,
+                color:
+                    intro
+                        ? (_offsetX > 0
+                            ? Color.fromARGB(alpha, 47, 111, 237)
+                            : Color.fromARGB(alpha, 76, 175, 80))
+                        : (_offsetX > 0
+                            ? Color.fromARGB(alpha, 76, 175, 80)
+                            : Color.fromARGB(alpha, 244, 67, 54)),
               ),
-              // Ikona při tažení: v běžném režimu umím / neumím,
-              // při představení nového slova doleva už umím, doprava dál.
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 14,
-                child: Icon(
-                  intro
-                      ? (_offsetX > 0
-                          ? Icons.arrow_forward_rounded
-                          : Icons.check_outlined)
-                      : (_offsetX > 0
-                          ? Icons.check_outlined
-                          : Icons.close_outlined),
-                  size: 24,
-                  color: intro
-                      ? (_offsetX > 0
-                          ? Color.fromARGB(alpha, 47, 111, 237)
-                          : Color.fromARGB(alpha, 76, 175, 80))
-                      : (_offsetX > 0
-                          ? Color.fromARGB(alpha, 76, 175, 80)
-                          : Color.fromARGB(alpha, 244, 67, 54)),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
     );
   }
 
@@ -281,9 +295,10 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
                   final angle = t < 0.5 ? t * math.pi : (t - 1) * math.pi;
                   return Transform(
                     alignment: Alignment.center,
-                    transform: Matrix4.identity()
-                      ..setEntry(3, 2, 0.0012)
-                      ..rotateY(angle),
+                    transform:
+                        Matrix4.identity()
+                          ..setEntry(3, 2, 0.0012)
+                          ..rotateY(angle),
                     child: _card(side),
                   );
                 },

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../models/card_progress.dart';
+import '../theme.dart';
 import 'rounded_progress_bar.dart';
 
 const Color kReviewColor = Color(0xFF4CAF50);
 const Color kLearningColor = Color(0xFFFFB300);
 
 /// Štítek stavu karty + indikátor pod ním:
-/// nová (modrá), učení (žlutá, bublinky), opakování (zelená, pruh jistoty).
+/// nová (modrá), učení (žlutá, bublinky), opakování (zelená, pruh jistoty);
+/// barvy tónů jsou společné s kartami režimů (Tone v theme.dart).
 class CardStatus extends StatelessWidget {
   final CardInfo info;
 
@@ -25,21 +27,17 @@ class CardStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     late final String label;
-    late final Color bg;
-    late final Color fg;
+    late final Tone tone;
     switch (info.kind) {
       case CardKind.newCard:
         label = 'nová';
-        bg = const Color(0x262196F3);
-        fg = const Color(0xFF1565C0);
+        tone = kToneBlue;
       case CardKind.learning:
         label = 'učení';
-        bg = const Color(0x40FFC107);
-        fg = const Color(0xFF8D6200);
+        tone = kToneAmber;
       case CardKind.review:
         label = 'opakování';
-        bg = const Color(0x264CAF50);
-        fg = const Color(0xFF2E7D32);
+        tone = kToneGreen;
     }
 
     final hasIndicator = reserveIndicator || info.kind != CardKind.newCard;
@@ -49,15 +47,15 @@ class CardStatus extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
           decoration: BoxDecoration(
-            color: bg,
+            color: tone.a,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
             label,
             style: TextStyle(
               fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: fg,
+              fontWeight: FontWeight.w700,
+              color: tone.ink,
             ),
           ),
         ),
@@ -84,9 +82,9 @@ class CardStatus extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 2.5),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: filled ? kLearningColor : Colors.transparent,
+                color: filled ? kToneAmber.solidA : Colors.transparent,
                 border: Border.all(
-                  color: filled ? kLearningColor : Colors.grey.shade400,
+                  color: filled ? kToneAmber.solidA : Colors.grey.shade400,
                   width: 1.5,
                 ),
               ),
@@ -98,7 +96,7 @@ class CardStatus extends StatelessWidget {
           width: 56,
           child: RoundedProgressBar(
             value: info.confidence,
-            color: kReviewColor,
+            color: kToneGreen.solidA,
             height: 6,
           ),
         );

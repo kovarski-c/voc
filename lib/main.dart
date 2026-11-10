@@ -126,6 +126,15 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         scaffoldBackgroundColor: kBg,
         sliderTheme: SliderThemeData(
           tickMarkShape: SliderTickMarkShape.noTickMark,
+          activeTrackColor: kToneBlue.a,
+          thumbColor: kBlue,
+          valueIndicatorColor: kBlue,
+          trackHeight: 7,
+        ),
+        switchTheme: SwitchThemeData(
+          thumbColor: WidgetStateProperty.all(kBlue),
+          trackColor: WidgetStateProperty.all(kToneBlue.a),
+          trackOutlineColor: WidgetStateProperty.all(kToneBlue.a),
         ),
       ),
       home: home,

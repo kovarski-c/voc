@@ -4,7 +4,6 @@ import '../services/settings_store.dart';
 import '../services/study_session.dart';
 import '../study_controller.dart';
 import '../theme.dart';
-import '../widgets/card_status.dart';
 import '../widgets/course_flag.dart';
 import '../widgets/two_tone_progress_bar.dart';
 
@@ -79,7 +78,7 @@ class HomeView extends StatelessWidget {
                             child: _StatPill(
                               value: due,
                               label: 'k opakování',
-                              color: kReviewColor,
+                              tone: kToneGreen,
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -87,7 +86,7 @@ class HomeView extends StatelessWidget {
                             child: _StatPill(
                               value: learning,
                               label: 'v učení',
-                              color: const Color(0xFFE69A00),
+                              tone: kToneAmber,
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -95,7 +94,7 @@ class HomeView extends StatelessWidget {
                             child: _StatPill(
                               value: unseen,
                               label: 'nových',
-                              color: const Color(0xFF1976D2),
+                              tone: kToneBlue,
                             ),
                           ),
                         ],
@@ -118,35 +117,43 @@ class HomeView extends StatelessWidget {
                         title: 'Opakování a učení',
                         subtitle: '$due k opakování · nová slova po pěticích',
                         icon: Icons.play_arrow_rounded,
-                        colors: const [Color(0xFF5B9BFF), Color(0xFF2F6FED)],
-                        foreground: Colors.white,
+                        tone: kToneBlue,
                         emphasized: true,
                         onTap:
                             bothEnabled ? () => onStart(StudyMode.both) : null,
                       ),
-                      const SizedBox(height: 14),
-                      _ModeCard(
-                        title: 'Jen opakování',
-                        subtitle: reviewSubtitle,
-                        icon: Icons.replay_rounded,
-                        colors: const [Color(0xFF63D68F), Color(0xFF2EAE6B)],
-                        foreground: Colors.white,
-                        onTap:
-                            reviewEnabled
-                                ? () => onStart(StudyMode.reviewOnly)
-                                : null,
-                      ),
                       const SizedBox(height: 12),
-                      _ModeCard(
-                        title: 'Jen učení',
-                        subtitle: learnSubtitle,
-                        icon: Icons.school_rounded,
-                        colors: const [Color(0xFFFFD866), Color(0xFFFFB300)],
-                        foreground: const Color(0xFF4A3500),
-                        onTap:
-                            learnEnabled
-                                ? () => onStart(StudyMode.learnOnly)
-                                : null,
+                      IntrinsicHeight(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              child: _ModeCard(
+                                title: 'Jen opakování',
+                                subtitle: reviewSubtitle,
+                                icon: Icons.replay_rounded,
+                                tone: kToneGreen,
+                                onTap:
+                                    reviewEnabled
+                                        ? () => onStart(StudyMode.reviewOnly)
+                                        : null,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: _ModeCard(
+                                title: 'Jen učení',
+                                subtitle: learnSubtitle,
+                                icon: Icons.school_rounded,
+                                tone: kToneAmber,
+                                onTap:
+                                    learnEnabled
+                                        ? () => onStart(StudyMode.learnOnly)
+                                        : null,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -237,14 +244,14 @@ class _Header extends StatelessWidget {
                     strokeWidth: 4.5,
                     strokeCap: StrokeCap.round,
                     backgroundColor: const Color(0xFFE3E7EE),
-                    color: reached ? const Color(0xFF2EAE6B) : kBlue,
+                    color: reached ? kToneGreen.solidA : kToneBlue.accent,
                   ),
                 ),
                 reached
-                    ? const Icon(
+                    ? Icon(
                       Icons.check_rounded,
                       size: 18,
-                      color: Color(0xFF2EAE6B),
+                      color: kToneGreen.solidA,
                     )
                     : Text(
                       '$done',
@@ -275,9 +282,7 @@ class _Header extends StatelessWidget {
                   Icons.local_fire_department_rounded,
                   size: 24,
                   color:
-                      streak > 0
-                          ? const Color(0xFFFF7A00)
-                          : const Color(0xFFB4BBC7),
+                      streak > 0 ? kToneAmber.solidB : const Color(0xFFB4BBC7),
                 ),
                 const SizedBox(width: 2),
                 Text(
@@ -353,15 +358,15 @@ class _ProgressCard extends StatelessWidget {
                   vertical: 5,
                 ),
                 decoration: BoxDecoration(
-                  color: kBlue.withValues(alpha: 0.10),
+                  gradient: kToneBlue.soft(0.7),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   '$percent %',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    color: kBlue,
+                    color: kToneBlue.ink,
                   ),
                 ),
               ),
@@ -371,19 +376,21 @@ class _ProgressCard extends StatelessWidget {
           TwoToneProgressBar(
             light: total == 0 ? 0 : learned / total,
             dark: total == 0 ? 0 : solid / total,
+            lightColor: const Color(0xFF8ADDB5),
+            darkColor: kToneGreen.accent,
             height: 12,
           ),
           const SizedBox(height: 10),
           Row(
             children: [
-              const _Dot(Color(0xFFA5D6A7)),
+              const _Dot(Color(0xFF8ADDB5)),
               const SizedBox(width: 6),
               const Text(
                 'naučeno',
                 style: TextStyle(fontSize: 12, color: kMuted),
               ),
               const SizedBox(width: 14),
-              const _Dot(Color(0xFF2E7D32)),
+              _Dot(kToneGreen.accent),
               const SizedBox(width: 6),
               Text(
                 'pevně zvládnuto $solid',
@@ -417,11 +424,11 @@ class _Dot extends StatelessWidget {
 class _StatPill extends StatelessWidget {
   final int value;
   final String label;
-  final Color color;
+  final Tone tone;
   const _StatPill({
     required this.value,
     required this.label,
-    required this.color,
+    required this.tone,
   });
 
   @override
@@ -440,7 +447,7 @@ class _StatPill extends StatelessWidget {
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w800,
-              color: color,
+              color: tone.accent,
             ),
           ),
           const SizedBox(height: 2),
@@ -514,13 +521,15 @@ class _DirectionPicker extends StatelessWidget {
   }
 }
 
-/// Karta s režimem procvičování. Výchozí režim je vyšší a výraznější.
-class _ModeCard extends StatelessWidget {
+/// Karta s režimem procvičování: měkký přechod ve výplni a světlý vnitřní okraj.
+/// Hlavní režim je přes celou šířku, vlevo kruh se sytým přechodem; ostatní jsou
+/// menší dlaždice (ikona nahoře, pod ní text), dvě vedle sebe.
+/// Po stisku se karta lehce zmenší.
+class _ModeCard extends StatefulWidget {
   final String title;
   final String subtitle;
   final IconData icon;
-  final List<Color> colors;
-  final Color foreground;
+  final Tone tone;
   final bool emphasized;
   final VoidCallback? onTap;
 
@@ -528,96 +537,115 @@ class _ModeCard extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.icon,
-    required this.colors,
-    required this.foreground,
+    required this.tone,
     required this.onTap,
     this.emphasized = false,
   });
 
   @override
+  State<_ModeCard> createState() => _ModeCardState();
+}
+
+class _ModeCardState extends State<_ModeCard> {
+  static const Color _offBg = Color(0xFFEDEFF4);
+  static const Color _offAccent = Color(0xFFB9BEC9);
+  static const Color _offBorder = Color(0xFFD9DDE6);
+
+  bool _pressed = false;
+
+  @override
   Widget build(BuildContext context) {
-    final enabled = onTap != null;
-    final radius = BorderRadius.circular(24);
-    return Opacity(
-      opacity: enabled ? 1 : 0.45,
+    final w = widget;
+    final tone = w.tone;
+    final enabled = w.onTap != null;
+    final big = w.emphasized;
+    final radius = BorderRadius.circular(big ? 24 : 20);
+    final accent = enabled ? tone.accent : _offAccent;
+    final titleColor = enabled ? tone.ink : kMuted;
+    final subColor = enabled ? tone.inkSoft : kMuted;
+
+    final titleText = Text(
+      w.title,
+      style: TextStyle(
+        fontSize: big ? 20 : 16,
+        fontWeight: FontWeight.w700,
+        color: titleColor,
+      ),
+    );
+    final subText = Text(
+      w.subtitle,
+      maxLines: big ? 2 : 4,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(fontSize: 12.5, color: subColor),
+    );
+
+    final Widget content =
+        big
+            ? Row(
+              children: [
+                Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    gradient: enabled ? tone.solid : null,
+                    color: enabled ? null : _offAccent,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.play_arrow_rounded,
+                    color: enabled ? tone.onSolid : _offBg,
+                    size: 34,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [titleText, const SizedBox(height: 2), subText],
+                  ),
+                ),
+              ],
+            )
+            : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(w.icon, color: accent, size: 26),
+                const SizedBox(height: 14),
+                titleText,
+                const SizedBox(height: 2),
+                subText,
+              ],
+            );
+
+    return AnimatedScale(
+      scale: enabled && _pressed ? 0.97 : 1.0,
+      duration: const Duration(milliseconds: 120),
+      curve: Curves.easeOut,
       child: Container(
-        height: emphasized ? 108 : 82,
         decoration: BoxDecoration(
+          gradient: enabled ? tone.soft() : null,
+          color: enabled ? null : _offBg,
           borderRadius: radius,
-          gradient: LinearGradient(
-            colors: colors,
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+          border: Border.all(
+            color: enabled ? Colors.white.withValues(alpha: 0.9) : _offBorder,
+            width: 1.5,
           ),
-          boxShadow:
-              enabled
-                  ? [
-                    BoxShadow(
-                      color: colors.last.withValues(
-                        alpha: emphasized ? 0.50 : 0.32,
-                      ),
-                      blurRadius: emphasized ? 26 : 16,
-                      offset: Offset(0, emphasized ? 12 : 7),
-                    ),
-                  ]
-                  : null,
         ),
         child: Material(
-          color: Colors.transparent,
+          type: MaterialType.transparency,
+          borderRadius: radius,
+          clipBehavior: Clip.antiAlias,
           child: InkWell(
             borderRadius: radius,
-            onTap: onTap,
+            onTap: w.onTap,
+            onHighlightChanged: (v) => setState(() => _pressed = v),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: emphasized ? 22 : 18),
-              child: Row(
-                children: [
-                  Container(
-                    width: emphasized ? 52 : 42,
-                    height: emphasized ? 52 : 42,
-                    decoration: BoxDecoration(
-                      color: foreground.withValues(alpha: 0.20),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      icon,
-                      color: foreground,
-                      size: emphasized ? 34 : 26,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          title,
-                          style: TextStyle(
-                            fontSize: emphasized ? 20 : 17,
-                            fontWeight: FontWeight.w800,
-                            color: foreground,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          subtitle,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 12.5,
-                            color: foreground.withValues(alpha: 0.90),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Icon(
-                    Icons.chevron_right_rounded,
-                    color: foreground.withValues(alpha: 0.8),
-                    size: 28,
-                  ),
-                ],
-              ),
+              padding:
+                  big
+                      ? const EdgeInsets.symmetric(horizontal: 18, vertical: 20)
+                      : const EdgeInsets.fromLTRB(14, 14, 14, 16),
+              child: content,
             ),
           ),
         ),
