@@ -37,107 +37,122 @@ class HomeView extends StatelessWidget {
     final reviewEnabled = learned > 0;
     final learnEnabled = learning + unseen > 0;
 
-    final reviewSubtitle = due > 0
-        ? '$due k opakování'
-        : (learned > 0
-            ? 'Nic není splatné, procvičit předčasně'
-            : 'Zatím není co opakovat');
-    final learnSubtitle = learnEnabled
-        ? (due >= StudySession.reviewBatch
-            ? '$learning v učení · $unseen nových · nejdřív opakuj ($due čeká)'
-            : '$learning v učení · $unseen nových')
-        : 'Žádná další slova';
+    final reviewSubtitle =
+        due > 0
+            ? '$due k opakování'
+            : (learned > 0
+                ? 'Nic není splatné, procvičit předčasně'
+                : 'Zatím není co opakovat');
+    final learnSubtitle =
+        learnEnabled
+            ? (due >= StudySession.reviewBatch
+                ? '$learning v učení · $unseen nových · nejdřív opakuj ($due čeká)'
+                : '$learning v učení · $unseen nových')
+            : 'Žádná další slova';
 
     return SafeArea(
       bottom: false,
       child: LayoutBuilder(
-        builder: (context, constraints) => SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: constraints.maxHeight),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _Header(c: c, onTap: onChangeCourse),
-                  const SizedBox(height: 18),
-                  _ProgressCard(
-                    learned: learned,
-                    solid: solid,
-                    total: total,
-                    percent: percent,
-                    reviewedToday: c.reviewedToday,
-                    learnedToday: c.learnedToday,
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
+        builder:
+            (context, constraints) => SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Expanded(
-                          child: _StatPill(
+                      _Header(c: c, onTap: onChangeCourse),
+                      const SizedBox(height: 18),
+                      _ProgressCard(
+                        learned: learned,
+                        solid: solid,
+                        total: total,
+                        percent: percent,
+                        reviewedToday: c.reviewedToday,
+                        learnedToday: c.learnedToday,
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _StatPill(
                               value: due,
                               label: 'k opakování',
-                              color: kReviewColor)),
-                      const SizedBox(width: 10),
-                      Expanded(
-                          child: _StatPill(
+                              color: kReviewColor,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: _StatPill(
                               value: learning,
                               label: 'v učení',
-                              color: const Color(0xFFE69A00))),
-                      const SizedBox(width: 10),
-                      Expanded(
-                          child: _StatPill(
+                              color: const Color(0xFFE69A00),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: _StatPill(
                               value: unseen,
                               label: 'nových',
-                              color: const Color(0xFF1976D2))),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 4, bottom: 8),
-                    child: Text('Která strana karty je první',
-                        style: TextStyle(
+                              color: const Color(0xFF1976D2),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 4, bottom: 8),
+                        child: Text(
+                          'Která strana karty je první',
+                          style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
-                            color: kMuted)),
+                            color: kMuted,
+                          ),
+                        ),
+                      ),
+                      _DirectionPicker(c: c),
+                      const SizedBox(height: 20),
+                      _ModeCard(
+                        title: 'Opakování a učení',
+                        subtitle: '$due k opakování · nová slova po pěticích',
+                        icon: Icons.play_arrow_rounded,
+                        colors: const [Color(0xFF5B9BFF), Color(0xFF2F6FED)],
+                        foreground: Colors.white,
+                        emphasized: true,
+                        onTap:
+                            bothEnabled ? () => onStart(StudyMode.both) : null,
+                      ),
+                      const SizedBox(height: 14),
+                      _ModeCard(
+                        title: 'Jen opakování',
+                        subtitle: reviewSubtitle,
+                        icon: Icons.replay_rounded,
+                        colors: const [Color(0xFF63D68F), Color(0xFF2EAE6B)],
+                        foreground: Colors.white,
+                        onTap:
+                            reviewEnabled
+                                ? () => onStart(StudyMode.reviewOnly)
+                                : null,
+                      ),
+                      const SizedBox(height: 12),
+                      _ModeCard(
+                        title: 'Jen učení',
+                        subtitle: learnSubtitle,
+                        icon: Icons.school_rounded,
+                        colors: const [Color(0xFFFFD866), Color(0xFFFFB300)],
+                        foreground: const Color(0xFF4A3500),
+                        onTap:
+                            learnEnabled
+                                ? () => onStart(StudyMode.learnOnly)
+                                : null,
+                      ),
+                    ],
                   ),
-                  _DirectionPicker(c: c),
-                  const SizedBox(height: 20),
-                  _ModeCard(
-                    title: 'Opakovat i učit se',
-                    subtitle: '$due k opakování · nová slova po pěticích',
-                    icon: Icons.play_arrow_rounded,
-                    colors: const [Color(0xFF5B9BFF), Color(0xFF2F6FED)],
-                    foreground: Colors.white,
-                    emphasized: true,
-                    onTap: bothEnabled ? () => onStart(StudyMode.both) : null,
-                  ),
-                  const SizedBox(height: 14),
-                  _ModeCard(
-                    title: 'Jen opakovat',
-                    subtitle: reviewSubtitle,
-                    icon: Icons.replay_rounded,
-                    colors: const [Color(0xFF63D68F), Color(0xFF2EAE6B)],
-                    foreground: Colors.white,
-                    onTap: reviewEnabled
-                        ? () => onStart(StudyMode.reviewOnly)
-                        : null,
-                  ),
-                  const SizedBox(height: 12),
-                  _ModeCard(
-                    title: 'Jen učit se',
-                    subtitle: learnSubtitle,
-                    icon: Icons.school_rounded,
-                    colors: const [Color(0xFFFFD866), Color(0xFFFFB300)],
-                    foreground: const Color(0xFF4A3500),
-                    onTap: learnEnabled
-                        ? () => onStart(StudyMode.learnOnly)
-                        : null,
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
       ),
     );
   }
@@ -180,13 +195,16 @@ class _Header extends StatelessWidget {
                         CourseFlag(course: c.course, width: 30, height: 21),
                         const SizedBox(width: 10),
                         Flexible(
-                          child: Text(c.course.backLabel,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
-                                  color: kInk)),
+                          child: Text(
+                            c.course.backLabel,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: kInk,
+                            ),
+                          ),
                         ),
                         const SizedBox(width: 4),
                         const Icon(Icons.expand_more_rounded, color: kMuted),
@@ -223,11 +241,18 @@ class _Header extends StatelessWidget {
                   ),
                 ),
                 reached
-                    ? const Icon(Icons.check_rounded,
-                        size: 18, color: Color(0xFF2EAE6B))
-                    : Text('$done',
-                        style: const TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.w800)),
+                    ? const Icon(
+                      Icons.check_rounded,
+                      size: 18,
+                      color: Color(0xFF2EAE6B),
+                    )
+                    : Text(
+                      '$done',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
               ],
             ),
           ),
@@ -246,17 +271,23 @@ class _Header extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.local_fire_department_rounded,
-                    size: 24,
-                    color: streak > 0
-                        ? const Color(0xFFFF7A00)
-                        : const Color(0xFFB4BBC7)),
+                Icon(
+                  Icons.local_fire_department_rounded,
+                  size: 24,
+                  color:
+                      streak > 0
+                          ? const Color(0xFFFF7A00)
+                          : const Color(0xFFB4BBC7),
+                ),
                 const SizedBox(width: 2),
-                Text('$streak',
-                    style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w800,
-                        color: streak > 0 ? kInk : kMuted)),
+                Text(
+                  '$streak',
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w800,
+                    color: streak > 0 ? kInk : kMuted,
+                  ),
+                ),
               ],
             ),
           ),
@@ -298,31 +329,41 @@ class _ProgressCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('$learned',
-                  style: const TextStyle(
-                      fontSize: 34,
-                      fontWeight: FontWeight.w800,
-                      height: 1.0,
-                      color: kInk)),
+              Text(
+                '$learned',
+                style: const TextStyle(
+                  fontSize: 34,
+                  fontWeight: FontWeight.w800,
+                  height: 1.0,
+                  color: kInk,
+                ),
+              ),
               const SizedBox(width: 6),
               Padding(
                 padding: const EdgeInsets.only(bottom: 3),
-                child: Text('z $total slov',
-                    style: const TextStyle(fontSize: 15, color: kMuted)),
+                child: Text(
+                  'z $total slov',
+                  style: const TextStyle(fontSize: 15, color: kMuted),
+                ),
               ),
               const Spacer(),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 5,
+                ),
                 decoration: BoxDecoration(
                   color: kBlue.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Text('$percent %',
-                    style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: kBlue)),
+                child: Text(
+                  '$percent %',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: kBlue,
+                  ),
+                ),
               ),
             ],
           ),
@@ -337,16 +378,22 @@ class _ProgressCard extends StatelessWidget {
             children: [
               const _Dot(Color(0xFFA5D6A7)),
               const SizedBox(width: 6),
-              const Text('naučeno',
-                  style: TextStyle(fontSize: 12, color: kMuted)),
+              const Text(
+                'naučeno',
+                style: TextStyle(fontSize: 12, color: kMuted),
+              ),
               const SizedBox(width: 14),
               const _Dot(Color(0xFF2E7D32)),
               const SizedBox(width: 6),
-              Text('pevně zvládnuto $solid',
-                  style: const TextStyle(fontSize: 12, color: kMuted)),
+              Text(
+                'pevně zvládnuto $solid',
+                style: const TextStyle(fontSize: 12, color: kMuted),
+              ),
               const Spacer(),
-              Text('Dnes: $reviewedToday + $learnedToday',
-                  style: const TextStyle(fontSize: 12, color: kMuted)),
+              Text(
+                'Dnes: $reviewedToday + $learnedToday',
+                style: const TextStyle(fontSize: 12, color: kMuted),
+              ),
             ],
           ),
         ],
@@ -361,17 +408,21 @@ class _Dot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-      width: 9,
-      height: 9,
-      decoration: BoxDecoration(color: color, shape: BoxShape.circle));
+    width: 9,
+    height: 9,
+    decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+  );
 }
 
 class _StatPill extends StatelessWidget {
   final int value;
   final String label;
   final Color color;
-  const _StatPill(
-      {required this.value, required this.label, required this.color});
+  const _StatPill({
+    required this.value,
+    required this.label,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -384,9 +435,14 @@ class _StatPill extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text('$value',
-              style: TextStyle(
-                  fontSize: 22, fontWeight: FontWeight.w800, color: color)),
+          Text(
+            '$value',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w800,
+              color: color,
+            ),
+          ),
           const SizedBox(height: 2),
           Text(label, style: const TextStyle(fontSize: 12, color: kMuted)),
         ],
@@ -425,13 +481,15 @@ class _DirectionPicker extends StatelessWidget {
                   height: 38,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: c.settings.directionMode == e.key
-                        ? Colors.white
-                        : Colors.transparent,
+                    color:
+                        c.settings.directionMode == e.key
+                            ? Colors.white
+                            : Colors.transparent,
                     borderRadius: BorderRadius.circular(12),
-                    boxShadow: c.settings.directionMode == e.key
-                        ? softShadow(0.08)
-                        : null,
+                    boxShadow:
+                        c.settings.directionMode == e.key
+                            ? softShadow(0.08)
+                            : null,
                   ),
                   child: Text(
                     e.value,
@@ -440,9 +498,10 @@ class _DirectionPicker extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 13,
-                      fontWeight: c.settings.directionMode == e.key
-                          ? FontWeight.w700
-                          : FontWeight.w500,
+                      fontWeight:
+                          c.settings.directionMode == e.key
+                              ? FontWeight.w700
+                              : FontWeight.w500,
                       color: c.settings.directionMode == e.key ? kInk : kMuted,
                     ),
                   ),
@@ -490,15 +549,18 @@ class _ModeCard extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          boxShadow: enabled
-              ? [
-                  BoxShadow(
-                    color: colors.last.withValues(alpha: emphasized ? 0.50 : 0.32),
-                    blurRadius: emphasized ? 26 : 16,
-                    offset: Offset(0, emphasized ? 12 : 7),
-                  ),
-                ]
-              : null,
+          boxShadow:
+              enabled
+                  ? [
+                    BoxShadow(
+                      color: colors.last.withValues(
+                        alpha: emphasized ? 0.50 : 0.32,
+                      ),
+                      blurRadius: emphasized ? 26 : 16,
+                      offset: Offset(0, emphasized ? 12 : 7),
+                    ),
+                  ]
+                  : null,
         ),
         child: Material(
           color: Colors.transparent,
@@ -516,8 +578,11 @@ class _ModeCard extends StatelessWidget {
                       color: foreground.withValues(alpha: 0.20),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(icon,
-                        color: foreground, size: emphasized ? 34 : 26),
+                    child: Icon(
+                      icon,
+                      color: foreground,
+                      size: emphasized ? 34 : 26,
+                    ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -525,23 +590,32 @@ class _ModeCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(title,
-                            style: TextStyle(
-                                fontSize: emphasized ? 20 : 17,
-                                fontWeight: FontWeight.w800,
-                                color: foreground)),
+                        Text(
+                          title,
+                          style: TextStyle(
+                            fontSize: emphasized ? 20 : 17,
+                            fontWeight: FontWeight.w800,
+                            color: foreground,
+                          ),
+                        ),
                         const SizedBox(height: 2),
-                        Text(subtitle,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontSize: 12.5,
-                                color: foreground.withValues(alpha: 0.90))),
+                        Text(
+                          subtitle,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 12.5,
+                            color: foreground.withValues(alpha: 0.90),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  Icon(Icons.chevron_right_rounded,
-                      color: foreground.withValues(alpha: 0.8), size: 28),
+                  Icon(
+                    Icons.chevron_right_rounded,
+                    color: foreground.withValues(alpha: 0.8),
+                    size: 28,
+                  ),
                 ],
               ),
             ),

@@ -13,8 +13,15 @@ class StatsSnapshot {
   final int day;
   final List<int>? today;
   final int streak, bestStreak, lastActiveDay, freezes, goalCelebratedDay;
-  const StatsSnapshot(this.day, this.today, this.streak, this.bestStreak,
-      this.lastActiveDay, this.freezes, this.goalCelebratedDay);
+  const StatsSnapshot(
+    this.day,
+    this.today,
+    this.streak,
+    this.bestStreak,
+    this.lastActiveDay,
+    this.freezes,
+    this.goalCelebratedDay,
+  );
 }
 
 /// Ukládá pokrok jednoho kurzu do progress_<courseId>.json (verze 3).
@@ -26,6 +33,10 @@ class ProgressStore {
 
   final String courseId;
   final Map<int, CardProgress> cards = {};
+
+  /// Nová slova, která uživatel označil "učit přednostně" (klíče karet).
+  /// Značka se zruší, jakmile se slovo poprvé představí.
+  final Set<int> prioritized = {};
 
   // --- statistiky ---
   /// číslo studijního dne -> [zopakováno, naučeno]
@@ -55,8 +66,15 @@ class ProgressStore {
   StatsSnapshot snapshotStats() {
     final day = Scheduler.studyDayNumber(DateTime.now());
     final h = history[day];
-    return StatsSnapshot(day, h == null ? null : List.of(h), streak,
-        bestStreak, lastActiveDay, freezes, goalCelebratedDay);
+    return StatsSnapshot(
+      day,
+      h == null ? null : List.of(h),
+      streak,
+      bestStreak,
+      lastActiveDay,
+      freezes,
+      goalCelebratedDay,
+    );
   }
 
   void restoreStats(StatsSnapshot s) {
@@ -90,13 +108,20 @@ class ProgressStore {
         final version = (data['version'] as num?)?.toInt() ?? 2;
         final raw = (data['cards'] as Map<String, dynamic>?) ?? {};
         _loadStats(data['stats'] as Map<String, dynamic>?);
+        prioritized
+          ..clear()
+          ..addAll(List<int>.from((data['prio'] as List?) ?? const []));
         final now = DateTime.now();
         raw.forEach((k, v) {
           final i = int.parse(k);
-          cards[i] = version >= 3
-              ? CardProgress.fromJson(v)
-              : Scheduler.fromLegacySkill(i, (v as List)[0] as int, now);
+          cards[i] =
+              version >= 3
+                  ? CardProgress.fromJson(v)
+                  : Scheduler.fromLegacySkill(i, (v as List)[0] as int, now);
         });
+        prioritized.removeWhere(
+          cards.containsKey,
+        ); // už viděná slova značku nemají
         if (version < 3) {
           await file.copy('${file.path}.v2.bak');
           await flush();
@@ -107,6 +132,7 @@ class ProgressStore {
         await file.rename('${file.path}.corrupt');
         cards.clear();
         history.clear();
+        prioritized.clear();
       }
     }
     if (migrateLegacy) await _migrateLegacy();
@@ -192,6 +218,7 @@ class ProgressStore {
       final json = jsonEncode({
         'version': 3,
         'stats': _statsJson(),
+        'prio': prioritized.toList()..sort(),
         'cards': {for (final e in cards.entries) '${e.key}': e.value.toJson()},
       });
       await tmp.writeAsString(json, flush: true);

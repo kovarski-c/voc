@@ -38,7 +38,8 @@ class StudyController extends ChangeNotifier {
   Map<int, int> _posInOrder = const {}; // klíč -> pozice ve viditelném seznamu
 
   bool showBack = false;
-  final Map<int, int> _shown = {}; // kolikrát už byla karta v této relaci zodpovězena
+  final Map<int, int> _shown =
+      {}; // kolikrát už byla karta v této relaci zodpovězena
   final List<Achievement> _pending = [];
 
   /// Od jaké jistoty se slovo počítá jako "pevně zvládnuté".
@@ -68,6 +69,7 @@ class StudyController extends ChangeNotifier {
       order: _order,
       isHidden: _hidden,
       cards: store.cards,
+      prioritized: store.prioritized,
       onCardDone: store.recordDone,
     );
   }
@@ -93,17 +95,21 @@ class StudyController extends ChangeNotifier {
       session.phaseTotal == 0 ? 0 : session.phaseDone / session.phaseTotal;
 
   /// Slova v opakování (= už naučená).
-  int get learnedCount => store.cards.entries
-      .where((e) => e.value.stage == CardStage.review && !_hidden(e.key))
-      .length;
+  int get learnedCount =>
+      store.cards.entries
+          .where((e) => e.value.stage == CardStage.review && !_hidden(e.key))
+          .length;
 
   /// Slova s jistotou aspoň 75 %.
-  int get solidCount => store.cards.entries
-      .where((e) =>
-          e.value.stage == CardStage.review &&
-          !_hidden(e.key) &&
-          Scheduler.confidence(e.value.stability) >= solidConfidence)
-      .length;
+  int get solidCount =>
+      store.cards.entries
+          .where(
+            (e) =>
+                e.value.stage == CardStage.review &&
+                !_hidden(e.key) &&
+                Scheduler.confidence(e.value.stability) >= solidConfidence,
+          )
+          .length;
 
   int get reviewedToday => store.reviewedToday;
   int get learnedToday => store.learnedToday;
@@ -124,12 +130,14 @@ class StudyController extends ChangeNotifier {
   }
 
   void _afterProgress() {
-    _pending.addAll(Motivation.update(
-      store: store,
-      goal: settings.dailyGoal,
-      learnedCount: learnedCount,
-      now: DateTime.now(),
-    ));
+    _pending.addAll(
+      Motivation.update(
+        store: store,
+        goal: settings.dailyGoal,
+        learnedCount: learnedCount,
+        now: DateTime.now(),
+      ),
+    );
   }
 
   // --- mapa slov ---
@@ -159,6 +167,18 @@ class StudyController extends ChangeNotifier {
     return bands;
   }
 
+  // --- učit přednostně ---
+  /// Označit lze jen nové slovo (naučená a rozpracovaná se řídí rozvrhem).
+  bool canPrioritize(int key) => !store.cards.containsKey(key);
+  bool isPrioritized(int key) => store.prioritized.contains(key);
+
+  void togglePriority(int key) {
+    if (!canPrioritize(key)) return;
+    if (!store.prioritized.add(key)) store.prioritized.remove(key);
+    store.scheduleSave();
+    notifyListeners();
+  }
+
   CardInfo infoOf(int i) {
     final p = store.cards[i];
     if (p == null) return const CardInfo(kind: CardKind.newCard);
@@ -186,7 +206,8 @@ class StudyController extends ChangeNotifier {
       case DirectionMode.auto:
         final p = store.cards[i];
         if (p != null && p.stage == CardStage.learning) {
-          if (p.streak == 0) return false; // 1. zkoušení: poznat učené slovo (snazší)
+          if (p.streak == 0)
+            return false; // 1. zkoušení: poznat učené slovo (snazší)
           if (p.streak == 1) return true; // 2. zkoušení: vybavit si učené slovo
         }
         final rnd = math.Random(i * 7919 + (_shown[i] ?? 0) * 104729 + 17);
@@ -202,8 +223,14 @@ class StudyController extends ChangeNotifier {
   bool get canUndo => _undo.isNotEmpty && phase != Phase.idle;
 
   void _pushUndo({int? shownKey}) {
-    _undo.add(_Undo(session.snapshot(), store.snapshotStats(),
-        _pending.length, shownKey));
+    _undo.add(
+      _Undo(
+        session.snapshot(),
+        store.snapshotStats(),
+        _pending.length,
+        shownKey,
+      ),
+    );
     if (_undo.length > undoDepth) _undo.removeAt(0);
   }
 

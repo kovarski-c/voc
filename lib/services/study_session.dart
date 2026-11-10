@@ -13,7 +13,8 @@ enum StudyMode { both, reviewOnly, learnOnly }
 /// Stav relace před jednou akcí (pro tlačítko Zpět).
 class SessionSnapshot {
   final int? key; // karta, které se akce týkala
-  final CardProgress? prev; // její pokrok před akcí (null = ještě nebyla v úložišti)
+  final CardProgress?
+  prev; // její pokrok před akcí (null = ještě nebyla v úložišti)
   final StudyMode mode;
   final Phase phase;
   final InterludeKind? interlude;
@@ -30,6 +31,7 @@ class SessionSnapshot {
       correctInBlock,
       backlog;
   final Map<int, int> wrong;
+  final bool prio; // karta měla značku "učit přednostně"
 
   const SessionSnapshot({
     required this.key,
@@ -50,6 +52,7 @@ class SessionSnapshot {
     required this.correctInBlock,
     required this.backlog,
     required this.wrong,
+    required this.prio,
   });
 }
 
@@ -60,9 +63,11 @@ class StudySession {
     required this.order,
     required this.isHidden,
     required this.cards,
+    Set<int>? prioritized,
     DateTime Function()? clock,
     this.onCardDone,
-  }) : _clock = clock ?? DateTime.now;
+  }) : prioritized = prioritized ?? <int>{},
+       _clock = clock ?? DateTime.now;
 
   static const int groupSize = 5;
   static const int newPerBlock = 20;
@@ -75,6 +80,9 @@ class StudySession {
   /// Skrytá karta (vulgární při zapnutém filtru, neznámý klíč): nikde se neobjeví.
   final bool Function(int key) isHidden;
   final Map<int, CardProgress> cards; // sdílená mapa s ProgressStore
+
+  /// Nová slova označená "učit přednostně" (sdílená množina s ProgressStore).
+  final Set<int> prioritized;
   final DateTime Function() _clock;
 
   /// Karta definitivně opustila frontu: true = nově naučena, false = zopakována.
@@ -112,12 +120,15 @@ class StudySession {
     });
     return best;
   }
+
   int backlog = 0; // splatná opakování po dokončení dávky
 
-  int? get current => _intro.isNotEmpty
-      ? _intro.first
-      : (_queue.isNotEmpty ? _queue.first : null);
-  int? get next => _intro.isNotEmpty ? null : (_queue.length > 1 ? _queue[1] : null);
+  int? get current =>
+      _intro.isNotEmpty
+          ? _intro.first
+          : (_queue.isNotEmpty ? _queue.first : null);
+  int? get next =>
+      _intro.isNotEmpty ? null : (_queue.length > 1 ? _queue[1] : null);
   bool get isIntro => _intro.isNotEmpty;
 
   int get dueCount {
@@ -133,9 +144,10 @@ class StudySession {
     return n;
   }
 
-  int get learningCount => cards.entries
-      .where((e) => e.value.stage == CardStage.learning && !isHidden(e.key))
-      .length;
+  int get learningCount =>
+      cards.entries
+          .where((e) => e.value.stage == CardStage.learning && !isHidden(e.key))
+          .length;
 
   int get unseenCount => order.where((k) => !cards.containsKey(k)).length;
 
@@ -171,6 +183,7 @@ class StudySession {
       correctInBlock: correctInBlock,
       backlog: backlog,
       wrong: Map.of(_wrongInBlock),
+      prio: k != null && prioritized.contains(k),
     );
   }
 
@@ -200,6 +213,7 @@ class StudySession {
       ..addAll(s.wrong);
     final k = s.key;
     if (k != null) {
+      if (s.prio) prioritized.add(k);
       if (s.prev == null) {
         cards.remove(k);
       } else {
@@ -237,13 +251,16 @@ class StudySession {
 
   void startReviews({bool early = false}) {
     final now = _clock().millisecondsSinceEpoch;
-    final due = cards.entries
-        .where((e) =>
-            e.value.stage == CardStage.review &&
-            !isHidden(e.key) &&
-            (early ? e.value.dueMs > now : e.value.dueMs <= now))
-        .toList()
-      ..sort((a, b) => a.value.dueMs.compareTo(b.value.dueMs));
+    final due =
+        cards.entries
+            .where(
+              (e) =>
+                  e.value.stage == CardStage.review &&
+                  !isHidden(e.key) &&
+                  (early ? e.value.dueMs > now : e.value.dueMs <= now),
+            )
+            .toList()
+          ..sort((a, b) => a.value.dueMs.compareTo(b.value.dueMs));
     _intro.clear();
     _queue
       ..clear()
@@ -260,24 +277,47 @@ class StudySession {
   }
 
   void startLearning() {
-    final learning = cards.entries
-        .where((e) => e.value.stage == CardStage.learning && !isHidden(e.key))
-        .map((e) => e.key)
-        .toList()
-      ..sort();
+    _newCursor =
+        0; // kurzor se počítá znovu z úložiště (neuložené karty se vrátí)
+    final learning =
+        cards.entries
+            .where(
+              (e) => e.value.stage == CardStage.learning && !isHidden(e.key),
+            )
+            .map((e) => e.key)
+            .toList()
+          ..sort();
     final group = learning.take(groupSize).toList();
-    final room = math.min(groupSize - group.length, newPerBlock - newInBlock);
-    for (var k = 0; k < room; k++) {
-      final i = _nextUnseen();
+    var room = math.min(groupSize - group.length, newPerBlock - newInBlock);
+    // Nejdřív nová slova označená "učit přednostně" (v pořadí učení).
+    if (room > 0 && prioritized.isNotEmpty) {
+      for (final k in order) {
+        if (room == 0) break;
+        if (prioritized.contains(k) &&
+            !cards.containsKey(k) &&
+            !group.contains(k)) {
+          group.add(k);
+          newInBlock++;
+          room--;
+        }
+      }
+    }
+    // Zbytek skupiny: další nová slova v pořadí (už vybraná přeskočí).
+    for (; room > 0; room--) {
+      var i = _nextUnseen();
+      while (i != null && group.contains(i)) {
+        _newCursor++;
+        i = _nextUnseen();
+      }
       if (i == null) break;
       group.add(i);
       _newCursor++;
       newInBlock++;
     }
     if (group.isEmpty) {
-      _setInterlude(_nextUnseen() != null
-          ? InterludeKind.blockDone
-          : InterludeKind.allDone);
+      _setInterlude(
+        _nextUnseen() != null ? InterludeKind.blockDone : InterludeKind.allDone,
+      );
       return;
     }
     _queue
@@ -285,10 +325,12 @@ class StudySession {
       ..addAll(group);
     _intro
       ..clear()
-      ..addAll(group.where((i) {
-        final p = cards[i];
-        return p == null || (p.streak == 0 && !p.relearn);
-      }));
+      ..addAll(
+        group.where((i) {
+          final p = cards[i];
+          return p == null || (p.streak == 0 && !p.relearn);
+        }),
+      );
     if (_intro.isEmpty) _queue.shuffle(_rng);
     phase = Phase.learning;
     interlude = null;
@@ -302,6 +344,7 @@ class StudySession {
     interlude = null;
     _intro.clear();
     _queue.clear();
+    _newCursor = 0;
     serial++;
   }
 
@@ -311,8 +354,11 @@ class StudySession {
   void ackIntro() {
     if (_intro.isEmpty) return;
     final i = _intro.removeAt(0);
+    prioritized.remove(i);
     cards.putIfAbsent(
-        i, () => CardProgress.learning(_clock().millisecondsSinceEpoch));
+      i,
+      () => CardProgress.learning(_clock().millisecondsSinceEpoch),
+    );
     if (_intro.isEmpty) _queue.shuffle(_rng);
     serial++;
   }
@@ -322,6 +368,7 @@ class StudySession {
   void skipIntro() {
     if (_intro.isEmpty) return;
     final i = _intro.removeAt(0);
+    prioritized.remove(i);
     final now = _clock();
     final wasNew = !cards.containsKey(i);
     cards[i] = CardProgress(
@@ -396,7 +443,7 @@ class StudySession {
         );
         if (p.relearn) {
           reviewedInBlock++;
-        onCardDone?.call(false);
+          onCardDone?.call(false);
         } else {
           learnedInBlock++;
           onCardDone?.call(true);
@@ -421,7 +468,8 @@ class StudySession {
     }
   }
 
-  void _insert(int c, int pos) => _queue.insert(math.min(pos, _queue.length), c);
+  void _insert(int c, int pos) =>
+      _queue.insert(math.min(pos, _queue.length), c);
 
   void _finishReviews() {
     backlog = dueCount;

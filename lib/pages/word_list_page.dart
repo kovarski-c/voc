@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import '../study_controller.dart';
 import '../theme.dart';
 import '../widgets/card_status.dart';
+import '../models/card_progress.dart';
+import '../widgets/multi_form_text.dart';
 import 'word_map_view.dart';
 
 /// Záložka "Slova": seznam všech slov s vyhledáváním, nebo mapa slov s odznaky.
@@ -40,11 +42,150 @@ class _WordListPageState extends State<WordListPage> {
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!_scroll.hasClients) return;
-      final target = (start * _rowHeight)
-          .clamp(0.0, _scroll.position.maxScrollExtent)
-          .toDouble();
+      final target =
+          (start * _rowHeight)
+              .clamp(0.0, _scroll.position.maxScrollExtent)
+              .toDouble();
       _scroll.jumpTo(target);
     });
+  }
+
+  /// Detail slova v dolním panelu: slovo + výslovnost, pořadí, stav, překlad.
+  /// Vpravo nahoře ikonka "učit přednostně" (jen u nových slov).
+  void _showDetail(int idx) {
+    final c = widget.controller;
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      showDragHandle: true,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.7,
+      ),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder:
+          (ctx) => ListenableBuilder(
+            listenable: c,
+            builder: (_, _) {
+              final course = c.course;
+              final back = course.back(idx);
+              final pron = course.pronunciation(idx);
+              final info = c.infoOf(idx);
+              final prio = c.isPrioritized(idx);
+              final size = 28 * MultiFormText.scaleFor(back.length);
+              return SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 0, 12, 24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 6),
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: back,
+                                      style: TextStyle(
+                                        fontSize: size,
+                                        fontWeight: FontWeight.w600,
+                                        color: kInk,
+                                      ),
+                                    ),
+                                    if (pron.isNotEmpty)
+                                      TextSpan(
+                                        text: '   $pron',
+                                        style: TextStyle(
+                                          fontSize: math.max(16, size * 0.64),
+                                          color: kMuted,
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          if (c.canPrioritize(idx))
+                            IconButton(
+                              tooltip:
+                                  prio
+                                      ? 'Zrušit přednostní učení'
+                                      : 'Učit přednostně',
+                              iconSize: 28,
+                              color: prio ? kPriorityColor : kMuted,
+                              onPressed: () => c.togglePriority(idx),
+                              icon: Icon(
+                                prio
+                                    ? Icons.bookmark_rounded
+                                    : Icons.bookmark_border_rounded,
+                              ),
+                            ),
+                        ],
+                      ),
+                      if (prio)
+                        const Padding(
+                          padding: EdgeInsets.only(top: 4, right: 12),
+                          child: Text(
+                            'Přijde na řadu hned v dalším učení.',
+                            style: TextStyle(fontSize: 13, color: kMuted),
+                          ),
+                        ),
+                      const SizedBox(height: 12),
+                      const Divider(height: 1),
+                      const SizedBox(height: 14),
+                      _DetailRow(
+                        label: 'Pořadí',
+                        child: Text(
+                          '${c.numberOf(idx)}',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      const SizedBox(height: 14),
+                      _DetailRow(
+                        label: 'Stav',
+                        child: Row(
+                          children: [
+                            CardStatus(info: info, reserveIndicator: false),
+                            if (info.kind == CardKind.review) ...[
+                              const SizedBox(width: 10),
+                              Text(
+                                'jistota ${(info.confidence * 100).round()} %',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: kMuted,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 14),
+                      Flexible(
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.only(right: 12),
+                          child: _DetailRow(
+                            label: 'Překlad',
+                            child: Text(
+                              course.front(idx),
+                              style: const TextStyle(fontSize: 18, height: 1.3),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+    );
   }
 
   @override
@@ -54,32 +195,39 @@ class _WordListPageState extends State<WordListPage> {
       bottom: false,
       child: ListenableBuilder(
         listenable: c,
-        builder: (context, _) => Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(24, 16, 24, 12),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Slova',
-                    style: TextStyle(
-                        fontSize: 28, fontWeight: FontWeight.w800, color: kInk)),
-              ),
+        builder:
+            (context, _) => Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(24, 16, 24, 12),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Slova',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.w800,
+                        color: kInk,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: _Toggle(
+                    map: _map,
+                    onChanged: (m) => setState(() => _map = m),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Expanded(
+                  child:
+                      _map
+                          ? WordMapView(controller: c, onJump: _jumpTo)
+                          : _buildList(c),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: _Toggle(
-                map: _map,
-                onChanged: (m) => setState(() => _map = m),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Expanded(
-              child: _map
-                  ? WordMapView(controller: c, onJump: _jumpTo)
-                  : _buildList(c),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -103,8 +251,10 @@ class _WordListPageState extends State<WordListPage> {
             controller: _searchCtl,
             decoration: InputDecoration(
               hintText: 'Hledat slovo nebo překlad',
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 0,
+                horizontal: 20,
+              ),
               suffixIcon: const Icon(Icons.search_rounded),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(40),
@@ -117,83 +267,126 @@ class _WordListPageState extends State<WordListPage> {
           ),
         ),
         Expanded(
-          child: filtered.isEmpty
-              ? const Center(child: Text('Nic nenalezeno'))
-              : Scrollbar(
-                  controller: _scroll,
-                  interactive: true,
-                  child: ListView.builder(
+          child:
+              filtered.isEmpty
+                  ? const Center(child: Text('Nic nenalezeno'))
+                  : Scrollbar(
                     controller: _scroll,
-                    itemCount: filtered.length,
-                    addAutomaticKeepAlives: false,
-                    addRepaintBoundaries: false,
-                    itemExtent: _rowHeight,
-                    itemBuilder: (context, row) {
-                      final idx = filtered[row];
-                      final flipped = _flipped.contains(idx);
-                      final pron = course.pronunciation(idx); // patří k učené straně (back)
-                      return ListTile(
-                        contentPadding:
-                            const EdgeInsets.only(left: 24, right: 8),
-                        leading: Container(
-                          width: 44,
-                          height: 42,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.white,
+                    interactive: true,
+                    child: ListView.builder(
+                      controller: _scroll,
+                      itemCount: filtered.length,
+                      addAutomaticKeepAlives: false,
+                      addRepaintBoundaries: false,
+                      itemExtent: _rowHeight,
+                      itemBuilder: (context, row) {
+                        final idx = filtered[row];
+                        final flipped = _flipped.contains(idx);
+                        final pron = course.pronunciation(
+                          idx,
+                        ); // patří k učené straně (back)
+                        // Vlastní řádek místo ListTile: všechno je svisle na středu
+                        // řádku (Row + center) a vlna po klepnutí kryje celý řádek.
+                        return InkWell(
+                          onTap: () => _showDetail(idx),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 24, right: 8),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 44,
+                                  height: 42,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.white,
+                                  ),
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Text(
+                                        '${c.numberOf(idx)}',
+                                        style: const TextStyle(fontSize: 13),
+                                      ),
+                                      if (c.isPrioritized(idx))
+                                        const Positioned(
+                                          top: 0,
+                                          right: 3,
+                                          child: Icon(
+                                            Icons.bookmark_rounded,
+                                            size: 16,
+                                            color: kPriorityColor,
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        flipped
+                                            ? course.front(idx)
+                                            : course.back(idx),
+                                        maxLines:
+                                            flipped || pron.isEmpty ? 2 : 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight:
+                                              flipped
+                                                  ? FontWeight.normal
+                                                  : FontWeight.w600,
+                                        ),
+                                      ),
+                                      // Výslovnost patří k učenému slovu (před otočením).
+                                      if (!flipped && pron.isNotEmpty)
+                                        Text(
+                                          pron,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            color: kMuted,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 100,
+                                  child: CardStatus(
+                                    info: c.infoOf(idx),
+                                    reserveIndicator: false,
+                                  ),
+                                ),
+                                const SizedBox(width: 6),
+                                Transform.rotate(
+                                  angle: 270 * math.pi / 180,
+                                  child: IconButton(
+                                    icon: const Icon(Icons.flip),
+                                    color: const Color(0xFFBFBFBF),
+                                    tooltip: 'Otočit',
+                                    onPressed:
+                                        () => setState(() {
+                                          if (!_flipped.add(idx)) {
+                                            _flipped.remove(idx);
+                                          }
+                                        }),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          child: Text('${c.numberOf(idx)}',
-                              style: const TextStyle(fontSize: 13)),
-                        ),
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              flipped ? course.front(idx) : course.back(idx),
-                              maxLines: flipped || pron.isEmpty ? 2 : 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight:
-                                    flipped ? FontWeight.normal : FontWeight.w600,
-                              ),
-                            ),
-                            // Výslovnost patří k učenému slovu (před otočením).
-                            if (!flipped && pron.isNotEmpty)
-                              Text(pron,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      color: kMuted, fontSize: 14)),
-                          ],
-                        ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              width: 100,
-                              child: CardStatus(info: c.infoOf(idx)),
-                            ),
-                            const SizedBox(width: 6),
-                            Transform.rotate(
-                              angle: 270 * math.pi / 180,
-                              child: IconButton(
-                                icon: const Icon(Icons.flip),
-                                color: const Color(0xFFBFBFBF),
-                                tooltip: 'Otočit',
-                                onPressed: () => setState(() {
-                                  if (!_flipped.add(idx)) _flipped.remove(idx);
-                                }),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
         ),
       ],
     );
@@ -208,34 +401,41 @@ class _Toggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget item(String text, IconData icon, bool selected, VoidCallback onTap) =>
-        Expanded(
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: onTap,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 180),
-              height: 40,
-              decoration: BoxDecoration(
-                color: selected ? Colors.white : Colors.transparent,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: selected ? softShadow(0.08) : null,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(icon, size: 18, color: selected ? kInk : kMuted),
-                  const SizedBox(width: 6),
-                  Text(text,
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-                          color: selected ? kInk : kMuted)),
-                ],
-              ),
-            ),
+    Widget item(
+      String text,
+      IconData icon,
+      bool selected,
+      VoidCallback onTap,
+    ) => Expanded(
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          height: 40,
+          decoration: BoxDecoration(
+            color: selected ? Colors.white : Colors.transparent,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: selected ? softShadow(0.08) : null,
           ),
-        );
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 18, color: selected ? kInk : kMuted),
+              const SizedBox(width: 6),
+              Text(
+                text,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                  color: selected ? kInk : kMuted,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
 
     return Container(
       padding: const EdgeInsets.all(4),
@@ -245,11 +445,47 @@ class _Toggle extends StatelessWidget {
       ),
       child: Row(
         children: [
-          item('Seznam', Icons.format_list_bulleted_rounded, !map,
-              () => onChanged(false)),
-          item('Mapa slov', Icons.grid_view_rounded, map, () => onChanged(true)),
+          item(
+            'Seznam',
+            Icons.format_list_bulleted_rounded,
+            !map,
+            () => onChanged(false),
+          ),
+          item(
+            'Mapa slov',
+            Icons.grid_view_rounded,
+            map,
+            () => onChanged(true),
+          ),
         ],
       ),
+    );
+  }
+}
+
+/// Barva značky "učit přednostně".
+const Color kPriorityColor = Color(0xFF2F6FED);
+
+/// Řádek detailu: popisek vlevo, hodnota zarovnaná doleva vedle něj.
+class _DetailRow extends StatelessWidget {
+  final String label;
+  final Widget child;
+  const _DetailRow({required this.label, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 76,
+          child: Text(
+            label,
+            style: const TextStyle(fontSize: 14, color: kMuted),
+          ),
+        ),
+        Expanded(child: Align(alignment: Alignment.centerLeft, child: child)),
+      ],
     );
   }
 }

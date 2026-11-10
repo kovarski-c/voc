@@ -10,11 +10,11 @@
 		</data>
 		<key>Resources/flutter_assets/AssetManifest.bin</key>
 		<data>
-		QeMQuhDT32EdIjyFLarIUUGtaGo=
+		RbeQjifi3Sj2zQ2M/K5PwKuhX7M=
 		</data>
 		<key>Resources/flutter_assets/AssetManifest.json</key>
 		<data>
-		PacEHcjtbIXbdcfaC2cfKLERcCQ=
+		JdIqM7QzN9xrcuejTEdO8o2WVzg=
 		</data>
 		<key>Resources/flutter_assets/FontManifest.json</key>
 		<data>
@@ -28,6 +28,10 @@
 		<data>
 		re4p7E8rPLLsN+wzaPN/+AVpXTY=
 		</data>
+		<key>Resources/flutter_assets/assets/words/french/french.tsv</key>
+		<data>
+		rugJr1oykogL7/pDmfZqttxgwrA=
+		</data>
 		<key>Resources/flutter_assets/fonts/MaterialIcons-Regular.otf</key>
 		<data>
 		/CUoTuPQqqdexfyOT9lpJhV+2MQ=
@@ -38,7 +42,7 @@
 		</data>
 		<key>Resources/flutter_assets/kernel_blob.bin</key>
 		<data>
-		Ee5qYqaO0BU7qAe0Pxl6Py7ivGg=
+		0KQ7RxEsKtpv9Gp3bwKIrgPMR4c=
 		</data>
 		<key>Resources/flutter_assets/packages/country_flags/res/si/ac.si</key>
 		<data>
@@ -1130,14 +1134,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			o7UhAyqoAn9nIwz8IDcdaz3yDg5J0NXzPZAsMcQXr4w=
+			NjyAOxmyU500YyyXDEy4tQvNdzxgFicS6CyXcb71h5s=
 			</data>
 		</dict>
 		<key>Resources/flutter_assets/AssetManifest.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			YLt+0R7c1APSytS7YL3JEQFqu7PBvww1yvC+tL8xY4s=
+			5z6ihzjQ//xr5oehzVa/csgZcLGGf6Ire65hef1xk1g=
 			</data>
 		</dict>
 		<key>Resources/flutter_assets/FontManifest.json</key>
@@ -1161,6 +1165,13 @@
 			lUijHkoEgTXB2U+Rkyi/tirix7s8q5ZVfHlB2ql3dss=
 			</data>
 		</dict>
+		<key>Resources/flutter_assets/assets/words/french/french.tsv</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			bIVoK4zqtnA5K1TtIc4pM4Rmsk51nibJMEPbr5EAURo=
+			</data>
+		</dict>
 		<key>Resources/flutter_assets/fonts/MaterialIcons-Regular.otf</key>
 		<dict>
 			<key>hash2</key>
@@ -1179,7 +1190,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			I2a/cMDg03DRRf0h+T5/XKXUfy4qxFKUDbGBLbXogwI=
+			AFje1NlbVVyUqwnFzBsokaf5B+ZS/co7Y/rY5ttGBHU=
 			</data>
 		</dict>
 		<key>Resources/flutter_assets/packages/country_flags/res/si/ac.si</key>

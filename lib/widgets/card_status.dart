@@ -10,7 +10,17 @@ const Color kLearningColor = Color(0xFFFFB300);
 /// nová (modrá), učení (žlutá, bublinky), opakování (zelená, pruh jistoty).
 class CardStatus extends StatelessWidget {
   final CardInfo info;
-  const CardStatus({super.key, required this.info});
+
+  /// true = pod štítkem je vždy vyhrazené místo pro indikátor (bublinky / pruh),
+  /// takže štítek stojí na stejném místě u všech stavů (karty).
+  /// false = u nového slova (nemá indikátor) je jen štítek, takže se dá
+  /// vycentrovat (řádek seznamu, detail).
+  final bool reserveIndicator;
+  const CardStatus({
+    super.key,
+    required this.info,
+    this.reserveIndicator = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,20 +42,29 @@ class CardStatus extends StatelessWidget {
         fg = const Color(0xFF2E7D32);
     }
 
+    final hasIndicator = reserveIndicator || info.kind != CardKind.newCard;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-          decoration:
-              BoxDecoration(color: bg, borderRadius: BorderRadius.circular(20)),
+          decoration: BoxDecoration(
+            color: bg,
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: Text(
             label,
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: fg),
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: fg,
+            ),
           ),
         ),
-        const SizedBox(height: 6),
-        SizedBox(height: 10, child: Center(child: _indicator())),
+        if (hasIndicator) ...[
+          const SizedBox(height: 6),
+          SizedBox(height: 10, child: Center(child: _indicator())),
+        ],
       ],
     );
   }

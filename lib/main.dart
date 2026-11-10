@@ -67,8 +67,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     final settings = _settings!;
     final old = _controller;
     await old?.flush();
-    final controller =
-        StudyController(course, ProgressStore(course.id), settings);
+    final controller = StudyController(
+      course,
+      ProgressStore(course.id),
+      settings,
+    );
     await controller.init();
     settings.courseId = course.id;
     SettingsStore.save(settings);
@@ -83,14 +86,15 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     final current = _controller?.course.id;
     _nav.currentState!.push(
       MaterialPageRoute(
-        builder: (_) => LanguagePickerPage(
-          courses: _courses,
-          currentId: current,
-          onSelected: (c) {
-            _nav.currentState!.pop();
-            if (c.id != current) _open(c);
-          },
-        ),
+        builder:
+            (_) => LanguagePickerPage(
+              courses: _courses,
+              currentId: current,
+              onSelected: (c) {
+                _nav.currentState!.pop();
+                if (c.id != current) _open(c);
+              },
+            ),
       ),
     );
   }
@@ -120,6 +124,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: kBlue),
         scaffoldBackgroundColor: kBg,
+        sliderTheme: SliderThemeData(
+          tickMarkShape: SliderTickMarkShape.noTickMark,
+        ),
       ),
       home: home,
     );

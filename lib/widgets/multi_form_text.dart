@@ -31,13 +31,19 @@ class MultiFormText extends StatelessWidget {
       return Text(text, style: s, textAlign: textAlign);
     }
     return Wrap(
-      alignment: WrapAlignment.center,
+      alignment:
+          textAlign == TextAlign.left || textAlign == TextAlign.start
+              ? WrapAlignment.start
+              : WrapAlignment.center,
       spacing: s.fontSize! * 0.3,
       runSpacing: 2,
       children: [
         for (var i = 0; i < parts.length; i++)
-          Text(i < parts.length - 1 ? '${parts[i]} /' : parts[i],
-              style: s, textAlign: textAlign),
+          Text(
+            i < parts.length - 1 ? '${parts[i]} /' : parts[i],
+            style: s,
+            textAlign: textAlign,
+          ),
       ],
     );
   }
