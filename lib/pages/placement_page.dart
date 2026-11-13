@@ -51,7 +51,7 @@ class _PlacementPageState extends State<PlacementPage> {
     });
   }
 
-  Future<void> _apply(int known) async {
+  Future<void> _apply(int known, {bool withAnswers = true}) async {
     // Dřívější výběr se přepíše; procvičená slova zůstanou, proto jen informace.
     final n = c.placementCardCount;
     if (n > 0) {
@@ -78,13 +78,32 @@ class _PlacementPageState extends State<PlacementPage> {
       );
       if (ok != true || !mounted) return;
     }
-    c.applyPlacement(known: known, answers: _test?.answers ?? const []);
+    c.applyPlacement(
+      known: known,
+      answers: withAnswers ? (_test?.answers ?? const []) : const [],
+    );
     if (mounted) Navigator.of(context).pop();
   }
 
-  void _fromScratch() {
-    if (widget.firstRun) c.skipPlacement();
-    Navigator.of(context).pop();
+  /// Začít od nuly: při prvním spuštění se jen zapamatuje volba. Jinak se
+  /// slova z dřívějšího výběru vrátí mezi nová (procvičená zůstanou).
+  Future<void> _fromScratch() async {
+    if (widget.firstRun || c.placementCardCount == 0) {
+      if (widget.firstRun) c.skipPlacement();
+      Navigator.of(context).pop();
+      return;
+    }
+    _test = null;
+    await _apply(0, withAnswers: false);
+  }
+
+  /// Přechod na ruční výběr úrovně: odpovědi z případného testu se zahodí,
+  /// aby ruční volba nebyla přepsána starým testem.
+  void _openPicker() {
+    setState(() {
+      _test = null;
+      _stage = _Stage.picker;
+    });
   }
 
   @override
@@ -198,7 +217,7 @@ class _PlacementPageState extends State<PlacementPage> {
             title: 'Vybrat úroveň sám',
             subtitle: 'Řeknu, kolik slov už umím.',
             tone: kToneGreen,
-            onTap: () => setState(() => _stage = _Stage.picker),
+            onTap: _openPicker,
           ),
         _OptionCard(
           icon: Icons.flag_rounded,
@@ -336,7 +355,8 @@ class _PlacementPageState extends State<PlacementPage> {
           tone: kToneBlue,
           height: 56,
           fontSize: 16,
-          onPressed: () => _apply(est),
+          onPressed: () =>
+              atStart ? _apply(0, withAnswers: false) : _apply(est),
         ),
         const SizedBox(height: 8),
         if (c.levels.isNotEmpty)
@@ -346,7 +366,7 @@ class _PlacementPageState extends State<PlacementPage> {
             tone: kToneGreen,
             height: 56,
             fontSize: 16,
-            onPressed: () => setState(() => _stage = _Stage.picker),
+            onPressed: _openPicker,
           ),
         SizedBox(height: 8),
         SizedBox(
