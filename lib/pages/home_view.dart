@@ -329,8 +329,10 @@ class _ProgressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final darkColor = level?.dark ?? const Color(0xFF9AA3B2);
-    final lightColor = Color.lerp(darkColor, Colors.white, 0.5)!;
+    final darkColor =
+        level?.dark ?? Color.lerp(kToneBlue.inkSoft, Colors.white, 0.3)!;
+    final lightColor =
+        Color.lerp(darkColor, const Color.fromARGB(255, 2, 2, 2), 0.5)!;
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
