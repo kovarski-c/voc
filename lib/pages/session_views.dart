@@ -196,26 +196,32 @@ class InterludeView extends StatelessWidget {
               ),
             const SizedBox(height: 8),
             if (c.canUndo)
-              TextButton.icon(
-                onPressed: c.undo,
-                icon: const Icon(Icons.undo_rounded, size: 18, color: kMuted),
-                label: const Text(
-                  'Vrátit poslední kartu',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: kMuted,
+              SizedBox(
+                height: 40,
+                child: TextButton.icon(
+                  onPressed: c.undo,
+                  icon: const Icon(Icons.undo_rounded, size: 18, color: kMuted),
+                  label: const Text(
+                    'Vrátit poslední kartu',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: kMuted,
+                    ),
                   ),
                 ),
               ),
-            TextButton(
-              onPressed: c.finish,
-              child: Text(
-                primary == null ? 'Zpět' : 'Skončit',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: kMuted,
+            SizedBox(
+              height: 40,
+              child: TextButton(
+                onPressed: c.finish,
+                child: Text(
+                  primary == null ? 'Zpět' : 'Skončit',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: kMuted,
+                  ),
                 ),
               ),
             ),

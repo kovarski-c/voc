@@ -6,6 +6,7 @@ import '../theme.dart';
 import '../widgets/achievement_dialog.dart';
 import '../widgets/app_bottom_bar.dart';
 import 'home_view.dart';
+import 'placement_page.dart';
 import 'session_views.dart';
 import 'settings_page.dart';
 import 'word_list_page.dart';
@@ -36,6 +37,19 @@ class _HomeShellState extends State<HomeShell> {
   void initState() {
     super.initState();
     widget.controller.addListener(_onController);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _maybeAskPlacement());
+  }
+
+  /// Při prvním otevření kurzu bez pokroku nabídne výběr úrovně / test.
+  void _maybeAskPlacement() {
+    final c = widget.controller;
+    if (!mounted || !c.needsPlacement) return;
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        fullscreenDialog: true,
+        builder: (_) => PlacementPage(controller: c, firstRun: true),
+      ),
+    );
   }
 
   @override

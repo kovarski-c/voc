@@ -4,7 +4,9 @@ import '../services/settings_store.dart';
 import '../services/study_session.dart';
 import '../study_controller.dart';
 import '../theme.dart';
+import '../models/level.dart';
 import '../widgets/course_flag.dart';
+import '../widgets/level_shield.dart';
 import '../widgets/two_tone_progress_bar.dart';
 
 /// Domovská stránka: přepínač jazyka, celkový pokrok, počty, směr karet a tři režimy.
@@ -70,6 +72,8 @@ class HomeView extends StatelessWidget {
                         percent: percent,
                         reviewedToday: c.reviewedToday,
                         learnedToday: c.learnedToday,
+                        levels: c.levels,
+                        level: c.currentLevel,
                       ),
                       const SizedBox(height: 12),
                       Row(
@@ -309,6 +313,8 @@ class _ProgressCard extends StatelessWidget {
   final int percent;
   final int reviewedToday;
   final int learnedToday;
+  final List<LevelStep> levels;
+  final LevelStep? level;
 
   const _ProgressCard({
     required this.learned,
@@ -317,10 +323,14 @@ class _ProgressCard extends StatelessWidget {
     required this.percent,
     required this.reviewedToday,
     required this.learnedToday,
+    required this.levels,
+    required this.level,
   });
 
   @override
   Widget build(BuildContext context) {
+    final darkColor = level?.dark ?? const Color(0xFF9AA3B2);
+    final lightColor = Color.lerp(darkColor, Colors.white, 0.5)!;
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
@@ -373,28 +383,33 @@ class _ProgressCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 14),
-          TwoToneProgressBar(
-            light: total == 0 ? 0 : learned / total,
-            dark: total == 0 ? 0 : solid / total,
-            lightColor: const Color(0xFF8ADDB5),
-            darkColor: kToneGreen.accent,
-            height: 12,
+          LevelScale(
+            levels: levels,
+            learned: learned,
+            total: total,
+            bar: TwoToneProgressBar(
+              light: total == 0 ? 0 : learned / total,
+              dark: total == 0 ? 0 : solid / total,
+              lightColor: lightColor,
+              darkColor: darkColor,
+              height: 12,
+            ),
           ),
           const SizedBox(height: 10),
           Row(
             children: [
-              const _Dot(Color(0xFF8ADDB5)),
-              const SizedBox(width: 6),
-              const Text(
-                'naučeno',
-                style: TextStyle(fontSize: 12, color: kMuted),
-              ),
-              const SizedBox(width: 14),
-              _Dot(kToneGreen.accent),
+              _Dot(darkColor),
               const SizedBox(width: 6),
               Text(
                 'pevně zvládnuto $solid',
                 style: const TextStyle(fontSize: 12, color: kMuted),
+              ),
+              const SizedBox(width: 14),
+              _Dot(lightColor),
+              const SizedBox(width: 6),
+              const Text(
+                'naučeno',
+                style: TextStyle(fontSize: 12, color: kMuted),
               ),
               const Spacer(),
               Text(
@@ -488,10 +503,12 @@ class _DirectionPicker extends StatelessWidget {
                   height: 38,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
+                    // Neaktivní výplň má barvu podkladu (neprůhledná), jinak by
+                    // při animaci stín prosvítal a problikl by tmavě.
                     color:
                         c.settings.directionMode == e.key
                             ? Colors.white
-                            : Colors.transparent,
+                            : const Color(0xFFE6EAF2),
                     borderRadius: BorderRadius.circular(12),
                     boxShadow:
                         c.settings.directionMode == e.key

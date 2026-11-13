@@ -81,10 +81,10 @@ class _NavItem extends StatelessWidget {
           height: 50,
           margin: const EdgeInsets.symmetric(horizontal: 6),
           decoration: BoxDecoration(
-            color: selected ? kBlue.withValues(alpha: 0.10) : Colors.transparent,
+            color: selected ? kBlue.withValues(alpha: 0.10) : kBlue.withValues(alpha: 0),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
-              color: selected ? kBlue.withValues(alpha: 0.55) : Colors.transparent,
+              color: selected ? kBlue.withValues(alpha: 0.55) : kBlue.withValues(alpha: 0),
               width: 2,
             ),
           ),

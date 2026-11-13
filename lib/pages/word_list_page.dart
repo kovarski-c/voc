@@ -123,8 +123,8 @@ class _WordListPageState extends State<WordListPage> {
                               onPressed: () => c.togglePriority(idx),
                               icon: Icon(
                                 prio
-                                    ? Icons.bookmark_rounded
-                                    : Icons.bookmark_border_rounded,
+                                    ? Icons.star_rounded
+                                    : Icons.star_border_rounded,
                               ),
                             ),
                         ],
@@ -290,10 +290,24 @@ class _WordListPageState extends State<WordListPage> {
                         return InkWell(
                           onTap: () => _showDetail(idx),
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 24, right: 8),
+                            padding: EdgeInsets.only(
+                              left: c.isPrioritized(idx) ? 8 : 24,
+                              right: 8,
+                            ),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
+                                if (c.isPrioritized(idx))
+                                  const Positioned(
+                                    top: 0,
+                                    right: 3,
+                                    child: Icon(
+                                      Icons.star_rounded,
+                                      size: 22,
+                                      color: kPriorityColor,
+                                    ),
+                                  ),
+                                SizedBox(width: 6),
                                 Container(
                                   width: 44,
                                   height: 42,
@@ -309,16 +323,6 @@ class _WordListPageState extends State<WordListPage> {
                                         '${c.numberOf(idx)}',
                                         style: const TextStyle(fontSize: 13),
                                       ),
-                                      if (c.isPrioritized(idx))
-                                        const Positioned(
-                                          top: 0,
-                                          right: 3,
-                                          child: Icon(
-                                            Icons.bookmark_rounded,
-                                            size: 16,
-                                            color: kPriorityColor,
-                                          ),
-                                        ),
                                     ],
                                   ),
                                 ),
@@ -414,7 +418,7 @@ class _Toggle extends StatelessWidget {
           duration: const Duration(milliseconds: 180),
           height: 40,
           decoration: BoxDecoration(
-            color: selected ? Colors.white : Colors.transparent,
+            color: selected ? Colors.white : const Color(0xFFE6EAF2),
             borderRadius: BorderRadius.circular(12),
             boxShadow: selected ? softShadow(0.08) : null,
           ),

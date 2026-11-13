@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../study_controller.dart';
 import '../theme.dart';
 import '../widgets/course_flag.dart';
+import 'placement_page.dart';
 
 /// Nastavení (záložka vpravo dole).
 class SettingsPage extends StatelessWidget {
@@ -63,6 +64,41 @@ class SettingsPage extends StatelessWidget {
                         const Icon(Icons.chevron_right_rounded, color: kMuted),
                       ],
                     ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              _Section(
+                title: 'Úroveň slovní zásoby',
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      fullscreenDialog: true,
+                      builder: (_) =>
+                          PlacementPage(controller: c, firstRun: false),
+                    ),
+                  ),
+                  child: const Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Určit úroveň',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w700)),
+                            SizedBox(height: 2),
+                            Text(
+                              'Test nebo ruční výběr. Změní se jen slova, '
+                              'která ještě nemají žádný pokrok.',
+                              style: TextStyle(fontSize: 12.5, color: kMuted),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Icon(Icons.chevron_right_rounded, color: kMuted),
+                    ],
                   ),
                 ),
               ),

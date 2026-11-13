@@ -30,7 +30,7 @@ class CardStatus extends StatelessWidget {
     late final Tone tone;
     switch (info.kind) {
       case CardKind.newCard:
-        label = 'nová';
+        label = 'nové';
         tone = kToneBlue;
       case CardKind.learning:
         label = 'učení';

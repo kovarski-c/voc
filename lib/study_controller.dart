@@ -4,7 +4,10 @@ import 'package:flutter/foundation.dart';
 
 import 'models/card_progress.dart';
 import 'models/course.dart';
+import 'models/level.dart';
+import 'services/levels.dart';
 import 'services/motivation.dart';
+import 'services/placement.dart';
 import 'services/progress_store.dart';
 import 'services/scheduler.dart';
 import 'services/settings_store.dart';
@@ -49,6 +52,54 @@ class StudyController extends ChangeNotifier {
     await store.load(migrateLegacy: course.migratesLegacyProgress);
     _rebuildView();
     Motivation.seedBadges(store, learnedCount);
+    Motivation.seedLevels(store, course.levels, learnedCount);
+    // Kdo už nějaký pokrok má, se na úvodní výběr úrovně neptá.
+    if (store.cards.isNotEmpty && !store.placementDone) {
+      store.placementDone = true;
+      store.scheduleSave();
+    }
+  }
+
+  // --- úvodní výběr úrovně / test ---
+  /// Ukázat úvodní výběr? (jen jednou, u kurzu bez pokroku)
+  bool get needsPlacement => !store.placementDone && store.cards.isEmpty;
+
+  /// "Začít od nuly": jen se zapamatuje, že se uživatel už ptát nemá.
+  void skipPlacement() {
+    if (store.placementDone) return;
+    store.placementDone = true;
+    store.scheduleSave();
+    notifyListeners();
+  }
+
+  /// Kolik karet vzniklo z úvodního výběru a uživatel je ještě sám neprocvičil.
+  int get placementCardCount =>
+      store.cards.values.where((p) => p.fromPlacement).length;
+
+  /// Zapíše výsledek testu nebo ručního výběru: prvních [known] slov (v pořadí
+  /// učení) se označí jako známá. Slova, která už mají pokrok, se nemění.
+  void applyPlacement({required int known, List<PlacementAnswer> answers = const []}) {
+    // Slova z dřívějšího výběru, která uživatel sám neprocvičil, se vrátí mezi nová
+    // a plán se sestaví znovu (funguje nahoru i dolů). Procvičená zůstávají.
+    store.cards.removeWhere((_, p) => p.fromPlacement);
+    final plan = PlacementPlan.build(
+      order: _order,
+      known: known,
+      answers: answers,
+      existing: store.cards.keys.toSet(),
+      perDay: PlacementPlan.perDayFor(settings.dailyGoal),
+      now: DateTime.now(),
+    );
+    store.cards.addAll(plan);
+    store.prioritized.removeAll(plan.keys);
+    store.placementDone = true;
+    // po snížení úrovně se přepočítají štíty a odznaky nad novým počtem slov
+    store.levelCodes.clear();
+    store.badges.removeWhere((m) => m > learnedCount);
+    Motivation.syncSilently(store, course.levels, learnedCount);
+    store.scheduleSave();
+    _rebuildView();
+    notifyListeners();
   }
 
   // --- filtr vulgarit a číslování ---
@@ -121,6 +172,13 @@ class StudyController extends ChangeNotifier {
   int get bestStreak => store.bestStreak;
   Set<int> get badges => store.badges;
 
+  // --- úrovně slovní zásoby ---
+  /// Úrovně, kterých lze v tomto seznamu dosáhnout.
+  List<LevelStep> get levels => Levels.reachable(course.levels, totalWords);
+  LevelStep? get currentLevel => Levels.current(levels, learnedCount);
+  LevelStep? get nextLevel => Levels.next(levels, learnedCount);
+  Set<String> get levelCodes => store.levelCodes;
+
   bool get hasAchievements => _pending.isNotEmpty;
 
   List<Achievement> takeAchievements() {
@@ -136,6 +194,7 @@ class StudyController extends ChangeNotifier {
         goal: settings.dailyGoal,
         learnedCount: learnedCount,
         now: DateTime.now(),
+        levels: course.levels,
       ),
     );
   }

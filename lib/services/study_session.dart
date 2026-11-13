@@ -265,6 +265,9 @@ class StudySession {
     _queue
       ..clear()
       ..addAll(due.take(early ? earlyBatch : reviewBatch).map((e) => e.key));
+    // Výběr dávky jde podle termínu, ale uvnitř dávky se slova promíchají,
+    // aby nešla podle frekvence.
+    _queue.shuffle(_rng);
     if (_queue.isEmpty) {
       _finishReviews();
       return;

@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'level.dart';
 import 'word.dart';
 
 /// Jeden "kurz" = jedna dvojice jazyků se seznamem slovíček.
@@ -26,6 +27,9 @@ class Course {
   /// ISO kód země pro vlajku (např. 'UG', 'FR', 'IL'); null = obecná ikona.
   final String? flagCode;
 
+  /// Úrovně slovní zásoby (A1, A2, ...) podle počtu naučených slov.
+  final List<LevelStep> levels;
+
   /// True = při prvním spuštění převezme pokrok ze starého souboru skills.json.
   final bool migratesLegacyProgress;
 
@@ -43,6 +47,7 @@ class Course {
     this.ids,
     this.vulgar,
     this.flagCode,
+    this.levels = const [],
     this.migratesLegacyProgress = false,
   }) : assert(fronts.length == backs.length,
             'Course $id: fronts a backs musí mít stejnou délku'),
@@ -58,6 +63,7 @@ class Course {
     required String backLabel,
     required List<Word> words,
     String? flagCode,
+    List<LevelStep> levels = const [],
   }) =>
       Course(
         id: id,
@@ -69,6 +75,7 @@ class Course {
         ids: [for (final w in words) w.id],
         vulgar: [for (final w in words) w.vulgar],
         flagCode: flagCode,
+        levels: levels,
       );
 
   int get length => math.min(fronts.length, backs.length);

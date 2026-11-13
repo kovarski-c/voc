@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../services/motivation.dart';
 import '../study_controller.dart';
 import '../theme.dart';
+import '../widgets/level_shield.dart';
 import '../widgets/tone_button.dart';
 
 /// Mapa slov: odznaky a dlaždice po stovkách slov (seřazeno podle frekvence).
@@ -28,15 +29,63 @@ class WordMapView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = controller;
+    final w = MediaQuery.sizeOf(context).width;
+    const tile = 42.0, gap = 6.0;
+    final cols = ((w - 40 + gap) / (tile + gap)).floor();
+    final side = (w - (cols * tile + (cols - 1) * gap)) / 2;
     final bands = c.bandStats();
     final badges =
         Motivation.milestones
             .where((m) => m <= c.totalWords || c.badges.contains(m))
             .toList();
 
+    final levels = c.levels;
+
     return ListView(
-      padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
+      padding: EdgeInsets.fromLTRB(side, 4, side, 24),
       children: [
+        if (levels.isNotEmpty) ...[
+          const Padding(
+            padding: EdgeInsets.only(left: 4, bottom: 10),
+            child: Text(
+              'Úrovně slovní zásoby',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: kMuted,
+              ),
+            ),
+          ),
+          Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            children: [
+              for (final l in levels)
+                SizedBox(
+                  width: 56,
+                  child: Column(
+                    children: [
+                      LevelShield(
+                        level: l,
+                        earned: c.levelCodes.contains(l.code),
+                        width: 40,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '${l.threshold}',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: c.levelCodes.contains(l.code) ? kInk : kMuted,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(height: 22),
+        ],
         const Padding(
           padding: EdgeInsets.only(left: 4, bottom: 10),
           child: Text(

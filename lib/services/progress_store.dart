@@ -49,6 +49,13 @@ class ProgressStore {
   final Set<int> badges = {};
   bool badgesSeeded = false;
 
+  /// Kódy dosažených úrovní slovní zásoby ('A1', ...).
+  final Set<String> levelCodes = {};
+  bool levelsSeeded = false;
+
+  /// Úvodní výběr úrovně už proběhl (nebo ho uživatel přeskočil).
+  bool placementDone = false;
+
   List<int> get _todayCounts =>
       history[Scheduler.studyDayNumber(DateTime.now())] ?? const [0, 0];
   int get reviewedToday => _todayCounts[0];
@@ -152,6 +159,9 @@ class ProgressStore {
     goalCelebratedDay = (m['g'] as num?)?.toInt() ?? 0;
     badges.addAll(List<int>.from((m['badges'] as List?) ?? const []));
     badgesSeeded = ((m['seeded'] as num?)?.toInt() ?? 0) == 1;
+    levelCodes.addAll(List<String>.from((m['lv'] as List?) ?? const []));
+    levelsSeeded = ((m['lvSeeded'] as num?)?.toInt() ?? 0) == 1;
+    placementDone = ((m['pl'] as num?)?.toInt() ?? 0) == 1;
   }
 
   Map<String, dynamic> _statsJson() {
@@ -166,6 +176,9 @@ class ProgressStore {
       'g': goalCelebratedDay,
       'badges': badges.toList()..sort(),
       'seeded': badgesSeeded ? 1 : 0,
+      'lv': levelCodes.toList()..sort(),
+      'lvSeeded': levelsSeeded ? 1 : 0,
+      'pl': placementDone ? 1 : 0,
     };
   }
 

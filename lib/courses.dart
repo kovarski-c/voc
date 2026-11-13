@@ -6,6 +6,7 @@ import 'data/final_english_table.dart' as en_table;
 import 'data/final_pronunciations_table.dart' as en_pron;
 import 'data/final_translates_table.dart' as cs_for_en;
 import 'models/course.dart';
+import 'models/level.dart';
 import 'services/word_loader.dart';
 
 /// Cesta k francouzskému seznamu (musí být v pubspec.yaml v sekci assets).
@@ -25,32 +26,58 @@ Future<List<Course>> loadCourses() async {
       backs: en_table.english,
       pronunciations: en_pron.pronunciations,
       flagCode: 'GB',
+      levels: [
+        levelA1(700),
+        levelA2(1500),
+        levelB1(2500),
+        levelB2(4500),
+        levelC1(8000),
+      ],
     ),
   ];
 
   try {
     final words = await WordLoader.loadTsv(frenchAsset);
     if (words.isNotEmpty) {
-      courses.add(Course.fromWords(
-        id: 'french',
-        frontLabel: 'Čeština',
-        backLabel: 'Francouzština',
-        words: words,
-        flagCode: 'FR',
-      ));
+      courses.add(
+        Course.fromWords(
+          id: 'french',
+          frontLabel: 'Čeština',
+          backLabel: 'Francouzština',
+          words: words,
+          flagCode: 'FR',
+          // Úrovně nad délkou seznamu se nezobrazí, objeví se samy,
+          // až bude seznam delší (cílově 5000 slov).
+          levels: [
+            levelA1(500),
+            levelA2(1000),
+            levelB1(2000),
+            levelB2(3500),
+            levelC1(5000),
+          ],
+        ),
+      );
     }
   } catch (e) {
     debugPrint('Načtení francouzštiny selhalo: $e');
   }
 
-  courses.add(Course(
-    id: 'luganda',
-    frontLabel: 'English',
-    backLabel: 'Luganda',
-    fronts: lu_english.english,
-    backs: lu_luganda.translations,
-    flagCode: 'UG',
-    migratesLegacyProgress: true, // pokrok ze starého skills.json patří sem
-  ));
+  courses.add(
+    Course(
+      id: 'luganda',
+      frontLabel: 'English',
+      backLabel: 'Luganda',
+      fronts: lu_english.english,
+      backs: lu_luganda.translations,
+      flagCode: 'UG',
+      levels: [
+        levelA1(300),
+        levelA2(700),
+        levelB1(1300),
+        levelB2(2000, top: true), // nejvyšší úroveň seznamu = purpurová
+      ],
+      migratesLegacyProgress: true, // pokrok ze starého skills.json patří sem
+    ),
+  );
   return courses;
 }

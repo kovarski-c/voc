@@ -26,6 +26,7 @@ class CardProgress {
   final int lastReviewMs;
   final int dueMs; // kdy je splatné opakování
   final int lapses; // kolikrát bylo slovo zapomenuto
+  final bool fromPlacement;
 
   const CardProgress({
     required this.stage,
@@ -35,10 +36,14 @@ class CardProgress {
     required this.lastReviewMs,
     required this.dueMs,
     this.lapses = 0,
+    this.fromPlacement = false,
   });
 
-  factory CardProgress.learning(int nowMs) =>
-      CardProgress(stage: CardStage.learning, lastReviewMs: nowMs, dueMs: nowMs);
+  factory CardProgress.learning(int nowMs) => CardProgress(
+    stage: CardStage.learning,
+    lastReviewMs: nowMs,
+    dueMs: nowMs,
+  );
 
   CardProgress copyWith({
     CardStage? stage,
@@ -48,26 +53,26 @@ class CardProgress {
     int? lastReviewMs,
     int? dueMs,
     int? lapses,
-  }) =>
-      CardProgress(
-        stage: stage ?? this.stage,
-        streak: streak ?? this.streak,
-        relearn: relearn ?? this.relearn,
-        stability: stability ?? this.stability,
-        lastReviewMs: lastReviewMs ?? this.lastReviewMs,
-        dueMs: dueMs ?? this.dueMs,
-        lapses: lapses ?? this.lapses,
-      );
+  }) => CardProgress(
+    stage: stage ?? this.stage,
+    streak: streak ?? this.streak,
+    relearn: relearn ?? this.relearn,
+    stability: stability ?? this.stability,
+    lastReviewMs: lastReviewMs ?? this.lastReviewMs,
+    dueMs: dueMs ?? this.dueMs,
+    lapses: lapses ?? this.lapses,
+  );
 
   Map<String, dynamic> toJson() => {
-        'g': stage.index,
-        'k': streak,
-        'r': relearn ? 1 : 0,
-        's': stability,
-        'l': lastReviewMs,
-        'd': dueMs,
-        'x': lapses,
-      };
+    'g': stage.index,
+    'k': streak,
+    'r': relearn ? 1 : 0,
+    's': stability,
+    'l': lastReviewMs,
+    'd': dueMs,
+    'x': lapses,
+    if (fromPlacement) 'p': 1,
+  };
 
   factory CardProgress.fromJson(dynamic json) {
     final m = json as Map<String, dynamic>;
@@ -79,6 +84,7 @@ class CardProgress {
       lastReviewMs: m['l'] as int,
       dueMs: m['d'] as int,
       lapses: m['x'] as int,
+      fromPlacement: (m['p'] as int?) == 1,
     );
   }
 }
