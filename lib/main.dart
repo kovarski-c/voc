@@ -119,7 +119,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     }
     return MaterialApp(
       navigatorKey: _nav,
-      title: 'Flutter Demo',
+      title: 'Voc | Learn words from most useful',
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: kBlue),

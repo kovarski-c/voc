@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../services/study_session.dart';
 import '../study_controller.dart';
 import '../theme.dart';
+import '../widgets/backup_actions.dart';
 import '../widgets/card_status.dart';
 import '../widgets/flash_card.dart';
 import '../widgets/intro_card.dart';
@@ -203,6 +204,26 @@ class InterludeView extends StatelessWidget {
                   icon: const Icon(Icons.undo_rounded, size: 18, color: kMuted),
                   label: const Text(
                     'Vrátit poslední kartu',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: kMuted,
+                    ),
+                  ),
+                ),
+              ),
+            if (backupAvailable && c.interlude != InterludeKind.groupDone)
+              SizedBox(
+                height: 40,
+                child: TextButton.icon(
+                  onPressed: () => exportBackup(context, c),
+                  icon: const Icon(
+                    Icons.download_rounded,
+                    size: 18,
+                    color: kMuted,
+                  ),
+                  label: const Text(
+                    'Stáhnout zálohu',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,

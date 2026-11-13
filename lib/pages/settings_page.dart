@@ -4,6 +4,7 @@ import '../study_controller.dart';
 import '../theme.dart';
 import '../widgets/course_flag.dart';
 import 'placement_page.dart';
+import '../widgets/backup_actions.dart';
 
 /// Nastavení (záložka vpravo dole).
 class SettingsPage extends StatelessWidget {
@@ -207,6 +208,25 @@ class SettingsPage extends StatelessWidget {
                   ],
                 ),
               ),
+              if (backupAvailable) ...[
+                const SizedBox(height: 16),
+                _Section(
+                  title: 'Záloha postupu',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Postup se ve webové verzi ukládá jen v tomto prohlížeči. '
+                        'Stáhni si zálohu, abys o něj nepřišla při smazání dat '
+                        'stránky nebo při přechodu na jiné zařízení.',
+                        style: TextStyle(fontSize: 12.5, color: kMuted),
+                      ),
+                      const SizedBox(height: 12),
+                      BackupButtons(c: c),
+                    ],
+                  ),
+                ),
+              ],
             ],
           );
         },

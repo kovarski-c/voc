@@ -1,12 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../models/card_progress.dart';
 import 'scheduler.dart';
+import 'storage.dart';
 
 /// Statistiky před jednou akcí (pro tlačítko Zpět). Odznaky se nevracejí.
 class StatsSnapshot {
@@ -101,25 +100,27 @@ class ProgressStore {
   Timer? _timer;
   Future<void> _writing = Future.value();
 
-  Future<File> _file(String name) async {
-    final dir = await getApplicationDocumentsDirectory();
-    return File('${dir.path}/$name');
-  }
+  String get _name => 'progress_$courseId.json';
 
   Future<void> load({bool migrateLegacy = false}) async {
-    final file = await _file('progress_$courseId.json');
-    if (await file.exists()) {
+    final name = _name;
+    String? raw;
+    try {
+      raw = await Storage.read(name);
+    } catch (e) {
+      debugPrint('Čtení pokroku selhalo: $e');
+    }
+    if (raw != null) {
       try {
-        final data =
-            jsonDecode(await file.readAsString()) as Map<String, dynamic>;
+        final data = jsonDecode(raw) as Map<String, dynamic>;
         final version = (data['version'] as num?)?.toInt() ?? 2;
-        final raw = (data['cards'] as Map<String, dynamic>?) ?? {};
+        final rawCards = (data['cards'] as Map<String, dynamic>?) ?? {};
         _loadStats(data['stats'] as Map<String, dynamic>?);
         prioritized
           ..clear()
           ..addAll(List<int>.from((data['prio'] as List?) ?? const []));
         final now = DateTime.now();
-        raw.forEach((k, v) {
+        rawCards.forEach((k, v) {
           final i = int.parse(k);
           cards[i] =
               version >= 3
@@ -130,13 +131,16 @@ class ProgressStore {
           cards.containsKey,
         ); // už viděná slova značku nemají
         if (version < 3) {
-          await file.copy('${file.path}.v2.bak');
+          await Storage.write('$name.v2.bak', raw);
           await flush();
         }
         return;
       } catch (e) {
         debugPrint('Poškozený soubor s pokrokem: $e');
-        await file.rename('${file.path}.corrupt');
+        try {
+          await Storage.write('$name.corrupt', raw);
+          await Storage.delete(name);
+        } catch (_) {}
         cards.clear();
         history.clear();
         prioritized.clear();
@@ -185,9 +189,9 @@ class ProgressStore {
   /// Převod z úplně starého skills.json (dva dlouhé seznamy skills a activations).
   Future<void> _migrateLegacy() async {
     try {
-      final old = await _file('skills.json');
-      if (!await old.exists()) return;
-      final data = jsonDecode(await old.readAsString());
+      final text = await Storage.read('skills.json');
+      if (text == null) return;
+      final data = jsonDecode(text);
       final skills = List<int>.from(data['skills'] ?? const []);
       final acts = List<int>.from(data['activations'] ?? const []);
       if (skills.isEmpty || acts.isEmpty) return;
@@ -212,7 +216,18 @@ class ProgressStore {
     }
   }
 
+  bool _frozen = false;
+
+  /// Po zavolání se už nic neukládá (používá se při importu zálohy, aby staré
+  /// údaje v paměti nepřepsaly nově nahrané).
+  void freeze() {
+    _frozen = true;
+    _timer?.cancel();
+    _timer = null;
+  }
+
   void scheduleSave() {
+    if (_frozen) return;
     _timer?.cancel();
     _timer = Timer(const Duration(milliseconds: 500), flush);
   }
@@ -220,22 +235,20 @@ class ProgressStore {
   Future<void> flush() {
     _timer?.cancel();
     _timer = null;
+    if (_frozen) return _writing;
     _writing = _writing.then((_) => _write());
     return _writing;
   }
 
   Future<void> _write() async {
     try {
-      final file = await _file('progress_$courseId.json');
-      final tmp = File('${file.path}.tmp');
       final json = jsonEncode({
         'version': 3,
         'stats': _statsJson(),
         'prio': prioritized.toList()..sort(),
         'cards': {for (final e in cards.entries) '${e.key}': e.value.toJson()},
       });
-      await tmp.writeAsString(json, flush: true);
-      await tmp.rename(file.path);
+      await Storage.write(_name, json);
     } catch (e) {
       debugPrint('Uložení pokroku selhalo: $e');
     }

@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:path_provider/path_provider.dart';
+
+import 'storage.dart';
 
 /// Jak se volí strana karty, která se ukáže jako první.
 enum DirectionMode { auto, nativeFront, learnedFront }
@@ -56,17 +56,13 @@ class AppSettings {
 }
 
 class SettingsStore {
-  static Future<File> _file() async {
-    final dir = await getApplicationDocumentsDirectory();
-    return File('${dir.path}/settings.json');
-  }
+  static const _name = 'settings.json';
 
   static Future<AppSettings> load() async {
     try {
-      final f = await _file();
-      if (!await f.exists()) return AppSettings();
-      return AppSettings.fromJson(
-          jsonDecode(await f.readAsString()) as Map<String, dynamic>);
+      final text = await Storage.read(_name);
+      if (text == null) return AppSettings();
+      return AppSettings.fromJson(jsonDecode(text) as Map<String, dynamic>);
     } catch (e) {
       debugPrint('Načtení nastavení selhalo: $e');
       return AppSettings();
@@ -75,8 +71,7 @@ class SettingsStore {
 
   static Future<void> save(AppSettings s) async {
     try {
-      final f = await _file();
-      await f.writeAsString(jsonEncode(s.toJson()), flush: true);
+      await Storage.write(_name, jsonEncode(s.toJson()));
     } catch (e) {
       debugPrint('Uložení nastavení selhalo: $e');
     }
