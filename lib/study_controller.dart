@@ -12,6 +12,8 @@ import 'services/progress_store.dart';
 import 'services/scheduler.dart';
 import 'services/settings_store.dart';
 import 'services/study_session.dart';
+import 'theme.dart' show AppThemeId;
+import 'models/day_stat.dart';
 
 /// Souhrn jedné "stovky" slov pro mapu slov.
 class BandStat {
@@ -78,7 +80,10 @@ class StudyController extends ChangeNotifier {
 
   /// Zapíše výsledek testu nebo ručního výběru: prvních [known] slov (v pořadí
   /// učení) se označí jako známá. Slova, která už mají pokrok, se nemění.
-  void applyPlacement({required int known, List<PlacementAnswer> answers = const []}) {
+  void applyPlacement({
+    required int known,
+    List<PlacementAnswer> answers = const [],
+  }) {
     // Slova z dřívějšího výběru, která uživatel sám neprocvičil, se vrátí mezi nová
     // a plán se sestaví znovu (funguje nahoru i dolů). Procvičená zůstávají.
     store.cards.removeWhere((_, p) => p.fromPlacement);
@@ -171,6 +176,18 @@ class StudyController extends ChangeNotifier {
   int get streak => Motivation.streakNow(store, DateTime.now());
   int get bestStreak => store.bestStreak;
   Set<int> get badges => store.badges;
+
+  List<DayStat> lastDays(int count, {int endOffset = 0}) {
+    final today = Scheduler.studyDayNumber(DateTime.now());
+    final base = DateTime.utc(2020, 1, 1);
+    final out = <DayStat>[];
+    for (var i = count - 1; i >= 0; i--) {
+      final day = today - endOffset - i;
+      final h = store.history[day] ?? const [0, 0];
+      out.add(DayStat(day, base.add(Duration(days: day)), h[0], h[1]));
+    }
+    return out;
+  }
 
   // --- úrovně slovní zásoby ---
   /// Úrovně, kterých lze v tomto seznamu dosáhnout.
@@ -415,6 +432,13 @@ class StudyController extends ChangeNotifier {
 
   void setHaptics(bool v) {
     settings.haptics = v;
+    SettingsStore.save(settings);
+    notifyListeners();
+  }
+
+  void setTheme(AppThemeId t) {
+    if (settings.theme == t) return;
+    settings.theme = t;
     SettingsStore.save(settings);
     notifyListeners();
   }

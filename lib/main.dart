@@ -46,9 +46,15 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     if (state != AppLifecycleState.resumed) _controller?.flush();
   }
 
+  void _syncTheme() {
+    final p = paletteFor(_settings!.theme);
+    if (!identical(p, palette)) setState(() => palette = p);
+  }
+
   Future<void> _boot() async {
     final settings = await SettingsStore.load();
     _settings = settings;
+    palette = paletteFor(settings.theme);
     _courses = await loadCourses();
     Course? course;
     for (final c in _courses) {
@@ -76,6 +82,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     settings.courseId = course.id;
     SettingsStore.save(settings);
     if (!mounted) return;
+    controller.addListener(_syncTheme);
     setState(() => _controller = controller);
     if (old != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) => old.dispose());

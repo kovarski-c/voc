@@ -18,58 +18,76 @@ Future<void> showIpaHelp(BuildContext context, Course course) {
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
-    builder: (_) => DraggableScrollableSheet(
-      expand: false,
-      initialChildSize: 0.8,
-      minChildSize: 0.4,
-      maxChildSize: 0.95,
-      builder: (context, controller) => ListView(
-        controller: controller,
-        padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
-        children: [
-          Center(
-            child: Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: const Color(0xFFD0D5DD),
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Text('Fonetická abeceda · ${course.backLabel}',
-              style: const TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.w800, color: kInk)),
-          const SizedBox(height: 4),
-          const Text(
-              'Výslovnost se zapisuje do hranatých závorek. Příklady jsou orientační.',
-              style: TextStyle(fontSize: 13, color: kMuted)),
-          for (final s in sections) ...[
-            const SizedBox(height: 18),
-            Text(s.title,
-                style: const TextStyle(
-                    fontSize: 15, fontWeight: FontWeight.w700, color: kInk)),
-            const SizedBox(height: 8),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(18),
-                boxShadow: softShadow(0.05),
-              ),
-              child: Column(
+    builder:
+        (_) => DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.8,
+          minChildSize: 0.4,
+          maxChildSize: 0.95,
+          builder:
+              (context, controller) => ListView(
+                controller: controller,
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
                 children: [
-                  for (var i = 0; i < s.entries.length; i++) ...[
-                    if (i > 0) const Divider(height: 1, indent: 14, endIndent: 14),
-                    _Row(s.entries[i]),
+                  Center(
+                    child: Container(
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: kFaint,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Fonetická abeceda · ${course.backLabel}',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                      color: kInk,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Výslovnost se zapisuje do hranatých závorek. Příklady jsou orientační.',
+                    style: TextStyle(fontSize: 13, color: kMuted),
+                  ),
+                  for (final s in sections) ...[
+                    const SizedBox(height: 18),
+                    Text(
+                      s.title,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: kInk,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(18),
+                        boxShadow: softShadow(0.05),
+                      ),
+                      child: Column(
+                        children: [
+                          for (var i = 0; i < s.entries.length; i++) ...[
+                            if (i > 0)
+                              const Divider(
+                                height: 1,
+                                indent: 14,
+                                endIndent: 14,
+                              ),
+                            _Row(s.entries[i]),
+                          ],
+                        ],
+                      ),
+                    ),
                   ],
                 ],
               ),
-            ),
-          ],
-        ],
-      ),
-    ),
+        ),
   );
 }
 
@@ -86,20 +104,29 @@ class _Row extends StatelessWidget {
         children: [
           SizedBox(
             width: 64,
-            child: Text(e.symbol,
-                style: const TextStyle(
-                    fontSize: 22, fontWeight: FontWeight.w700, color: kBlue)),
+            child: Text(
+              e.symbol,
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+                color: kBlue,
+              ),
+            ),
           ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(e.example,
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w600, color: kInk)),
+                Text(
+                  e.example,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: kInk,
+                  ),
+                ),
                 const SizedBox(height: 2),
-                Text(e.hint,
-                    style: const TextStyle(fontSize: 13, color: kMuted)),
+                Text(e.hint, style: TextStyle(fontSize: 13, color: kMuted)),
               ],
             ),
           ),

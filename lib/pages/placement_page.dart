@@ -11,7 +11,7 @@ import '../widgets/multi_form_text.dart';
 import '../widgets/rounded_progress_bar.dart';
 import '../widgets/tone_button.dart';
 
-enum _Stage { welcome, test, result, picker }
+enum _Stage { welcome, intro, test, result, picker }
 
 /// Úvodní výběr úrovně: začít od nuly, vybrat úroveň, nebo udělat krátký test.
 /// Při prvním otevření kurzu se ukáže sama, později je v Nastavení.
@@ -39,13 +39,13 @@ class _PlacementPageState extends State<PlacementPage> {
     final t = PlacementTest(total: c.totalWords);
     setState(() {
       _test = t;
-      _stage = t.done ? _Stage.result : _Stage.test;
+      _stage = t.done ? _Stage.result : _Stage.intro;
     });
   }
 
-  void _answer(bool known) {
+  void _answer(Reply reply) {
     final t = _test!;
-    t.answer(known);
+    t.answer(reply);
     setState(() {
       if (t.done) _stage = _Stage.result;
     });
@@ -80,7 +80,7 @@ class _PlacementPageState extends State<PlacementPage> {
     }
     c.applyPlacement(
       known: known,
-      answers: withAnswers ? (_test?.answers ?? const []) : const [],
+      answers: withAnswers ? (_test?.planAnswers ?? const []) : const [],
     );
     if (mounted) Navigator.of(context).pop();
   }
@@ -154,7 +154,7 @@ class _PlacementPageState extends State<PlacementPage> {
                   child: IconButton(
                     tooltip: 'Zpět',
                     onPressed: () => Navigator.of(context).maybePop(),
-                    icon: const Icon(Icons.arrow_back_rounded, color: kInk),
+                    icon: Icon(Icons.arrow_back_rounded, color: kInk),
                     style: IconButton.styleFrom(
                       backgroundColor: Colors.white,
                       fixedSize: const Size(44, 44),
@@ -172,6 +172,8 @@ class _PlacementPageState extends State<PlacementPage> {
     switch (_stage) {
       case _Stage.welcome:
         return _welcome();
+      case _Stage.intro:
+        return _intro();
       case _Stage.test:
         return _testView();
       case _Stage.result:
@@ -186,7 +188,7 @@ class _PlacementPageState extends State<PlacementPage> {
     return ListView(
       children: [
         const SizedBox(height: 4),
-        const Text(
+        Text(
           'Odkud začneš?',
           style: TextStyle(
             fontSize: 30,
@@ -195,7 +197,7 @@ class _PlacementPageState extends State<PlacementPage> {
           ),
         ),
         const SizedBox(height: 8),
-        const Text(
+        Text(
           'Když už část slov umíš, nemusíš se je učit od začátku. Slova, která '
           'označíme jako známá, se ti budou připomínat postupně.',
           style: TextStyle(fontSize: 15, color: kMuted, height: 1.35),
@@ -206,7 +208,7 @@ class _PlacementPageState extends State<PlacementPage> {
             icon: Icons.bolt_rounded,
             title: 'Udělat krátký test',
             subtitle:
-                'Asi 20 slov, zhruba dvě minuty. Ukáže doporučenou úroveň.',
+                'Asi ${PlacementTest.lengthFor(c.totalWords)} slov, zhruba dvě až tři minuty. Ukáže doporučenou úroveň.',
             tone: kToneBlue,
             big: true,
             onTap: _startTest,
@@ -230,6 +232,89 @@ class _PlacementPageState extends State<PlacementPage> {
     );
   }
 
+  // ---------------------------------------------------------- jak test vyplnit
+  Widget _rule(IconData icon, String title, String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, color: kBlue, size: 24),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: '$title: ',
+                    style: TextStyle(fontWeight: FontWeight.w800, color: kInk),
+                  ),
+                  TextSpan(text: text),
+                ],
+              ),
+              style: TextStyle(fontSize: 15, color: kMuted, height: 1.35),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _intro() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const SizedBox(height: 4),
+        Text(
+          'Jak test vyplnit',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w800,
+            color: kInk,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Test má ${_test!.target} slov. Čím poctivěji odpovíš, tím přesnější '
+          'bude výsledek a tím méně zbytečně opakovaných slov.',
+          style: TextStyle(fontSize: 15, color: kMuted, height: 1.35),
+        ),
+        const SizedBox(height: 22),
+        _rule(
+          Icons.check_rounded,
+          'Znám',
+          'umím slovo přeložit bez nápovědy. Jen ho poznat nebo vědět, že ho '
+              '„odněkud znám“, nestačí.',
+        ),
+        _rule(
+          Icons.layers_rounded,
+          'Víc významů',
+          'u víceznačných slov musím znát hlavní významy, ne jen jeden.',
+        ),
+        _rule(
+          Icons.help_outline_rounded,
+          'Tuším',
+          'slovo vágně znám, ale přeložit ho nedokážu. Počítá se jako '
+              'neznámé, ale odhad je díky tomu poctivější.',
+        ),
+        _rule(
+          Icons.close_rounded,
+          'Neznám',
+          'slovo nepoznávám. Nevadí, aplikace tě ho naučí.',
+        ),
+        const Spacer(),
+        ToneButton(
+          label: 'Začít test',
+          icon: Icons.arrow_forward_rounded,
+          tone: kToneBlue,
+          height: 56,
+          fontSize: 16,
+          onPressed: () => setState(() => _stage = _Stage.test),
+        ),
+      ],
+    );
+  }
+
   // ---------------------------------------------------------------- test
   Widget _testView() {
     final t = _test!;
@@ -240,7 +325,7 @@ class _PlacementPageState extends State<PlacementPage> {
       children: [
         Row(
           children: [
-            const Text(
+            Text(
               'Krátký test',
               style: TextStyle(
                 fontSize: 13,
@@ -250,8 +335,8 @@ class _PlacementPageState extends State<PlacementPage> {
             ),
             const Spacer(),
             Text(
-              'Slovo ${t.answers.length + 1}',
-              style: const TextStyle(
+              'Slovo ${t.answered + 1} z ${t.target}',
+              style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
                 color: kBlue,
@@ -277,7 +362,7 @@ class _PlacementPageState extends State<PlacementPage> {
           ),
         ),
         const SizedBox(height: 18),
-        const Text(
+        Text(
           'Klepnutím kartu otočíš a ověříš si význam. Slova, která nepoznáš, tě aplikace naučí.',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 12.5, color: kMuted),
@@ -291,19 +376,30 @@ class _PlacementPageState extends State<PlacementPage> {
                 icon: Icons.close_rounded,
                 tone: kToneBlue,
                 height: 56,
-                fontSize: 16,
-                onPressed: () => _answer(false),
+                fontSize: 15,
+                onPressed: () => _answer(Reply.unknown),
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 8),
+            Expanded(
+              child: ToneButton(
+                label: 'Tuším',
+                icon: Icons.help_outline_rounded,
+                tone: kToneAmber,
+                height: 56,
+                fontSize: 15,
+                onPressed: () => _answer(Reply.unsure),
+              ),
+            ),
+            const SizedBox(width: 8),
             Expanded(
               child: ToneButton(
                 label: 'Znám',
                 icon: Icons.check_rounded,
                 tone: kToneGreen,
                 height: 56,
-                fontSize: 16,
-                onPressed: () => _answer(true),
+                fontSize: 15,
+                onPressed: () => _answer(Reply.known),
               ),
             ),
           ],
@@ -313,9 +409,37 @@ class _PlacementPageState extends State<PlacementPage> {
   }
 
   // ------------------------------------------------------------- výsledek
+  /// Zaokrouhlení pro zobrazení: na 50 do tisíce, jinak na 100.
+  int _round(int v) =>
+      v < 1000 ? (v / 50).round() * 50 : (v / 100).round() * 100;
+
+  /// 2500 -> "2 500" (pevná mezera)
+  String _fmt(int v) {
+    final s = v.toString();
+    if (s.length <= 3) return s;
+    return '${s.substring(0, s.length - 3)}\u00A0${s.substring(s.length - 3)}';
+  }
+
   Widget _result() {
-    final est = _test!.estimate;
-    final shown = (est / 50).round() * 50;
+    final t = _test!;
+    final est = t.estimate;
+    final lowS = _round(t.estimateLow);
+    final highS = _round(t.estimateHigh);
+    final shown =
+        lowS == highS
+            ? 'asi ${_fmt(lowS)}'
+            : 'zhruba ${_fmt(lowS)} až ${_fmt(highS)}';
+    final note = StringBuffer();
+    if (t.overclaimed) {
+      note.write(
+        ' U několika velmi vzácných slov byla odpověď „Znám“, proto je odhad snížený.',
+      );
+    }
+    if (t.inconsistent) {
+      note.write(
+        ' U několika velmi častých slov byla odpověď „Neznám“, takže je odhad méně spolehlivý.',
+      );
+    }
     final cur = Levels.current(c.levels, est);
     final next = Levels.next(c.levels, est);
     final atStart = est < 30;
@@ -333,7 +457,7 @@ class _PlacementPageState extends State<PlacementPage> {
                   ? 'Úroveň ${cur.code}'
                   : 'Zatím před první úrovní'),
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.w800,
             color: kInk,
@@ -343,10 +467,11 @@ class _PlacementPageState extends State<PlacementPage> {
         Text(
           atStart
               ? 'Test vyšel tak, že žádná slova nebudu označovat jako známá.'
-              : 'Odhad: znáš asi $shown nejčastějších slov.'
-                  '${next != null ? ' Další úroveň ${next.code} je od ${next.threshold} slov.' : ''}',
+              : 'Odhad: znáš $shown nejčastějších slov.'
+                  '${next != null ? ' Další úroveň ${next.code} je od ${next.threshold} slov.' : ''}'
+                  '$note',
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 15, color: kMuted, height: 1.35),
+          style: TextStyle(fontSize: 15, color: kMuted, height: 1.35),
         ),
         const Spacer(),
         ToneButton(
@@ -355,8 +480,11 @@ class _PlacementPageState extends State<PlacementPage> {
           tone: kToneBlue,
           height: 56,
           fontSize: 16,
-          onPressed: () =>
-              atStart ? _apply(0, withAnswers: false) : _apply(est),
+          onPressed:
+              () =>
+                  atStart
+                      ? _apply(0, withAnswers: false)
+                      : _apply(t.estimateLow),
         ),
         const SizedBox(height: 8),
         if (c.levels.isNotEmpty)
@@ -373,10 +501,7 @@ class _PlacementPageState extends State<PlacementPage> {
           height: 50,
           child: TextButton(
             onPressed: _startTest,
-            child: const Text(
-              'Zopakovat test',
-              style: TextStyle(color: kMuted),
-            ),
+            child: Text('Zopakovat test', style: TextStyle(color: kMuted)),
           ),
         ),
       ],
@@ -388,7 +513,7 @@ class _PlacementPageState extends State<PlacementPage> {
     return ListView(
       children: [
         const SizedBox(height: 4),
-        const Text(
+        Text(
           'Kolik už umíš?',
           style: TextStyle(
             fontSize: 30,
@@ -397,7 +522,7 @@ class _PlacementPageState extends State<PlacementPage> {
           ),
         ),
         const SizedBox(height: 8),
-        const Text(
+        Text(
           'Vyber nejvyšší úroveň, kterou už máš. Slova do ní se označí jako '
           'známá a budou se ti připomínat postupně.',
           style: TextStyle(fontSize: 15, color: kMuted, height: 1.35),
@@ -592,14 +717,14 @@ class _TestCardState extends State<_TestCard>
   }
 
   Widget _face(bool back) {
-    const grey = Color(0xFF767676);
+    final grey = kMuted;
     return Container(
       padding: const EdgeInsets.fromLTRB(18, 18, 18, 16),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Colors.white, Color(0xFFF2F6FF)],
+          colors: [Colors.white, Color.lerp(Colors.white, kToneBlue.b, 0.5)!],
         ),
         borderRadius: BorderRadius.circular(30),
         border: Border.all(color: kBlue.withValues(alpha: 0.10), width: 1.5),
@@ -615,7 +740,7 @@ class _TestCardState extends State<_TestCard>
             ),
             child: Text(
               back ? 'Význam slova' : 'Znáš význam tohoto slova?',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
                 color: kBlue,
@@ -642,7 +767,7 @@ class _TestCardState extends State<_TestCard>
                       const SizedBox(height: 6),
                       MultiFormText(
                         widget.pronunciation,
-                        style: const TextStyle(fontSize: 16, color: grey),
+                        style: TextStyle(fontSize: 16, color: grey),
                       ),
                     ],
                   ],
@@ -652,7 +777,7 @@ class _TestCardState extends State<_TestCard>
           ),
           Icon(
             Icons.touch_app_rounded,
-            size: 20,
+            size: 34,
             color: kBlue.withValues(alpha: 0.45),
           ),
         ],

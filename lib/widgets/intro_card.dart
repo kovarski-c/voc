@@ -13,17 +13,20 @@ import 'flash_card.dart'
         kCardSize,
         kCardMaxHeight;
 import 'multi_form_text.dart';
+import 'swipe_hint.dart' show kSwipeThreshold;
+import '../theme.dart';
 
 /// Výška hlavičky (číslo + štítek stavu + indikátor), kterou obsah nesmí zasahovat.
 const double kIntroHeaderHeight = 92;
 
-/// Výška pruhu dole, kam se při tažení zobrazuje ikona (obsah do něj nikdy nezasáhne).
+/// Výška volného pruhu dole (obsah do něj nikdy nezasáhne).
 const double kIntroFooterHeight = 44;
 
 /// Karta pro představení nového slova (učící karta).
 /// Obsah (slovo, výslovnost, čára, překlad) je jako celek vycentrovaný
-/// v prostoru mezi hlavičkou a spodním pruhem s ikonou, takže se nic nepřekrývá.
-/// Swipe: doprava = dál, doleva = už umím. Nereaguje na klepnutí.
+/// v prostoru mezi hlavičkou a spodním pruhem, takže se nic nepřekrývá.
+/// Swipe: doprava = už umím, doleva = naučit. Nereaguje na klepnutí.
+/// Glow a nápis při tažení kreslí SwipeHint mimo kartu přes [dragOffset].
 /// Procvičovací karta (FlashCard) zůstává beze změny.
 class IntroCard extends StatefulWidget {
   final Course course;
@@ -33,7 +36,8 @@ class IntroCard extends StatefulWidget {
   final bool interactive;
   final bool haptics;
   final double maxHeight;
-  final void Function(bool next) onSwiped; // true = dál, false = už umím
+  final void Function(bool known) onSwiped; // true = už umím, false = naučit
+  final ValueNotifier<double>? dragOffset; // posun karty pro SwipeHint
 
   const IntroCard({
     super.key,
@@ -45,6 +49,7 @@ class IntroCard extends StatefulWidget {
     this.interactive = true,
     this.haptics = true,
     this.maxHeight = kCardMaxHeight,
+    this.dragOffset,
   });
 
   @override
@@ -56,16 +61,26 @@ class _IntroCardState extends State<IntroCard>
   double _offsetX = 0.0;
   late final AnimationController _controller;
   Animation<double>? _anim;
+  bool _past = false; // tažení už přesáhlo práh odhození
+
+  void _setOffset(double v) {
+    setState(() => _offsetX = v);
+    widget.dragOffset?.value = v;
+  }
 
   @override
   void initState() {
     super.initState();
+    // nová karta začíná bez glow (předchozí odhozená mohla nechat posun ±500)
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => widget.dragOffset?.value = 0,
+    );
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
     )..addListener(() {
       final a = _anim;
-      if (a != null) setState(() => _offsetX = a.value);
+      if (a != null) _setOffset(a.value);
     });
   }
 
@@ -77,18 +92,23 @@ class _IntroCardState extends State<IntroCard>
 
   void _onDragUpdate(DragUpdateDetails d) {
     if (_controller.isAnimating) return;
-    setState(() => _offsetX += d.delta.dx);
+    _setOffset(_offsetX + d.delta.dx);
+    final past = _offsetX.abs() > kSwipeThreshold;
+    if (past != _past) {
+      _past = past;
+      if (past && widget.haptics) HapticFeedback.selectionClick();
+    }
   }
 
   Future<void> _onDragEnd(DragEndDetails _) async {
     if (_controller.isAnimating) return;
-    final next = _offsetX > 40;
-    final skip = _offsetX < -40;
-    final answered = next || skip;
-    final endX = next ? 500.0 : (skip ? -500.0 : 0.0);
+    final known = _offsetX > kSwipeThreshold; // doprava = už umím
+    final learn = _offsetX < -kSwipeThreshold; // doleva = naučit
+    final answered = known || learn;
+    final endX = known ? 500.0 : (learn ? -500.0 : 0.0);
 
     if (answered && widget.haptics) {
-      next ? HapticFeedback.lightImpact() : HapticFeedback.mediumImpact();
+      known ? HapticFeedback.lightImpact() : HapticFeedback.mediumImpact();
     }
 
     _anim = Tween<double>(
@@ -99,9 +119,10 @@ class _IntroCardState extends State<IntroCard>
     await _controller.forward();
     if (!mounted) return;
     if (answered) {
-      widget.onSwiped(next);
+      widget.onSwiped(known);
     } else {
-      setState(() => _offsetX = 0.0);
+      _past = false;
+      _setOffset(0.0);
     }
   }
 
@@ -123,8 +144,6 @@ class _IntroCardState extends State<IntroCard>
   }
 
   Widget _card() {
-    final alpha = _offsetX.abs().toInt().clamp(0, 255);
-    final right = _offsetX > 0;
     return Card(
       elevation: kCardElevation,
       shadowColor: kCardShadowColor,
@@ -160,10 +179,7 @@ class _IntroCardState extends State<IntroCard>
                     children: [
                       Text(
                         '${widget.number}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF767676),
-                        ),
+                        style: TextStyle(fontSize: 14, color: kMuted),
                       ),
                       const SizedBox(height: 10),
                       CardStatus(info: widget.info),
@@ -174,20 +190,7 @@ class _IntroCardState extends State<IntroCard>
             ),
             // Obsah: vycentrovaný mezi hlavičkou a spodním pruhem.
             Flexible(child: _content()),
-            // Spodní pruh: ikona při tažení (doprava dál, doleva už umím).
-            SizedBox(
-              height: kIntroFooterHeight,
-              child: Center(
-                child: Icon(
-                  right ? Icons.arrow_forward_rounded : Icons.check_outlined,
-                  size: 24,
-                  color:
-                      right
-                          ? Color.fromARGB(alpha, 47, 111, 237)
-                          : Color.fromARGB(alpha, 76, 175, 80),
-                ),
-              ),
-            ),
+            const SizedBox(height: kIntroFooterHeight),
           ],
         ),
       ),
@@ -222,15 +225,15 @@ class WordBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const dark = Color(0xFF1D1B20);
-    const grey = Color(0xFF767676);
+    final dark = kInk;
+    final grey = kMuted;
     final pron = course.pronunciation(index);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         MultiFormText(
           course.back(index),
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 26,
             fontWeight: FontWeight.w500,
             color: dark,
@@ -238,17 +241,14 @@ class WordBlock extends StatelessWidget {
         ),
         if (pron.isNotEmpty) ...[
           const SizedBox(height: 4),
-          MultiFormText(
-            pron,
-            style: const TextStyle(fontSize: 16, color: grey),
-          ),
+          MultiFormText(pron, style: TextStyle(fontSize: 16, color: grey)),
         ],
         const SizedBox(height: 14),
         const SizedBox(width: 120, child: Divider(height: 1)),
         const SizedBox(height: 14),
         MultiFormText(
           course.front(index),
-          style: const TextStyle(fontSize: 22, color: dark),
+          style: TextStyle(fontSize: 22, color: dark),
         ),
       ],
     );

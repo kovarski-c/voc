@@ -12,6 +12,7 @@ import '../widgets/intro_card.dart';
 import '../widgets/ipa_help_sheet.dart';
 import '../widgets/pill_button.dart';
 import '../widgets/rounded_progress_bar.dart';
+import '../widgets/swipe_hint.dart';
 import '../widgets/tone_button.dart';
 
 /// Obrazovka mezi fázemi (po opakování, po pětici, po dávce): shrnutí a volba, jak dál.
@@ -33,7 +34,7 @@ class InterludeView extends StatelessWidget {
     switch (c.interlude!) {
       case InterludeKind.reviewsDone:
         icon = Icons.check_rounded;
-        colors = const [Color(0xFF63D68F), Color(0xFF2EAE6B)];
+        colors = [kToneGreen.solidA, kToneGreen.solidB];
         title = 'Opakování hotovo';
         tiles.add(_Tile(s.reviewedInBlock, 'zopakováno', kReviewColor));
         final more =
@@ -42,7 +43,7 @@ class InterludeView extends StatelessWidget {
                 : s.backlog > 0;
         if (more) {
           subtitle = 'Zbývá ještě ${s.backlog} splatných slov.';
-          tiles.add(_Tile(s.backlog, 'zbývá', const Color(0xFFE69A00)));
+          tiles.add(_Tile(s.backlog, 'zbývá', kToneAmber.accent));
           primaryLabel = 'Pokračovat v opakování';
           primary = c.continueReviews;
         } else if (s.mode == StudyMode.both) {
@@ -54,10 +55,10 @@ class InterludeView extends StatelessWidget {
         }
       case InterludeKind.groupDone:
         icon = Icons.auto_awesome_rounded;
-        colors = const [Color(0xFFFFD866), Color(0xFFFFB300)];
+        colors = [kToneAmber.a, kToneAmber.solidA];
         title = 'Skupina hotová';
         subtitle = 'Další skupina nových slov čeká.';
-        tiles.add(_Tile(s.learnedInBlock, 'naučeno', const Color(0xFFE69A00)));
+        tiles.add(_Tile(s.learnedInBlock, 'naučeno', kToneAmber.accent));
         if (s.skippedInBlock > 0) {
           tiles.add(_Tile(s.skippedInBlock, 'přeskočeno', kBlue));
         }
@@ -65,7 +66,7 @@ class InterludeView extends StatelessWidget {
         primary = c.startLearning;
       case InterludeKind.blockDone:
         icon = Icons.emoji_events_rounded;
-        colors = const [Color(0xFF5B9BFF), Color(0xFF2F6FED)];
+        colors = [kToneBlue.solidA, kToneBlue.solidB];
         title = 'Dnešní dávka hotová';
         subtitle = 'Chceš pokračovat dalším blokem?';
         tiles.add(_Tile(s.newInBlock, 'nových', kBlue));
@@ -74,14 +75,14 @@ class InterludeView extends StatelessWidget {
         }
         if (s.skippedInBlock > 0) {
           tiles.add(
-            _Tile(s.skippedInBlock, 'přeskočeno', const Color(0xFFE69A00)),
+            _Tile(s.skippedInBlock, 'přeskočeno', kToneAmber.accent),
           );
         }
         primaryLabel = 'Pokračovat';
         primary = c.nextBlock;
       case InterludeKind.allDone:
         icon = Icons.celebration_rounded;
-        colors = const [Color(0xFF63D68F), Color(0xFF2EAE6B)];
+        colors = [kToneGreen.solidA, kToneGreen.solidB];
         title = 'Vše hotovo';
         subtitle = 'Teď není co opakovat ani se učit.';
     }
@@ -133,7 +134,7 @@ class InterludeView extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w800,
                 color: kInk,
@@ -143,7 +144,7 @@ class InterludeView extends StatelessWidget {
             Text(
               subtitle,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 15, color: kMuted),
+              style: TextStyle(fontSize: 15, color: kMuted),
             ),
             if (tiles.isNotEmpty) ...[
               const SizedBox(height: 24),
@@ -181,7 +182,7 @@ class InterludeView extends StatelessWidget {
                     if (hardest != null)
                       Text(
                         'Nejvíc se pletlo: ${c.course.front(hardest)} – ${c.course.back(hardest)}',
-                        style: const TextStyle(fontSize: 14, color: kMuted),
+                        style: TextStyle(fontSize: 14, color: kMuted),
                       ),
                   ],
                 ),
@@ -201,8 +202,8 @@ class InterludeView extends StatelessWidget {
                 height: 40,
                 child: TextButton.icon(
                   onPressed: c.undo,
-                  icon: const Icon(Icons.undo_rounded, size: 18, color: kMuted),
-                  label: const Text(
+                  icon: Icon(Icons.undo_rounded, size: 18, color: kMuted),
+                  label: Text(
                     'Vrátit poslední kartu',
                     style: TextStyle(
                       fontSize: 16,
@@ -217,12 +218,8 @@ class InterludeView extends StatelessWidget {
                 height: 40,
                 child: TextButton.icon(
                   onPressed: () => exportBackup(context, c),
-                  icon: const Icon(
-                    Icons.download_rounded,
-                    size: 18,
-                    color: kMuted,
-                  ),
-                  label: const Text(
+                  icon: Icon(Icons.download_rounded, size: 18, color: kMuted),
+                  label: Text(
                     'Stáhnout zálohu',
                     style: TextStyle(
                       fontSize: 16,
@@ -238,7 +235,7 @@ class InterludeView extends StatelessWidget {
                 onPressed: c.finish,
                 child: Text(
                   primary == null ? 'Zpět' : 'Skončit',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: kMuted,
@@ -279,7 +276,7 @@ class _Tile extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 2),
-          Text(label, style: const TextStyle(fontSize: 13, color: kMuted)),
+          Text(label, style: TextStyle(fontSize: 13, color: kMuted)),
         ],
       ),
     );
@@ -292,9 +289,25 @@ const double kIntroButtonsBottom = 24;
 
 /// Procvičování: pruh postupu nahoře, karta uprostřed, tlačítka dole.
 /// Spodní blok má stejnou výšku v učení i v opakování, takže karta sedí pořád na stejném místě.
-class PracticeView extends StatelessWidget {
+class PracticeView extends StatefulWidget {
   final StudyController c;
   const PracticeView({super.key, required this.c});
+
+  @override
+  State<PracticeView> createState() => _PracticeViewState();
+}
+
+class _PracticeViewState extends State<PracticeView> {
+  // posun vrchní karty, podle něj SwipeHint kreslí glow a nápis
+  final ValueNotifier<double> _drag = ValueNotifier<double>(0);
+
+  StudyController get c => widget.c;
+
+  @override
+  void dispose() {
+    _drag.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -306,7 +319,7 @@ class PracticeView extends StatelessWidget {
         reviewing
             ? 'Opakování ${s.phaseDone} / ${s.phaseTotal}'
             : (c.isIntro
-                ? 'Nová slova · doleva „už umím“, doprava „dál“'
+                ? 'Nová slova'
                 : 'Učení ${s.phaseDone} / ${s.phaseTotal}');
 
     return SafeArea(
@@ -340,7 +353,7 @@ class PracticeView extends StatelessWidget {
                       child: Text(
                         label,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: kMuted,
@@ -354,7 +367,7 @@ class PracticeView extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         iconSize: 22,
                         color: kInk,
-                        disabledColor: const Color(0xFFC9CED8),
+                        disabledColor: kFaint,
                         tooltip: 'Vrátit poslední kartu',
                         onPressed: c.canUndo ? c.undo : null,
                         icon: const Icon(Icons.undo_rounded),
@@ -415,9 +428,11 @@ class PracticeView extends StatelessWidget {
                               info: c.infoOf(top),
                               maxHeight: maxCard,
                               haptics: c.settings.haptics,
-                              // doprava = dál, doleva = už umím (jako tlačítka)
+                              dragOffset: _drag,
+                              // doprava = už umím, doleva = naučit (jako tlačítka)
                               onSwiped:
-                                  (next) => next ? c.ackIntro() : c.skipIntro(),
+                                  (known) =>
+                                      known ? c.skipIntro() : c.ackIntro(),
                             )
                           else if (top != null)
                             FlashCard(
@@ -432,8 +447,31 @@ class PracticeView extends StatelessWidget {
                               haptics: c.settings.haptics,
                               onFlip: c.flip,
                               onAnswered: c.answer,
+                              dragOffset: _drag,
                             ),
                         ],
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: SwipeHint(
+                        drag: _drag,
+                        left:
+                            c.isIntro
+                                ? SwipeSide(
+                                  text: 'Naučit se',
+                                  icon: Icons.menu_book_rounded,
+                                  tone: kToneAmber,
+                                )
+                                : SwipeSide(
+                                  text: 'Ještě zopakovat',
+                                  icon: Icons.replay_rounded,
+                                  tone: kToneAmber,
+                                ),
+                        right: SwipeSide(
+                          text: c.isIntro ? 'Už umím' : 'Umím!',
+                          icon: Icons.check_rounded,
+                          tone: kToneGreen,
+                        ),
                       ),
                     ),
                     if (c.isIntro)
@@ -446,23 +484,23 @@ class PracticeView extends StatelessWidget {
                           children: [
                             Expanded(
                               child: ToneButton(
+                                label: 'Naučit',
+                                icon: Icons.menu_book_rounded,
+                                tone: kToneAmber,
+                                height: kIntroButtonHeight,
+                                fontSize: 15,
+                                onPressed: c.ackIntro,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: ToneButton(
                                 label: 'Už umím',
                                 icon: Icons.check_rounded,
                                 tone: kToneGreen,
                                 height: kIntroButtonHeight,
                                 fontSize: 15,
                                 onPressed: c.skipIntro,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: ToneButton(
-                                label: 'Dál',
-                                icon: Icons.arrow_forward_rounded,
-                                tone: kToneBlue,
-                                height: kIntroButtonHeight,
-                                fontSize: 15,
-                                onPressed: c.ackIntro,
                               ),
                             ),
                           ],

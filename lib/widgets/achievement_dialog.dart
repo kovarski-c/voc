@@ -39,21 +39,21 @@ _Style _styleOf(Achievement a, int total, List<LevelStep> levels) {
     case AchievementType.goal:
       return _Style(
         Icons.task_alt_rounded,
-        const [Color(0xFF63D68F), Color(0xFF2EAE6B)],
+        [kToneGreen.solidA, kToneGreen.solidB],
         'Denní cíl splněn',
         'Dnes máš hotovo ${a.value} karet.',
       );
     case AchievementType.streak:
       return _Style(
         Icons.local_fire_department_rounded,
-        const [Color(0xFFFFB74D), Color(0xFFFF7A00)],
+        [kToneAmber.solidA, kToneAmber.solidB],
         '${a.value} dní v řadě',
         'Učíš se už ${a.value} dní po sobě.',
       );
     case AchievementType.milestone:
       return _Style(
         Icons.military_tech_rounded,
-        const [Color(0xFFFFD866), Color(0xFFFFB300)],
+        [kToneAmber.a, kToneAmber.solidA],
         '${a.value} slov',
         'Už umíš ${a.value} slov z $total.',
       );
@@ -149,7 +149,7 @@ class _Row extends StatelessWidget {
         Text(
           style.title,
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w800,
             color: kInk,
@@ -159,7 +159,7 @@ class _Row extends StatelessWidget {
         Text(
           style.subtitle,
           textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 15, color: kMuted),
+          style: TextStyle(fontSize: 15, color: kMuted),
         ),
       ],
     );

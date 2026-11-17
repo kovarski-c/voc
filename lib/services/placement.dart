@@ -3,106 +3,302 @@ import 'dart:math' as math;
 import '../models/card_progress.dart';
 import 'scheduler.dart';
 
-/// Odpověď v testu: pozice slova v pořadí učení (0 = nejfrekventovanější)
-/// a zda ho člověk zná.
+/// Odpověď na jedno slovo v testu.
+enum Reply { unknown, unsure, known }
+
+/// Odpověď předaná plánu: pozice slova v pořadí učení (0 = nejfrekventovanější)
+/// a zda ho člověk skutečně zná ("Tuším" se bere jako neznámé).
 class PlacementAnswer {
   final int rank;
   final bool known;
   const PlacementAnswer(this.rank, this.known);
 }
 
-/// Adaptivní test slovní zásoby: půlení intervalu v pořadí podle frekvence.
-/// V každém bodě se zeptá na 2 až 3 slova z okolí; bod "projde", když
-/// člověk zná aspoň dvě. Pak se hledá dál nahoru nebo dolů s menším krokem.
+enum _Kind { coarse, refine, controlEasy, controlHard }
+
+class _Ans {
+  final int rank;
+  final double score; // 1 = Znám, 0.5 = Tuším, 0 = Neznám
+  final _Kind kind;
+  const _Ans(this.rank, this.score, this.kind);
+}
+
+class _Q {
+  final int rank;
+  final _Kind kind;
+  const _Q(this.rank, this.kind);
+}
+
+class _Cell {
+  final double m, s, ll;
+  const _Cell(this.m, this.s, this.ll);
+}
+
+class _Result {
+  final int est, low, high;
+  final bool overclaimed, inconsistent;
+  const _Result(this.est, this.low, this.high, this.overclaimed, this.inconsistent);
+}
+
+/// Test slovní zásoby, tři fáze (celkem [target] slov, u 20 000 slov 50):
+///  1) hrubý odhad: žebříček úrovní rozložených logaritmicky podle pořadí,
+///     na každé úrovni až 3 slova (stačí 2 ze 3), od nejlehčí nahoru,
+///     konec po dvou neúspěšných úrovních za sebou;
+///  2) zpřesnění: slova rovnoměrně z okolí odhadnuté úrovně;
+///  3) kontrola: 3 mnohem lehčí a 3 mnohem těžší slova, promíchaná mezi
+///     slova z 2. fáze. Neovlivňují průběh, jen opravují výsledek.
+/// Výsledek se počítá proložením křivky "podíl známých slov podle log. pořadí".
 class PlacementTest {
-  PlacementTest({required this.total, math.Random? rng, this.maxProbes = 7})
+  PlacementTest({required this.total, math.Random? rng})
     : _rng = rng ?? math.Random(),
-      _hi = total {
-    _nextProbe();
+      levels = _levelsFor(total) {
+    target = math.min(lengthFor(total), math.max(1, total ~/ 2));
+    if (total < 20) return; // nic se nezeptá, test je hned hotový
+    _ladder = _buildLadder();
+    _pickCoarse();
   }
 
   final int total;
-  final int maxProbes;
+  final int levels;
+  late final int target;
   final math.Random _rng;
 
-  int _lo = 0;
-  int _hi;
-  int _probes = 0;
-  int _mid = 0;
-  int _asked = 0;
-  int _known = 0;
-  int? _current;
+  late final List<int> _ladder;
+  final List<_Ans> _answers = [];
   final Set<int> _used = {};
-  final List<PlacementAnswer> answers = [];
+  final List<_Q> _queue = [];
+  int? _current;
+  _Kind _curKind = _Kind.coarse;
+
+  int _level = 0;
+  double _lvScore = 0;
+  int _lvAsked = 0;
+  int _fails = 0;
+  int _lastPassed = -1;
+  _Result? _result;
+
+  /// Počet úrovní hrubého odhadu: asi log2(total / 300), 3 až 6.
+  static int _levelsFor(int total) {
+    if (total <= 0) return 3;
+    return (math.log(total / 300) / math.ln2).round().clamp(3, 6).toInt();
+  }
+
+  /// Délka testu podle velikosti seznamu (20 000 slov = 50, 2 700 slov = 35).
+  static int lengthFor(int total) => 5 * _levelsFor(total) + 20;
 
   bool get done => _current == null;
 
   /// Pozice právě zkoušeného slova (null = test skončil).
   int? get currentRank => _current;
 
-  /// Orientační postup 0..1: hotové body plus rozpracovaný bod (každá odpověď
-  /// posune ukazatel, ne až každá druhá).
+  int get answered => _answers.length;
+
   double get progress =>
-      done ? 1 : ((_probes + _asked / 3) / maxProbes).clamp(0.0, 1.0);
+      done ? 1.0 : (_answers.length / target).clamp(0.0, 1.0).toDouble();
 
-  /// Odhad: kolik prvních slov seznamu člověk zná (konzervativně dolní mez).
-  int get estimate => _lo;
+  /// Odpovědi pro [PlacementPlan]: "Tuším" i těžká kontrolní slova se berou
+  /// jako neznámá, aby se nezapsala jako zvládnutá.
+  List<PlacementAnswer> get planAnswers => [
+    for (final a in _answers)
+      PlacementAnswer(a.rank, a.score >= 1 && a.kind != _Kind.controlHard),
+  ];
 
-  void answer(bool known) {
-    final r = _current;
-    if (r == null) return;
-    answers.add(PlacementAnswer(r, known));
-    _asked++;
-    if (known) _known++;
-    final unknown = _asked - _known;
-    if (_known >= 2 || unknown >= 2) {
-      _finishProbe(passed: _known >= 2);
-    } else {
-      _pickWord(); // ještě se zeptá na třetí slovo
+  /// Odhad počtu známých slov (střed) a rozsah (zhruba 95% interval).
+  int get estimate => _res.est;
+  int get estimateLow => _res.low;
+  int get estimateHigh => _res.high;
+
+  /// U několika velmi těžkých slov odpověď "Znám": odhad byl snížen.
+  bool get overclaimed => _res.overclaimed;
+
+  /// U několika velmi lehkých slov odpověď "Neznám": odhad je nejistý.
+  bool get inconsistent => _res.inconsistent;
+
+  void answer(Reply reply) {
+    final cur = _current;
+    if (cur == null) return;
+    final s = reply == Reply.known ? 1.0 : (reply == Reply.unsure ? 0.5 : 0.0);
+    _answers.add(_Ans(cur, s, _curKind));
+    _result = null;
+    if (_curKind != _Kind.coarse) {
+      _next();
+      return;
     }
+    _lvScore += s;
+    _lvAsked++;
+    if (_lvScore >= 2 || _lvScore + (3 - _lvAsked) < 2) {
+      if (_lvScore >= 2) {
+        _lastPassed = _level;
+        _fails = 0;
+      } else {
+        _fails++;
+      }
+      _level++;
+      _lvScore = 0;
+      _lvAsked = 0;
+      if (_fails >= 2 || _level >= levels) {
+        _startRefine();
+        return;
+      }
+    }
+    _pickCoarse();
   }
 
-  void _finishProbe({required bool passed}) {
-    if (passed) {
-      _lo = _mid;
-    } else {
-      _hi = _mid;
-    }
-    _probes++;
-    _nextProbe();
+  // ------------------------------------------------------------ výběr slov
+  List<int> _buildLadder() {
+    final first = math.min(300.0, total / 9);
+    final last = total * 0.9;
+    return [
+      for (var i = 0; i < levels; i++)
+        (first * math.pow(last / first, i / (levels - 1)))
+            .round()
+            .clamp(0, total - 1)
+            .toInt(),
+    ];
   }
 
-  void _nextProbe() {
-    if (total <= 0 || _probes >= maxProbes || _hi - _lo <= 20) {
+  int? _pickIn(int lo, int hi) {
+    lo = math.max(0, lo);
+    hi = math.min(total - 1, hi);
+    if (hi < lo) return null;
+    for (var i = 0; i < 30; i++) {
+      final r = lo + _rng.nextInt(hi - lo + 1);
+      if (_used.add(r)) return r;
+    }
+    for (var r = lo; r <= hi; r++) {
+      if (_used.add(r)) return r;
+    }
+    return null;
+  }
+
+  /// Slovo z rozsahu pořadí, rozloženo logaritmicky (jinak by převládla
+  /// vzácná slova).
+  int? _pickLog(int lo, int hi) {
+    final a = math.log(lo + 1.0), b = math.log(hi + 1.0);
+    final x = math.exp(a + _rng.nextDouble() * (b - a)) - 1;
+    return _pickIn((x * 0.9).round(), (x * 1.1).round() + 1);
+  }
+
+  void _pickCoarse() {
+    final c = _ladder[_level];
+    final r = _pickIn((c / 1.4).round(), (c * 1.4).round());
+    if (r == null) {
+      _startRefine();
+      return;
+    }
+    _current = r;
+    _curKind = _Kind.coarse;
+  }
+
+  void _startRefine() {
+    final lp = _lastPassed;
+    final r0 = lp < 0 ? _ladder[0] ~/ 2 : _ladder[lp];
+    final lo = lp < 0 ? 0 : _ladder[math.max(0, lp - 1)];
+    final hi =
+        lp >= levels - 1
+            ? total - 1
+            : _ladder[math.min(levels - 1, lp + 2)];
+
+    // kontrolní slova; lehká jen když už člověk prošel aspoň dvě úrovně
+    if (lp >= 1 && r0 ~/ 6 > 20) {
+      for (var i = 0; i < 3; i++) {
+        final r = _pickLog(10, r0 ~/ 6);
+        if (r != null) _queue.add(_Q(r, _Kind.controlEasy));
+      }
+    }
+    if (r0 * 4 < total * 0.95) {
+      for (var i = 0; i < 3; i++) {
+        final r = _pickLog(r0 * 4, total - 1);
+        if (r != null) _queue.add(_Q(r, _Kind.controlHard));
+      }
+    }
+
+    // zpřesnění: zbytek rozpočtu, po jednom slově z každého logaritmického pásma
+    final n = math.max(0, target - _answers.length - _queue.length);
+    final a = math.log(lo + 1.0), b = math.log(hi + 1.0);
+    for (var i = 0; i < n; i++) {
+      final from = (math.exp(a + (b - a) * i / n) - 1).round();
+      final to = (math.exp(a + (b - a) * (i + 1) / n) - 1).round();
+      final r = _pickIn(from, math.max(from, to));
+      if (r != null) _queue.add(_Q(r, _Kind.refine));
+    }
+    _queue.shuffle(_rng);
+    _next();
+  }
+
+  void _next() {
+    if (_queue.isEmpty) {
       _current = null;
       return;
     }
-    _mid = (_lo + _hi) ~/ 2;
-    _asked = 0;
-    _known = 0;
-    _pickWord();
+    final q = _queue.removeLast();
+    _current = q.rank;
+    _curKind = q.kind;
   }
 
-  void _pickWord() {
-    final span = _hi - _lo;
-    final w = math.max(5, span ~/ 6);
-    final from = math.max(0, _mid - w);
-    final to = math.min(total - 1, _mid + w);
-    for (var i = 0; i < 30; i++) {
-      final r = from + _rng.nextInt(to - from + 1);
-      if (_used.add(r)) {
-        _current = r;
-        return;
+  // --------------------------------------------------------------- výsledek
+  _Result get _res => _result ??= _fit();
+
+  _Result _fit() {
+    final pts = [
+      for (final a in _answers)
+        if (a.kind == _Kind.coarse || a.kind == _Kind.refine) a,
+    ];
+    if (pts.isEmpty || total <= 0) return const _Result(0, 0, 0, false, false);
+    final xs = [for (final a in pts) math.log(a.rank + 1.0)];
+
+    // logistická křivka p(r) = 1 / (1 + exp((ln r - m) / s)) s malou chybovostí
+    // (0,02 až 0,98), takže ojedinělé přehmaty nic nezboří; hledá se mřížkou
+    const ss = [0.25, 0.4, 0.6, 0.85, 1.2, 1.7];
+    final mMax = math.log(total * 1.5);
+    final cells = <_Cell>[];
+    var best = -1e18;
+    _Cell? bestCell;
+    for (var m = math.log(10.0); m <= mMax; m += 0.1) {
+      for (final s in ss) {
+        var ll = 0.0;
+        for (var i = 0; i < pts.length; i++) {
+          final p = 0.02 + 0.96 / (1 + math.exp((xs[i] - m) / s));
+          final y = pts[i].score;
+          ll += y * math.log(p) + (1 - y) * math.log(1 - p);
+        }
+        final cell = _Cell(m, s, ll);
+        cells.add(cell);
+        if (ll > best) {
+          best = ll;
+          bestCell = cell;
+        }
       }
     }
-    for (var r = from; r <= to; r++) {
-      if (_used.add(r)) {
-        _current = r;
-        return;
+
+    final lx = [for (var r = 0; r < total; r++) math.log(r + 1.0)];
+    double count(_Cell c) {
+      var sum = 0.0;
+      for (var r = 0; r < total; r++) {
+        sum += 1 / (1 + math.exp((lx[r] - c.m) / c.s));
       }
+      return sum;
     }
-    // v okolí už není co zkoušet: bod se uzavře podle dosavadních odpovědí
-    _finishProbe(passed: _known * 2 >= _asked && _asked > 0);
+
+    final est = count(bestCell!);
+    var lo = est, hi = est;
+    for (final c in cells) {
+      if (c.ll < best - 2) continue; // mimo ~95% interval
+      final v = count(c);
+      if (v < lo) lo = v;
+      if (v > hi) hi = v;
+    }
+
+    // oprava podle kontrolních slov
+    var hard = 0.0;
+    var easyMissed = 0;
+    for (final a in _answers) {
+      if (a.kind == _Kind.controlHard) hard += a.score;
+      if (a.kind == _Kind.controlEasy && a.score == 0) easyMissed++;
+    }
+    final factor = (1 - 0.1 * hard).clamp(0.7, 1.0).toDouble();
+    int fin(double v) => (v * factor).round().clamp(0, total).toInt();
+    return _Result(fin(est), fin(lo), fin(hi), hard >= 2, easyMissed >= 2);
   }
 }
 

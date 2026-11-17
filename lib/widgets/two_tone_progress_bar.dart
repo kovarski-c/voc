@@ -1,20 +1,21 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import '../theme.dart';
 
 /// Dvoubarevný pruh: světlá část = naučeno, sytá část = pevně zvládnuto (sytá je podmnožina světlé).
 class TwoToneProgressBar extends StatelessWidget {
   final double light; // 0..1
   final double dark; // 0..1, nejvýš light
-  final Color lightColor;
-  final Color darkColor;
+  final Color? lightColor; // null = světlejší zelená tématu
+  final Color? darkColor; // null = sytá zelená tématu
   final double height;
 
   const TwoToneProgressBar({
     super.key,
     required this.light,
     required this.dark,
-    this.lightColor = const Color(0xFFA5D6A7),
-    this.darkColor = const Color(0xFF2E7D32),
+    this.lightColor,
+    this.darkColor,
     this.height = 10,
   });
 
@@ -44,8 +45,8 @@ class TwoToneProgressBar extends StatelessWidget {
                 decoration:
                     BoxDecoration(color: Colors.grey[300], borderRadius: radius),
               ),
-              fill(light, lightColor),
-              fill(math.min(dark, light), darkColor),
+              fill(light, lightColor ?? kToneGreen.a),
+              fill(math.min(dark, light), darkColor ?? kToneGreen.accent),
             ],
           ),
         );

@@ -9,10 +9,10 @@ int simulate(int total, int trueKnown, int seed) {
   final t = PlacementTest(total: total, rng: Random(seed));
   var guard = 0;
   while (!t.done && guard++ < 200) {
-    t.answer(t.currentRank! < trueKnown);
+    t.answer(t.currentRank! < trueKnown ? Reply.known : Reply.unknown);
   }
   expect(t.done, isTrue);
-  expect(t.answers.length, lessThanOrEqualTo(25));
+  expect(t.planAnswers.length, lessThanOrEqualTo(25));
   return t.estimate;
 }
 
@@ -20,15 +20,21 @@ void main() {
   test('test najde hranici přibližně a ptá se na málo slov', () {
     for (final known in [0, 700, 3000, 6000, 10000]) {
       final est = simulate(10000, known, 7);
-      expect((est - known).abs(), lessThan(10000 * 0.2),
-          reason: 'known=$known est=$est');
+      expect(
+        (est - known).abs(),
+        lessThan(10000 * 0.2),
+        reason: 'known=$known est=$est',
+      );
     }
   });
 
   test('stabilita klesá od frekventovaných slov k hranici', () {
     expect(PlacementPlan.stabilityAt(0), closeTo(365, 0.5));
     expect(PlacementPlan.stabilityAt(1), closeTo(14, 0.5));
-    expect(PlacementPlan.stabilityAt(0.5), lessThan(PlacementPlan.stabilityAt(0.2)));
+    expect(
+      PlacementPlan.stabilityAt(0.5),
+      lessThan(PlacementPlan.stabilityAt(0.2)),
+    );
   });
 
   test('plán: nejvýš perDay slov denně, neznámá a existující se přeskočí', () {

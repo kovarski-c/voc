@@ -91,7 +91,7 @@ class _NavItem extends StatelessWidget {
           child: Icon(
             icon,
             size: 28,
-            color: selected ? kBlue : const Color(0xFF9AA0A6),
+            color: selected ? kBlue : kMuted.withValues(alpha: 0.7),
           ),
         ),
       ),

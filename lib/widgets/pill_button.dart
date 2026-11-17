@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../theme.dart';
+
 /// Velké zaoblené tlačítko: vyplněné (s jemným přechodem) nebo jen s obrysem.
 class PillButton extends StatelessWidget {
   final String label;
   final IconData? icon;
   final VoidCallback? onPressed;
   final bool filled;
-  final Color color;
+  final Color? colorOverride; // null = hlavní barva tématu
+  Color get color => colorOverride ?? kBlue;
   final double height;
   final double fontSize;
 
@@ -16,10 +19,10 @@ class PillButton extends StatelessWidget {
     required this.onPressed,
     this.icon,
     this.filled = true,
-    this.color = const Color(0xFF2F6FED),
+    Color? color,
     this.height = 56,
     this.fontSize = 17,
-  });
+  }) : colorOverride = color;
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +33,16 @@ class PillButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Flexible(
-          child: Text(label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  fontSize: fontSize, fontWeight: FontWeight.w800, color: fg)),
+          child: Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.w800,
+              color: fg,
+            ),
+          ),
         ),
         if (icon != null) ...[
           const SizedBox(width: 8),
@@ -49,27 +57,26 @@ class PillButton extends StatelessWidget {
         height: height,
         decoration: BoxDecoration(
           borderRadius: radius,
-          gradient: filled
-              ? LinearGradient(
-                  colors: [
-                    Color.lerp(color, Colors.white, 0.22)!,
-                    color,
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                )
-              : null,
+          gradient:
+              filled
+                  ? LinearGradient(
+                    colors: [Color.lerp(color, Colors.white, 0.22)!, color],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
+                  : null,
           color: filled ? null : Colors.white,
           border: filled ? null : Border.all(color: color, width: 2),
-          boxShadow: filled
-              ? [
-                  BoxShadow(
-                    color: color.withValues(alpha: 0.35),
-                    blurRadius: 16,
-                    offset: const Offset(0, 6),
-                  ),
-                ]
-              : null,
+          boxShadow:
+              filled
+                  ? [
+                    BoxShadow(
+                      color: color.withValues(alpha: 0.35),
+                      blurRadius: 16,
+                      offset: const Offset(0, 6),
+                    ),
+                  ]
+                  : null,
         ),
         child: Material(
           color: Colors.transparent,

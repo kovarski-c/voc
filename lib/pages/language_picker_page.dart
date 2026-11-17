@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/course.dart';
 import '../widgets/course_flag.dart';
+import '../theme.dart';
 
 /// Výběr jazyka: při prvním spuštění (bez tlačítka zpět) i z domovské stránky.
 class LanguagePickerPage extends StatelessWidget {
@@ -21,9 +22,9 @@ class LanguagePickerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: kBg,
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF5F5F5),
+        backgroundColor: kBg,
         automaticallyImplyLeading: !firstRun,
         centerTitle: true,
         title: Text(
@@ -51,7 +52,7 @@ class LanguagePickerPage extends StatelessWidget {
                         fontSize: 18, fontWeight: FontWeight.w500)),
                 subtitle: Text('${c.frontLabel} → ${c.backLabel} · ${c.length} slov'),
                 trailing: c.id == currentId
-                    ? const Icon(Icons.check_circle, color: Color(0xFF4CAF50))
+                    ? Icon(Icons.check_circle, color: kToneGreen.solidA)
                     : null,
                 onTap: () => onSelected(c),
               ),

@@ -18,12 +18,12 @@ class WordMapView extends StatelessWidget {
     required this.onJump,
   });
 
-  static const Color _empty = Color(0xFFE3E7EE);
+  static Color get _empty => kTrack;
 
   static Color _tileColor(BandStat b) {
     if (b.unseen == b.total) return _empty;
     final t = b.score.clamp(0.0, 1.0);
-    return Color.lerp(const Color(0xFFCDEBD2), const Color(0xFF2E7D32), t)!;
+    return Color.lerp(kToneGreen.a, kToneGreen.accent, t)!;
   }
 
   @override
@@ -45,7 +45,7 @@ class WordMapView extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(side, 4, side, 24),
       children: [
         if (levels.isNotEmpty) ...[
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(left: 4, bottom: 10),
             child: Text(
               'Úrovně slovní zásoby',
@@ -86,7 +86,7 @@ class WordMapView extends StatelessWidget {
           ),
           const SizedBox(height: 22),
         ],
-        const Padding(
+        Padding(
           padding: EdgeInsets.only(left: 4, bottom: 10),
           child: Text(
             'Odznaky',
@@ -110,7 +110,7 @@ class WordMapView extends StatelessWidget {
           padding: const EdgeInsets.only(left: 4, bottom: 4),
           child: Row(
             children: [
-              const Text(
+              Text(
                 'Mapa slov',
                 style: TextStyle(
                   fontSize: 13,
@@ -121,9 +121,9 @@ class WordMapView extends StatelessWidget {
               const Spacer(),
               _legend(_empty, 'nové'),
               const SizedBox(width: 10),
-              _legend(const Color(0xFFCDEBD2), 'učím se'),
+              _legend(kToneGreen.a, 'učím se'),
               const SizedBox(width: 10),
-              _legend(const Color(0xFF2E7D32), 'umím'),
+              _legend(kToneGreen.accent, 'umím'),
             ],
           ),
         ),
@@ -131,7 +131,7 @@ class WordMapView extends StatelessWidget {
           padding: const EdgeInsets.only(left: 4, bottom: 12),
           child: Text(
             'Každá dlaždice = ${c.bandSize} slov od nejčastějších po méně časté.',
-            style: const TextStyle(fontSize: 12, color: kMuted),
+            style: TextStyle(fontSize: 12, color: kMuted),
           ),
         ),
         Wrap(
@@ -164,7 +164,7 @@ class WordMapView extends StatelessWidget {
         ),
       ),
       const SizedBox(width: 4),
-      Text(text, style: const TextStyle(fontSize: 11, color: kMuted)),
+      Text(text, style: TextStyle(fontSize: 11, color: kMuted)),
     ],
   );
 
@@ -184,7 +184,7 @@ class WordMapView extends StatelessWidget {
               children: [
                 Text(
                   'Slova ${b.start + 1}–${b.end}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w800,
                     color: kInk,
@@ -227,7 +227,7 @@ class WordMapView extends StatelessWidget {
             color: color,
           ),
         ),
-        Text(label, style: const TextStyle(fontSize: 12, color: kMuted)),
+        Text(label, style: TextStyle(fontSize: 12, color: kMuted)),
       ],
     ),
   );
@@ -262,7 +262,7 @@ class _Tile extends StatelessWidget {
           style: TextStyle(
             fontSize: 11,
             fontWeight: FontWeight.w700,
-            color: dark ? Colors.white : const Color(0xFF5A6270),
+            color: dark ? Colors.white : kMuted,
           ),
         ),
       ),
@@ -287,12 +287,12 @@ class _Badge extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               // sytý přechod žluté z palety aplikace, bez barevné záře
-              color: earned ? kToneAmber.solidA : const Color(0xFFE3E7EE),
+              color: earned ? kToneAmber.solidA : kTrack,
             ),
             child: Icon(
               Icons.military_tech_rounded,
               size: 28,
-              color: earned ? kToneAmber.onSolid : const Color(0xFFB4BBC7),
+              color: earned ? kToneAmber.onSolid : kFaint,
             ),
           ),
           const SizedBox(height: 4),

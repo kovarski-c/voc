@@ -30,11 +30,16 @@ class SettingsPage extends StatelessWidget {
           return ListView(
             padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
             children: [
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(left: 4, bottom: 16),
-                child: Text('Nastavení',
-                    style: TextStyle(
-                        fontSize: 28, fontWeight: FontWeight.w800, color: kInk)),
+                child: Text(
+                  'Nastavení',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w800,
+                    color: kInk,
+                  ),
+                ),
               ),
               _Section(
                 title: 'Jazyk',
@@ -51,18 +56,21 @@ class SettingsPage extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(c.course.backLabel,
-                                  style: const TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w700)),
                               Text(
-                                  '${c.course.frontLabel} → ${c.course.backLabel}',
-                                  style: const TextStyle(
-                                      fontSize: 13, color: kMuted)),
+                                c.course.backLabel,
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              Text(
+                                '${c.course.frontLabel} → ${c.course.backLabel}',
+                                style: TextStyle(fontSize: 13, color: kMuted),
+                              ),
                             ],
                           ),
                         ),
-                        const Icon(Icons.chevron_right_rounded, color: kMuted),
+                        Icon(Icons.chevron_right_rounded, color: kMuted),
                       ],
                     ),
                   ),
@@ -73,22 +81,28 @@ class SettingsPage extends StatelessWidget {
                 title: 'Úroveň slovní zásoby',
                 child: InkWell(
                   borderRadius: BorderRadius.circular(12),
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      fullscreenDialog: true,
-                      builder: (_) =>
-                          PlacementPage(controller: c, firstRun: false),
-                    ),
-                  ),
-                  child: const Row(
+                  onTap:
+                      () => Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          fullscreenDialog: true,
+                          builder:
+                              (_) =>
+                                  PlacementPage(controller: c, firstRun: false),
+                        ),
+                      ),
+                  child: Row(
                     children: [
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Určit úroveň',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w700)),
+                            Text(
+                              'Určit úroveň',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                             SizedBox(height: 2),
                             Text(
                               'Test nebo ruční výběr. Změní se jen slova, '
@@ -112,7 +126,9 @@ class SettingsPage extends StatelessWidget {
                     Text(
                       '${c.dailyGoal} karet denně',
                       style: const TextStyle(
-                          fontSize: 17, fontWeight: FontWeight.w700),
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                     Slider(
                       value: c.dailyGoal.toDouble(),
@@ -122,7 +138,7 @@ class SettingsPage extends StatelessWidget {
                       label: '${c.dailyGoal}',
                       onChanged: (v) => c.setDailyGoal(v.round()),
                     ),
-                    const Text(
+                    Text(
                       'Do cíle se počítají zopakovaná i naučená slova. '
                       'Den se do série započítá už od 5 karet; ve 4:00 ráno začíná nový den.',
                       style: TextStyle(fontSize: 12.5, color: kMuted),
@@ -132,18 +148,38 @@ class SettingsPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               _Section(
+                title: 'Vzhled',
+                child: Row(
+                  children: [
+                    for (final t in AppThemeId.values) ...[
+                      if (t != AppThemeId.values.first)
+                        const SizedBox(width: 12),
+                      Expanded(
+                        child: _ThemeOption(
+                          id: t,
+                          selected: c.settings.theme == t,
+                          onTap: () => c.setTheme(t),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              _Section(
                 title: 'Odezva',
                 child: Row(
                   children: [
                     const Expanded(
-                      child: Text('Vibrace při swipu',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600)),
+                      child: Text(
+                        'Vibrace při swipu',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
-                    Switch(
-                      value: c.settings.haptics,
-                      onChanged: c.setHaptics,
-                    ),
+                    Switch(value: c.settings.haptics, onChanged: c.setHaptics),
                   ],
                 ),
               ),
@@ -154,9 +190,13 @@ class SettingsPage extends StatelessWidget {
                   child: Row(
                     children: [
                       const Expanded(
-                        child: Text('Skrýt vulgární slova',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600)),
+                        child: Text(
+                          'Skrýt vulgární slova',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                       Switch(
                         value: c.settings.hideVulgar,
@@ -175,7 +215,7 @@ class SettingsPage extends StatelessWidget {
                     Text(
                       'V automatickém režimu se jako první ukáže ${c.course.frontLabel} '
                       'v $pct % případů, jinak ${c.course.backLabel}.',
-                      style: const TextStyle(fontSize: 14, color: kInk),
+                      style: TextStyle(fontSize: 14, color: kInk),
                     ),
                     const SizedBox(height: 4),
                     Row(
@@ -192,14 +232,18 @@ class SettingsPage extends StatelessWidget {
                         ),
                         SizedBox(
                           width: 48,
-                          child: Text('$pct %',
-                              textAlign: TextAlign.end,
-                              style: const TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w700)),
+                          child: Text(
+                            '$pct %',
+                            textAlign: TextAlign.end,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                    const Text(
+                    Text(
                       'Při učení je pořadí pevné: první zkoušení ukáže učený jazyk, '
                       'druhé rodný, další podle tohoto poměru. Přepínač na domovské '
                       'stránce má přednost.',
@@ -215,7 +259,7 @@ class SettingsPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'Postup se ve webové verzi ukládá jen v tomto prohlížeči. '
                         'Stáhni si zálohu, abys o něj nepřišla při smazání dat '
                         'stránky nebo při přechodu na jiné zařízení.',
@@ -247,9 +291,14 @@ class _Section extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 4, bottom: 8),
-          child: Text(title,
-              style: const TextStyle(
-                  fontSize: 13, fontWeight: FontWeight.w700, color: kMuted)),
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: kMuted,
+            ),
+          ),
         ),
         Container(
           width: double.infinity,
@@ -262,6 +311,69 @@ class _Section extends StatelessWidget {
           child: child,
         ),
       ],
+    );
+  }
+}
+
+/// Dlaždice pro výběr tématu: barvy a název v paletě daného tématu.
+class _ThemeOption extends StatelessWidget {
+  final AppThemeId id;
+  final bool selected;
+  final VoidCallback onTap;
+  const _ThemeOption({
+    required this.id,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final p = paletteFor(id);
+    return InkWell(
+      borderRadius: BorderRadius.circular(16),
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: p.bg,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: selected ? kBlue : Colors.black12,
+            width: selected ? 2 : 1,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                for (final tone in [p.toneBlue, p.toneGreen, p.toneAmber])
+                  Container(
+                    width: 18,
+                    height: 18,
+                    margin: const EdgeInsets.only(right: 6),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: tone.solid,
+                    ),
+                  ),
+                const Spacer(),
+                if (selected)
+                  Icon(Icons.check_circle_rounded, size: 20, color: kBlue),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Text(
+              id.label,
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: p.ink,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

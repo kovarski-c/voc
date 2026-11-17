@@ -130,7 +130,7 @@ class _WordListPageState extends State<WordListPage> {
                         ],
                       ),
                       if (prio)
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.only(top: 4, right: 12),
                           child: Text(
                             'Přijde na řadu hned v dalším učení.',
@@ -157,10 +157,7 @@ class _WordListPageState extends State<WordListPage> {
                               const SizedBox(width: 10),
                               Text(
                                 'jistota ${(info.confidence * 100).round()} %',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: kMuted,
-                                ),
+                                style: TextStyle(fontSize: 14, color: kMuted),
                               ),
                             ],
                           ],
@@ -198,7 +195,7 @@ class _WordListPageState extends State<WordListPage> {
         builder:
             (context, _) => Column(
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.fromLTRB(24, 16, 24, 12),
                   child: Align(
                     alignment: Alignment.centerLeft,
@@ -298,7 +295,7 @@ class _WordListPageState extends State<WordListPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 if (c.isPrioritized(idx))
-                                  const Positioned(
+                                  Positioned(
                                     top: 0,
                                     right: 3,
                                     child: Icon(
@@ -354,7 +351,7 @@ class _WordListPageState extends State<WordListPage> {
                                           pron,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             color: kMuted,
                                             fontSize: 14,
                                           ),
@@ -374,7 +371,7 @@ class _WordListPageState extends State<WordListPage> {
                                   angle: 270 * math.pi / 180,
                                   child: IconButton(
                                     icon: const Icon(Icons.flip),
-                                    color: const Color(0xFFBFBFBF),
+                                    color: kFaint,
                                     tooltip: 'Otočit',
                                     onPressed:
                                         () => setState(() {
@@ -418,7 +415,7 @@ class _Toggle extends StatelessWidget {
           duration: const Duration(milliseconds: 180),
           height: 40,
           decoration: BoxDecoration(
-            color: selected ? Colors.white : const Color(0xFFE6EAF2),
+            color: selected ? Colors.white : kTrack,
             borderRadius: BorderRadius.circular(12),
             boxShadow: selected ? softShadow(0.08) : null,
           ),
@@ -444,7 +441,7 @@ class _Toggle extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: const Color(0xFFE6EAF2),
+        color: kTrack,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -468,7 +465,7 @@ class _Toggle extends StatelessWidget {
 }
 
 /// Barva značky "učit přednostně".
-const Color kPriorityColor = Color(0xFF2F6FED);
+Color get kPriorityColor => kBlue;
 
 /// Řádek detailu: popisek vlevo, hodnota zarovnaná doleva vedle něj.
 class _DetailRow extends StatelessWidget {
@@ -483,10 +480,7 @@ class _DetailRow extends StatelessWidget {
       children: [
         SizedBox(
           width: 76,
-          child: Text(
-            label,
-            style: const TextStyle(fontSize: 14, color: kMuted),
-          ),
+          child: Text(label, style: TextStyle(fontSize: 14, color: kMuted)),
         ),
         Expanded(child: Align(alignment: Alignment.centerLeft, child: child)),
       ],

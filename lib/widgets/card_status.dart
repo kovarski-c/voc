@@ -4,8 +4,8 @@ import '../models/card_progress.dart';
 import '../theme.dart';
 import 'rounded_progress_bar.dart';
 
-const Color kReviewColor = Color(0xFF4CAF50);
-const Color kLearningColor = Color(0xFFFFB300);
+Color get kReviewColor => kToneGreen.solidA;
+Color get kLearningColor => kToneAmber.solidA;
 
 /// Štítek stavu karty + indikátor pod ním:
 /// nová (modrá), učení (žlutá, bublinky), opakování (zelená, pruh jistoty);

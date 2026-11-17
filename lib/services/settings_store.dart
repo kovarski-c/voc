@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+import '../theme.dart' show AppThemeId;
 import 'storage.dart';
 
 /// Jak se volí strana karty, která se ukáže jako první.
@@ -25,6 +26,9 @@ class AppSettings {
   /// Skrýt vulgární slova (vulgar=1). Výchozí je zapnuto.
   bool hideVulgar;
 
+  /// Barevné téma.
+  AppThemeId theme;
+
   AppSettings({
     this.directionMode = DirectionMode.auto,
     this.nativeFrontProb = 0.65,
@@ -32,6 +36,7 @@ class AppSettings {
     this.dailyGoal = 20,
     this.haptics = true,
     this.hideVulgar = true,
+    this.theme = AppThemeId.classic,
   });
 
   Map<String, dynamic> toJson() => {
@@ -41,6 +46,7 @@ class AppSettings {
         'goal': dailyGoal,
         'hap': haptics ? 1 : 0,
         'vul': hideVulgar ? 1 : 0,
+        'thm': theme.index,
       };
 
   factory AppSettings.fromJson(Map<String, dynamic> m) => AppSettings(
@@ -52,6 +58,8 @@ class AppSettings {
         dailyGoal: ((m['goal'] as num?)?.toInt() ?? 20).clamp(5, 100),
         haptics: ((m['hap'] as num?)?.toInt() ?? 1) == 1,
         hideVulgar: ((m['vul'] as num?)?.toInt() ?? 1) == 1,
+        theme: AppThemeId
+            .values[((m['thm'] as num?)?.toInt() ?? 0).clamp(0, AppThemeId.values.length - 1)],
       );
 }
 

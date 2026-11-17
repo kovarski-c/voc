@@ -6,6 +6,8 @@ import '../models/card_progress.dart';
 import '../models/course.dart';
 import 'card_status.dart';
 import 'multi_form_text.dart';
+import 'swipe_hint.dart' show kSwipeThreshold;
+import '../theme.dart';
 
 // ---- Vzhled karty: tady si můžeš hrát ----
 const double kCardRadius = 30; // zaoblení rohů
@@ -21,8 +23,8 @@ const double kCardMaxHeight =
 const double kWordTop = 134;
 
 /// Karta. Klepnutím se otočí (animace), swipem se odhodí
-/// (doprava = umím, doleva = neumím; při představení nového slova doprava = dál,
-/// doleva = už umím). V režimu představení ukazuje obě strany.
+/// (doprava = umím, doleva = ještě neumím). Barevný glow a nápis při tažení
+/// kreslí SwipeHint mimo kartu; kartě stačí hlásit posun přes [dragOffset].
 /// Slovo začíná vždy na stejném místě; když je textu moc, posouvá se
 /// uvnitř karty (svisle), takže se nic nepřekrývá.
 class FlashCard extends StatefulWidget {
@@ -38,6 +40,7 @@ class FlashCard extends StatefulWidget {
   final double maxHeight; // nejvyšší povolená výška karty (dál se scrolluje)
   final VoidCallback onFlip;
   final void Function(bool known) onAnswered;
+  final ValueNotifier<double>? dragOffset; // posun karty pro SwipeHint
 
   const FlashCard({
     super.key,
@@ -53,6 +56,7 @@ class FlashCard extends StatefulWidget {
     this.introMode = false,
     this.haptics = true,
     this.maxHeight = kCardMaxHeight,
+    this.dragOffset,
   });
 
   @override
@@ -65,16 +69,26 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
   late final AnimationController _flip; // otočení
   Animation<double>? _anim;
   bool _prevShowBack = false;
+  bool _past = false; // tažení už přesáhlo práh odhození
+
+  void _setOffset(double v) {
+    setState(() => _offsetX = v);
+    widget.dragOffset?.value = v;
+  }
 
   @override
   void initState() {
     super.initState();
+    // nová karta začíná bez glow (předchozí odhozená mohla nechat posun ±500)
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => widget.dragOffset?.value = 0,
+    );
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
     )..addListener(() {
       final a = _anim;
-      if (a != null) setState(() => _offsetX = a.value);
+      if (a != null) _setOffset(a.value);
     });
     _flip = AnimationController(
       vsync: this,
@@ -100,13 +114,18 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
 
   void _onDragUpdate(DragUpdateDetails d) {
     if (_controller.isAnimating) return;
-    setState(() => _offsetX += d.delta.dx);
+    _setOffset(_offsetX + d.delta.dx);
+    final past = _offsetX.abs() > kSwipeThreshold;
+    if (past != _past) {
+      _past = past;
+      if (past && widget.haptics) HapticFeedback.selectionClick();
+    }
   }
 
   Future<void> _onDragEnd(DragEndDetails _) async {
     if (_controller.isAnimating) return;
-    final known = _offsetX > 40;
-    final unknown = _offsetX < -40;
+    final known = _offsetX > kSwipeThreshold;
+    final unknown = _offsetX < -kSwipeThreshold;
     final answered = known || unknown;
     final endX = known ? 500.0 : (unknown ? -500.0 : 0.0);
 
@@ -128,7 +147,8 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
     if (answered) {
       widget.onAnswered(known);
     } else {
-      setState(() => _offsetX = 0.0);
+      _past = false;
+      _setOffset(0.0);
     }
   }
 
@@ -141,8 +161,8 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
   Widget _faceContent(bool showBack) {
     final c = widget.course;
     final i = widget.index;
-    const dark = Color(0xFF1D1B20);
-    const grey = Color(0xFF767676);
+    final dark = kInk;
+    final grey = kMuted;
 
     if (widget.introMode) {
       // Nejdřív učený jazyk s výslovností, pod čárou teprve rodný význam.
@@ -150,7 +170,7 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
       return _scrollable([
         MultiFormText(
           c.back(i),
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 26,
             fontWeight: FontWeight.w500,
             color: dark,
@@ -158,18 +178,12 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
         ),
         if (pron.isNotEmpty) ...[
           const SizedBox(height: 4),
-          MultiFormText(
-            pron,
-            style: const TextStyle(fontSize: 16, color: grey),
-          ),
+          MultiFormText(pron, style: TextStyle(fontSize: 16, color: grey)),
         ],
         const SizedBox(height: 14),
         const SizedBox(width: 120, child: Divider(height: 1)),
         const SizedBox(height: 14),
-        MultiFormText(
-          c.front(i),
-          style: const TextStyle(fontSize: 22, color: dark),
-        ),
+        MultiFormText(c.front(i), style: TextStyle(fontSize: 22, color: dark)),
       ]);
     }
 
@@ -187,13 +201,12 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
       ),
       if (pron.isNotEmpty) ...[
         const SizedBox(height: 4),
-        MultiFormText(pron, style: const TextStyle(fontSize: 16, color: grey)),
+        MultiFormText(pron, style: TextStyle(fontSize: 16, color: grey)),
       ],
     ]);
   }
 
   Widget _card(bool showBack) {
-    final alpha = _offsetX.abs().toInt().clamp(0, 255);
     final intro = widget.introMode;
     return Card(
       elevation: kCardElevation,
@@ -232,39 +245,11 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
                 children: [
                   Text(
                     '${widget.number}',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF767676),
-                    ),
+                    style: TextStyle(fontSize: 14, color: kMuted),
                   ),
                   const SizedBox(height: 10),
                   CardStatus(info: widget.info),
                 ],
-              ),
-            ),
-            // Ikona při tažení: v běžném režimu umím / neumím,
-            // při představení nového slova doleva už umím, doprava dál.
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 14,
-              child: Icon(
-                intro
-                    ? (_offsetX > 0
-                        ? Icons.arrow_forward_rounded
-                        : Icons.check_outlined)
-                    : (_offsetX > 0
-                        ? Icons.check_outlined
-                        : Icons.close_outlined),
-                size: 24,
-                color:
-                    intro
-                        ? (_offsetX > 0
-                            ? Color.fromARGB(alpha, 47, 111, 237)
-                            : Color.fromARGB(alpha, 76, 175, 80))
-                        : (_offsetX > 0
-                            ? Color.fromARGB(alpha, 76, 175, 80)
-                            : Color.fromARGB(alpha, 244, 67, 54)),
               ),
             ),
           ],

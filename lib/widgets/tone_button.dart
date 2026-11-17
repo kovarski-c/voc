@@ -28,8 +28,8 @@ class ToneButton extends StatefulWidget {
 }
 
 class _ToneButtonState extends State<ToneButton> {
-  static const Color _offBg = Color(0xFFEDEFF4);
-  static const Color _offAccent = Color(0xFFB9BEC9);
+  static Color get _offBg => kOffBg;
+  static Color get _offAccent => kFaint;
 
   bool _pressed = false;
 

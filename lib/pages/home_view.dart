@@ -8,6 +8,7 @@ import '../models/level.dart';
 import '../widgets/course_flag.dart';
 import '../widgets/level_shield.dart';
 import '../widgets/two_tone_progress_bar.dart';
+import '../widgets/week_chart.dart';
 
 /// Domovská stránka: přepínač jazyka, celkový pokrok, počty, směr karet a tři režimy.
 /// Neposouvá se, pokud se obsah vejde na displej.
@@ -104,7 +105,7 @@ class HomeView extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(left: 4, bottom: 8),
                         child: Text(
                           'Která strana karty je první',
@@ -159,6 +160,12 @@ class HomeView extends StatelessWidget {
                           ],
                         ),
                       ),
+                      const SizedBox(height: 20),
+                      WeekChart(
+                        week: c.lastDays(7),
+                        previousWeek: c.lastDays(7, endOffset: 7),
+                        goal: c.dailyGoal,
+                      ),
                     ],
                   ),
                 ),
@@ -210,7 +217,7 @@ class _Header extends StatelessWidget {
                             c.course.backLabel,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
                               color: kInk,
@@ -218,7 +225,7 @@ class _Header extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 4),
-                        const Icon(Icons.expand_more_rounded, color: kMuted),
+                        Icon(Icons.expand_more_rounded, color: kMuted),
                       ],
                     ),
                   ),
@@ -247,7 +254,7 @@ class _Header extends StatelessWidget {
                     value: (done / goal).clamp(0.0, 1.0),
                     strokeWidth: 4.5,
                     strokeCap: StrokeCap.round,
-                    backgroundColor: const Color(0xFFE3E7EE),
+                    backgroundColor: kTrack,
                     color: reached ? kToneGreen.solidA : kToneBlue.accent,
                   ),
                 ),
@@ -285,8 +292,7 @@ class _Header extends StatelessWidget {
                 Icon(
                   Icons.local_fire_department_rounded,
                   size: 24,
-                  color:
-                      streak > 0 ? kToneAmber.solidB : const Color(0xFFB4BBC7),
+                  color: streak > 0 ? kToneAmber.solidB : kFaint,
                 ),
                 const SizedBox(width: 2),
                 Text(
@@ -347,7 +353,7 @@ class _ProgressCard extends StatelessWidget {
             children: [
               Text(
                 '$learned',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 34,
                   fontWeight: FontWeight.w800,
                   height: 1.0,
@@ -359,7 +365,7 @@ class _ProgressCard extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 3),
                 child: Text(
                   'z $total slov',
-                  style: const TextStyle(fontSize: 15, color: kMuted),
+                  style: TextStyle(fontSize: 15, color: kMuted),
                 ),
               ),
               const Spacer(),
@@ -403,19 +409,16 @@ class _ProgressCard extends StatelessWidget {
               const SizedBox(width: 6),
               Text(
                 'pevně zvládnuto $solid',
-                style: const TextStyle(fontSize: 12, color: kMuted),
+                style: TextStyle(fontSize: 12, color: kMuted),
               ),
               const SizedBox(width: 14),
               _Dot(lightColor),
               const SizedBox(width: 6),
-              const Text(
-                'naučeno',
-                style: TextStyle(fontSize: 12, color: kMuted),
-              ),
+              Text('naučeno', style: TextStyle(fontSize: 12, color: kMuted)),
               const Spacer(),
               Text(
                 'Dnes: $reviewedToday + $learnedToday',
-                style: const TextStyle(fontSize: 12, color: kMuted),
+                style: TextStyle(fontSize: 12, color: kMuted),
               ),
             ],
           ),
@@ -467,7 +470,7 @@ class _StatPill extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 2),
-          Text(label, style: const TextStyle(fontSize: 12, color: kMuted)),
+          Text(label, style: TextStyle(fontSize: 12, color: kMuted)),
         ],
       ),
     );
@@ -489,7 +492,7 @@ class _DirectionPicker extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: const Color(0xFFE6EAF2),
+        color: kTrack,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -509,7 +512,7 @@ class _DirectionPicker extends StatelessWidget {
                     color:
                         c.settings.directionMode == e.key
                             ? Colors.white
-                            : const Color(0xFFE6EAF2),
+                            : kTrack,
                     borderRadius: BorderRadius.circular(12),
                     boxShadow:
                         c.settings.directionMode == e.key
@@ -565,9 +568,9 @@ class _ModeCard extends StatefulWidget {
 }
 
 class _ModeCardState extends State<_ModeCard> {
-  static const Color _offBg = Color(0xFFEDEFF4);
-  static const Color _offAccent = Color(0xFFB9BEC9);
-  static const Color _offBorder = Color(0xFFD9DDE6);
+  static Color get _offBg => kOffBg;
+  static Color get _offAccent => kFaint;
+  static Color get _offBorder => kOffBorder;
 
   bool _pressed = false;
 
