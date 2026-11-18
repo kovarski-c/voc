@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../models/day_stat.dart';
 import '../theme.dart';
@@ -10,20 +10,23 @@ const _dayShort = ['po', 'út', 'st', 'čt', 'pá', 'so', 'ne'];
 String _newWords(int n) =>
     n == 1 ? 'nové slovo' : (n >= 2 && n <= 4 ? 'nová slova' : 'nových slov');
 
-/// Karta "Posledních 7 dní": skládané sloupce v modré (tmavší dole = nově
-/// naučená slova, světlejší nahoře = zopakovaná), osa y s tenkými čárami,
-/// přerušovaná čára = denní cíl. Nad grafem je jen počet nových slov za týden
-/// a srovnání s minulým týdnem. Klepnutím na sloupec se nad ním ukáže bublina.
+/// Karta "Posledních 7 dní": dva překrývající se sloupce v modré. Světlý
+/// vzadu = naučená + zopakovaná (součet), tmavý vpředu = jen naučená. Tmavý
+/// sloupec je plný, když den dosáhl cíle nových slov, jinak jen obrys.
+/// Přerušovaná šedá čára = denní cíl, tmavá = cíl nových slov; fajfka nad
+/// sloupcem = splněný denní cíl. Vybraný den má obrys a tučný popisek.
 class WeekChart extends StatefulWidget {
   final List<DayStat> week; // 7 dní, poslední = dnes
   final List<DayStat> previousWeek; // předchozích 7 dní (srovnání)
   final int goal; // denní cíl (zopakované + naučené)
+  final int newGoal; // cíl nových slov za den
 
   const WeekChart({
     super.key,
     required this.week,
     required this.previousWeek,
     required this.goal,
+    required this.newGoal,
   });
 
   @override
@@ -40,7 +43,9 @@ class _WeekChartState extends State<WeekChart> {
   static const double _gutter = 28; // šířka osy y vlevo
   static const double _barWidth = 24;
   static const double _bubbleW = 118;
-  static const double _bubbleH = 46;
+  static const double _bubbleH = 58;
+
+  final light = Color.lerp(kToneBlue.solidA, Colors.white, 0.55);
 
   /// Krok osy y: 5 slov, u vyšších hodnot větší, ať čar není moc.
   static int _stepFor(int maxVal) {
@@ -120,7 +125,7 @@ class _WeekChartState extends State<WeekChart> {
   }
 
   Widget _chart(List<DayStat> week) {
-    var maxVal = widget.goal;
+    var maxVal = math.max(widget.goal, widget.newGoal);
     for (final d in week) {
       if (d.total > maxVal) maxVal = d.total;
     }
@@ -139,93 +144,121 @@ class _WeekChartState extends State<WeekChart> {
           curve: Curves.easeOutCubic,
           builder: (context, grow, _) {
             final sel = _selected;
-            return SizedBox(
-              height: _chartHeight + 24,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  // klepnutí mimo sloupce schová bublinu
-                  Positioned.fill(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () => setState(() => _selected = null),
-                    ),
-                  ),
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    top: 0,
-                    height: _chartHeight,
-                    child: IgnorePointer(
-                      child: CustomPaint(
-                        painter: _GridPainter(
-                          step: step,
-                          top: top,
-                          plotHeight: _plotHeight,
-                          gutter: _gutter,
-                          lineColor: kTrack,
-                          textColor: kMuted,
-                        ),
+            return TapRegion(
+              onTapOutside: (_) {
+                if (_selected != null) setState(() => _selected = null);
+              },
+              child: SizedBox(
+                height: _chartHeight + 24,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    // klepnutí mimo sloupce schová bublinu
+                    Positioned.fill(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () => setState(() => _selected = null),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    left: _gutter,
-                    right: 0,
-                    top: 0,
-                    height: _chartHeight,
-                    child: IgnorePointer(
-                      child: CustomPaint(
-                        painter: _GoalLine(
-                          height: widget.goal / scale * _plotHeight,
-                          color: kMuted.withValues(alpha: 0.55),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: _gutter,
-                    right: 0,
-                    top: 0,
-                    bottom: 0,
-                    child: Row(
-                      children: [
-                        for (var i = 0; i < week.length; i++)
-                          Expanded(
-                            child: _column(
-                              week[i],
-                              i,
-                              isToday: i == week.length - 1,
-                              scale: scale,
-                              grow: grow,
-                            ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      top: 0,
+                      height: _chartHeight,
+                      child: IgnorePointer(
+                        child: CustomPaint(
+                          painter: _GridPainter(
+                            step: step,
+                            top: top,
+                            plotHeight: _plotHeight,
+                            gutter: _gutter,
+                            lineColor: kTrack,
+                            textColor: kMuted,
                           ),
-                      ],
+                        ),
+                      ),
                     ),
-                  ),
-                  if (sel != null)
-                    Builder(
-                      builder: (context) {
-                        final d = week[sel];
-                        final reached = d.total >= widget.goal && d.total > 0;
-                        final cx = _gutter + (sel + 0.5) * colW;
-                        final barTop =
-                            _chartHeight - d.total / scale * _plotHeight * grow;
-                        final left =
-                            math
-                                .max(
-                                  0.0,
-                                  math.min(cx - _bubbleW / 2, width - _bubbleW),
-                                )
-                                .toDouble();
-                        return Positioned(
-                          left: left,
-                          top: barTop - _bubbleH - 8 - (reached ? 16 : 0),
-                          child: IgnorePointer(child: _bubble(d)),
-                        );
-                      },
+                    Positioned(
+                      left: _gutter,
+                      right: 0,
+                      top: 0,
+                      height: _chartHeight,
+                      child: IgnorePointer(
+                        child: CustomPaint(
+                          painter: _GoalLine(
+                            height: widget.goal / scale * _plotHeight,
+                            color:
+                                Color.lerp(
+                                  kToneBlue.solidA,
+                                  Colors.white,
+                                  0.55,
+                                )!,
+                          ),
+                        ),
+                      ),
                     ),
-                ],
+                    Positioned(
+                      left: _gutter,
+                      right: 0,
+                      top: 0,
+                      height: _chartHeight,
+                      child: IgnorePointer(
+                        child: CustomPaint(
+                          painter: _GoalLine(
+                            height: widget.newGoal / scale * _plotHeight,
+                            color: kToneBlue.solidA.withValues(alpha: 0.55),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: _gutter,
+                      right: 0,
+                      top: 0,
+                      bottom: 0,
+                      child: Row(
+                        children: [
+                          for (var i = 0; i < week.length; i++)
+                            Expanded(
+                              child: _column(
+                                week[i],
+                                i,
+                                isToday: i == week.length - 1,
+                                scale: scale,
+                                grow: grow,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    if (sel != null)
+                      Builder(
+                        builder: (context) {
+                          final d = week[sel];
+                          final reached = d.total >= widget.goal && d.total > 0;
+                          final cx = _gutter + (sel + 0.5) * colW;
+                          final barTop =
+                              _chartHeight -
+                              d.total / scale * _plotHeight * grow;
+                          final left =
+                              math
+                                  .max(
+                                    0.0,
+                                    math.min(
+                                      cx - _bubbleW / 2,
+                                      width - _bubbleW,
+                                    ),
+                                  )
+                                  .toDouble();
+                          return Positioned(
+                            left: left,
+                            top: barTop - _bubbleH - 8 - (reached ? 16 : 0),
+                            child: IgnorePointer(child: _bubble(d)),
+                          );
+                        },
+                      ),
+                  ],
+                ),
               ),
             );
           },
@@ -235,26 +268,28 @@ class _WeekChartState extends State<WeekChart> {
   }
 
   Widget _bubble(DayStat d) {
-    const style = TextStyle(
+    final style = TextStyle(
       fontSize: 12.5,
-      fontWeight: FontWeight.w700,
-      color: Colors.white,
+      fontWeight: FontWeight.w500,
+      color: kInk,
       height: 1.3,
     );
     return Container(
-      width: _bubbleW,
+      width: _bubbleW + 8,
       height: _bubbleH,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: kInk,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: softShadow(0.18),
+        border: Border.all(color: Colors.white, width: 1.6),
+        boxShadow: softShadow(0.2),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text('${d.learned} naučených', style: style),
           Text('${d.reviewed} zopakovaných', style: style),
+          Text('${d.reviewed + d.learned} celkem', style: style),
         ],
       ),
     );
@@ -268,11 +303,11 @@ class _WeekChartState extends State<WeekChart> {
     required double grow,
   }) {
     final selected = _selected == i;
-    final emphasized = isToday || selected;
-    final alpha = emphasized ? 1.0 : 0.6;
     final reached = d.total >= widget.goal && d.total > 0;
-    final dark = kToneBlue.solidA;
-    final light = Color.lerp(kToneBlue.solidA, Colors.white, 0.55)!;
+    final newReached = d.learned > 0 && d.learned >= widget.newGoal;
+    final dark = Color.lerp(kToneBlue.solidA, Colors.white, 0.35)!;
+    final light = Color.lerp(kToneBlue.solidA, Colors.white, 0.55 * 1.3)!;
+    const double radiusVal = 8.0;
 
     double h(int v) {
       if (v <= 0) return 0;
@@ -280,8 +315,54 @@ class _WeekChartState extends State<WeekChart> {
       return math.max(4.0, math.min(raw, _plotHeight));
     }
 
-    final hLearn = h(d.learned);
-    final hRev = h(d.reviewed);
+    // Světlý sloupec = součet, tmavý = jen naučená (podmnožina součtu).
+    // Minimální výška sloupce je kvůli zaoblení 16 px. Když je součet na
+    // minimu (velké měřítko osy), naučená se vykreslí jako podíl součtu, aby
+    // světlý sloupec nezakryl tmavý (a naopak) a poměr zůstal správný.
+    const double minBar = radiusVal * 2;
+    final hTotalRaw = h(d.total);
+    final hTotal = d.total > 0 ? math.max(hTotalRaw, minBar) : 0.0;
+    final hLearn =
+        d.learned <= 0
+            ? 0.0
+            : (hTotalRaw >= minBar
+                ? math.min(h(d.learned), hTotal)
+                : hTotal * d.learned / d.total);
+
+    Widget part({required double height, required Color fill, Color? border}) {
+      final hh = height;
+      final radius = const BorderRadius.vertical(
+        top: Radius.circular(radiusVal),
+      );
+      if (border == null) {
+        return Container(
+          width: _barWidth,
+          height: hh,
+          decoration: BoxDecoration(color: fill, borderRadius: radius),
+        );
+      }
+      // Obrys bez spodní čáry: jednotný okraj se protáhne pod základnu a ořízne.
+      return SizedBox(
+        width: _barWidth,
+        height: hh,
+        child: ClipRect(
+          child: OverflowBox(
+            alignment: Alignment.topCenter,
+            minHeight: hh + 4,
+            maxHeight: hh + 4,
+            child: Container(
+              width: _barWidth,
+              height: hh + 4,
+              decoration: BoxDecoration(
+                color: fill,
+                borderRadius: radius,
+                border: Border.all(color: border, width: 2),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
 
     final Widget bar;
     if (d.total == 0) {
@@ -291,84 +372,99 @@ class _WeekChartState extends State<WeekChart> {
         decoration: BoxDecoration(shape: BoxShape.circle, color: kTrack),
       );
     } else {
-      final bool hasRev = hRev > 0;
-      final bool hasLearn = hLearn > 0;
-      const double radiusVal = 8.0;
-
-      // Pomocná funkce pro vytvoření jednoho samostatného zaobleného sloupce
-      Widget buildBarPart({required double height, required Color color}) {
-        return ClipRRect(
-          borderRadius: BorderRadius.vertical(
-            top: const Radius.circular(radiusVal),
-          ),
-          child: Container(
-            width: _barWidth,
-            height: math.max(height, radiusVal * 2),
-            color: color,
-          ),
-        );
-      }
-
-      // Stack zajistí, že sloupce jsou přes sebe po ose Z
+      final barH = math.max(hTotal, radiusVal * 2);
       bar = SizedBox(
         width: _barWidth,
+        height: barH,
         child: Stack(
           alignment: Alignment.bottomCenter,
           clipBehavior: Clip.none,
           children: [
-            // 1. Větší/spodní sloupec (např. naučená slova)
-            if (hasLearn)
-              buildBarPart(
+            // 1. vzadu: součet naučených a zopakovaných (světlý)
+            part(
+              height: hTotal,
+              fill:
+                  reached
+                      ? Color.lerp(light, dark, selected ? 0.4 : 0)!
+                      : Colors.white,
+              border:
+                  reached
+                      ? null
+                      : Color.lerp(light, dark, selected ? 0.4 : 0.0)!,
+            ),
+            // 2. vpředu: jen naučená; plná při splněném cíli, jinak obrys
+            if (hLearn > 0)
+              part(
                 height: hLearn,
-                color: dark.withValues(alpha: alpha),
+                fill:
+                    newReached
+                        ? Color.lerp(
+                          dark,
+                          kToneBlue.solidA,
+                          selected ? 0.5 : 0,
+                        )!
+                        : Colors.white,
+                border:
+                    newReached
+                        ? null
+                        : Color.lerp(
+                          kToneBlue.solidA,
+                          Colors.white,
+                          selected ? 0.1 : 0.30,
+                        )!,
               ),
 
-            // 2. Menší sloupec (např. zopakovaná slova) - je v kódu níže, takže se vykreslí PŘED ním
-            if (hasRev)
-              buildBarPart(height: hRev, color: light.withValues(alpha: alpha)),
+            // označení vybraného dne: obrys kolem celého sloupce
           ],
         ),
       );
     }
 
     final label = _dayShort[d.date.weekday - 1];
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () => setState(() => _selected = selected ? null : i),
-      child: Column(
-        children: [
-          SizedBox(
-            height: _chartHeight,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (reached)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 2),
-                      child: Icon(
-                        Icons.check_circle_rounded,
-                        size: 14,
-                        color: kToneBlue.accent,
-                      ),
+    return Column(
+      children: [
+        SizedBox(
+          height: _chartHeight,
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (reached)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 2),
+                    child: Icon(
+                      Icons.check_circle_rounded,
+                      size: 14,
+                      color: kToneBlue.accent,
                     ),
-                  bar,
-                ],
-              ),
+                  ),
+                // klepnutí jen na sloupec (s malou rezervou), ne na celý sloupec grafu
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => setState(() => _selected = selected ? null : i),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                    child: bar,
+                  ),
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 6),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: emphasized ? FontWeight.w800 : FontWeight.w500,
-              color: emphasized ? kInk : kMuted,
-            ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight:
+                selected
+                    ? FontWeight.w900
+                    : (isToday ? FontWeight.w700 : FontWeight.w500),
+            color: selected || isToday ? kInk : kMuted,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -401,13 +497,15 @@ class _GridPainter extends CustomPainter {
       final y = size.height - v / top * plotHeight;
       canvas.drawLine(Offset(gutter, y), Offset(size.width, y), line);
       if (v > 0) {
-        final tp = TextPainter(
-          text: TextSpan(
-            text: '$v',
-            style: TextStyle(fontSize: 10, color: textColor),
-          ),
-          textDirection: TextDirection.ltr,
-        )..layout();
+        final tp =
+            TextPainter(
+                text: TextSpan(
+                  text: '$v',
+                  style: TextStyle(fontSize: 10, color: textColor),
+                ),
+              )
+              ..textDirection = TextDirection.ltr
+              ..layout();
         tp.paint(canvas, Offset(gutter - 6 - tp.width, y - tp.height / 2));
       }
     }

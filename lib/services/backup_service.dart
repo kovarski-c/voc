@@ -15,7 +15,21 @@ class BackupData {
 /// Záloha = jeden JSON se všemi soubory aplikace (nastavení a postup kurzů).
 class BackupService {
   static const _app = 'voc';
-  static final _nameRe = RegExp(r'^(settings|progress_[A-Za-z0-9_\-]+)\.json$');
+  /// Povolené názvy souborů: settings.json a progress_<id>.json.
+  static bool _okName(String n) {
+    if (n == 'settings.json') return true;
+    if (!n.startsWith('progress_') || !n.endsWith('.json')) return false;
+    if (n.length <= 'progress_.json'.length) return false;
+    final id = n.substring(9, n.length - 5);
+    return id.codeUnits.every(
+      (c) =>
+          (c >= 48 && c <= 57) ||
+          (c >= 65 && c <= 90) ||
+          (c >= 97 && c <= 122) ||
+          c == 95 ||
+          c == 45,
+    );
+  }
 
   static String fileName([DateTime? now]) {
     final d = now ?? DateTime.now();
@@ -27,7 +41,7 @@ class BackupService {
   static Future<String> export() async {
     final files = <String, dynamic>{};
     for (final n in await Storage.names()) {
-      if (!_nameRe.hasMatch(n)) continue;
+      if (!_okName(n)) continue;
       final text = await Storage.read(n);
       if (text == null) continue;
       try {
@@ -57,7 +71,7 @@ class BackupService {
     }
     final files = <String, Map<String, dynamic>>{};
     (data['files'] as Map).forEach((k, v) {
-      if (k is String && _nameRe.hasMatch(k) && v is Map) {
+      if (k is String && _okName(k) && v is Map) {
         files[k] = Map<String, dynamic>.from(v);
       }
     });

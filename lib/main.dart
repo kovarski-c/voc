@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'courses.dart';
 import 'models/course.dart';
@@ -79,11 +79,38 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       settings,
     );
     await controller.init();
-    settings.courseId = course.id;
-    SettingsStore.save(settings);
+    // Jazyk se pamatuje až po výběru úrovně / testu; do té doby se po
+    // restartu znovu ukáže výběr jazyka.
+    if (!controller.needsPlacement) {
+      settings.courseId = course.id;
+      SettingsStore.save(settings);
+    }
     if (!mounted) return;
     controller.addListener(_syncTheme);
+    controller.addListener(_persistCourse);
     setState(() => _controller = controller);
+    if (old != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => old.dispose());
+    }
+  }
+
+  void _persistCourse() {
+    final c = _controller;
+    final st = _settings;
+    if (c == null || st == null || c.needsPlacement) return;
+    if (st.courseId != c.course.id) {
+      st.courseId = c.course.id;
+      SettingsStore.save(st);
+    }
+  }
+
+  /// Z úvodního výběru úrovně zpět na výběr jazyka (omylem zvolený jazyk).
+  Future<void> _backToLanguage() async {
+    final old = _controller;
+    await old?.flush();
+    if (!mounted) return;
+    old?.removeListener(_persistCourse);
+    setState(() => _controller = null);
     if (old != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) => old.dispose());
     }
@@ -122,6 +149,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         key: ValueKey(_controller!.course.id),
         controller: _controller!,
         onChangeCourse: _showPicker,
+        onBackToLanguage: _backToLanguage,
       );
     }
     return MaterialApp(

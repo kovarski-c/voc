@@ -20,6 +20,9 @@ class AppSettings {
   /// Denní cíl v kartách (zopakované + naučené).
   int dailyGoal;
 
+  /// Cíl nových slov za den (dokončená 3 učící kola). Neovlivňuje sérii, jen graf.
+  int newWordsGoal;
+
   /// Lehké vibrace při swipu.
   bool haptics;
 
@@ -34,6 +37,7 @@ class AppSettings {
     this.nativeFrontProb = 0.65,
     this.courseId,
     this.dailyGoal = 20,
+    this.newWordsGoal = 5,
     this.haptics = true,
     this.hideVulgar = true,
     this.theme = AppThemeId.classic,
@@ -44,6 +48,7 @@ class AppSettings {
         'p': nativeFrontProb,
         'course': courseId,
         'goal': dailyGoal,
+        'ngoal': newWordsGoal,
         'hap': haptics ? 1 : 0,
         'vul': hideVulgar ? 1 : 0,
         'thm': theme.index,
@@ -56,6 +61,7 @@ class AppSettings {
             ((m['p'] as num?)?.toDouble() ?? 0.65).clamp(0.0, 1.0),
         courseId: m['course'] as String?,
         dailyGoal: ((m['goal'] as num?)?.toInt() ?? 20).clamp(5, 100),
+        newWordsGoal: ((m['ngoal'] as num?)?.toInt() ?? 5).clamp(1, 50),
         haptics: ((m['hap'] as num?)?.toInt() ?? 1) == 1,
         hideVulgar: ((m['vul'] as num?)?.toInt() ?? 1) == 1,
         theme: AppThemeId

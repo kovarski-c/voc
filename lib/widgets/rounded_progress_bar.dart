@@ -1,5 +1,5 @@
 import 'dart:math' as math;
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Pruh průběhu, jehož výplň má vždy zaoblené konce (i při velmi malé hodnotě).
 /// Výplň je nejméně tak široká jako vysoká, takže na začátku vypadá jako kolečko.

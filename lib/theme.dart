@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Dostupná témata vzhledu (volí se v nastavení).
 enum AppThemeId {

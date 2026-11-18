@@ -1,1 +1,0 @@
- /Users/admin/Documents/development/Voc/Voc_autumn_2026/.dart_tool/flutter_build/80d4ca68ada2ecae34bc38a37a172b0f/native_assets.json: 

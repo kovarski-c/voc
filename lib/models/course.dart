@@ -91,7 +91,9 @@ class Course {
 
   /// Více významů se na kartě i v seznamu vždy odděluje čárkou (ne středníkem).
   static String _commas(String s) =>
-      s.contains(';') ? s.replaceAll(RegExp(r'\s*;\s*'), ', ') : s;
+      s.contains(';')
+          ? s.split(';').map((e) => e.trim()).join(', ')
+          : s;
 
   String front(int key) => _commas(fronts[_p(key)]);
   String back(int key) => _commas(backs[_p(key)]);

@@ -1,0 +1,3001 @@
+id	fr	ipa	cs	pos	flag	vulgar	src_rank	merged_ranks
+1	être	ɛtʁ	být	VER		0	1	
+2	je / j'	ʒə	já	PRO:per	elize	0	2	
+3	de / d'	də	z, od, ze; vyjadřuje původ nebo přináležitost (2. pád)	PRE	elize	0	3	
+4	ne / n'	nə	ne (první část záporu ne … pas)	ADV	elize	0	4	
+5	avoir	avwaʁ	mít	VER		0	5	
+6	pas	pa	ne (druhá část záporu); krok	ADV		0	6	
+7	le / la / l' / les	lə / la / le	ten, ta, to, ti (určitý člen); ho, ji, je (zájmeno)	ART:def	elize	0	7	7 9 17
+8	tu	ty	ty	PRO:per		0	8	
+9	vous	vu	vy; vás, vám	PRO:per		0	10	
+10	il	il	on; to (neosobní podmět)	PRO:per		0	11	
+11	et	e	a	CON		0	12	
+12	un / une	œ̃ / yn	jeden, jedna; nějaký, nějaká (neurčitý člen)	ART:ind		0	13	13 19
+13	aller	ale	jít, jet; s'en aller = odejít	VER	reflexiv	0	14	
+14	ça	sa	to, tohle	PRO:dem		0	15	
+15	faire	fɛʁ	dělat, udělat	VER		0	16	
+16	on	ɔ̃	se, my; člověk (neurčitý podmět)	PRO:per		0	18	
+17	pour	puʁ	pro, za, aby	PRE		0	20	
+18	des	de	nějací, nějaké (neurčitý člen mn. č.)	ART:ind		0	21	
+19	dire	diʁ	říct, říkat	VER		0	22	
+20	en	ɑ̃	v, do, jako; z toho (zájmeno)	PRE		0	23	
+21	pouvoir	puvwaʁ	moci, smět	VER		0	24	
+22	qui	ki	kdo; který	PRO:int		0	25	
+23	vouloir	vulwaʁ	chtít	VER		0	26	
+24	ce / c' / cet / cette / ces	sə / sɛt / se	tento, tato, toto, tito (ukazovací); to (c'est = to je)	ADJ:dem+PRO:dem	elize	0	27	27 65 91 188
+25	mais	mɛ	ale	CON		0	28	
+26	me / m'	mə	mě, mi	PRO:per	elize	0	29	
+27	nous	nu	my; nás, nám	PRO:per		0	30	
+28	dans	dɑ̃	v, do, uvnitř	PRE		0	31	
+29	elle	ɛl	ona; to	PRO:per		0	32	
+30	savoir	savwaʁ	vědět, umět	VER		0	33	
+31	du	dy	z, od, ze (de + le); trochu, nějaký	ART:def		0	34	
+32	y	i	tam; na to, v tom (zájmeno)	PRO:per		0	35	
+33	te / t'	tə	tě, ti	PRO:per	elize	0	36	
+34	bien	bjɛ̃	dobře; hodně	ADV		0	37	
+35	voir	vwaʁ	vidět	VER		0	38	
+36	que / qu'	kə	že; co; než	PRO:int	elize	0	39	
+37	plus	ply	více; už (ne … plus = už ne)	ADV		0	40	
+38	non	nɔ̃	ne	ADV		0	41	
+39	mon / ma / mes	mɔ̃ / ma / me	můj, moje (přivlastňovací)	ADJ:pos		0	42	42 56 100
+40	au	o	k, na, do (à + le)	ART:def		0	43	
+41	avec	avɛk	s, se	PRE		0	44	
+42	moi	mwa	já (důrazně); mě, mně	PRO:per		0	45	
+43	devoir	dəvwaʁ	muset, dlužit	VER		0	46	
+44	oui	wi	ano	ADV		0	47	
+45	ils	il	oni	PRO:per		0	48	
+46	tout	tu	všechno; celý, veškerý	NOM+ADJ		0	49	
+47	se / s'	sə	se, si (zvratné zájmeno)	PRO:per	elize	0	50	
+48	venir	vəniʁ	přijít, přijet	VER		0	51	
+49	sur	syʁ	na, o	PRE		0	52	
+50	toi	twa	ty (důrazně); tebe, tobě	PRO:per		0	53	
+51	ici	isi	tady, sem	ADV		0	54	
+52	rien	ʁjɛ̃	nic	PRO:ind		0	55	
+53	comme	kɔm	jako, jak; protože	CON		0	57	
+54	lui	lɥi	on (důrazně); mu, jemu	PRO:per		0	58	
+55	où	u	kde, kam	PRO:int		0	59	
+56	si	si	jestli, kdyby; tak; ale ano (po záporu)	ADV		0	60	
+57	là	la	tam	ADV		0	61	
+58	suivre	sɥivʁ	následovat, sledovat	VER		0	62	
+59	parler	paʁle	mluvit	VER		0	63	
+60	prendre	pʁɑ̃dʁ	vzít, brát	VER		0	64	
+61	votre / vos	vɔtʁ / vo	váš, vaše	ADJ:pos		0	66	66 156
+62	quand	kɑ̃	kdy; když	CON		0	67	
+63	alors	alɔʁ	tak, pak, tehdy	ADV		0	68	
+64	la chose	ʃoz	věc	NOM		0	69	
+65	par	paʁ	skrz, po; od (původce)	PRE		0	70	
+66	son / sa / ses	sɔ̃ / sa / se	jeho, její (přivlastňovací)	ADJ:pos		0	71	71 88 139
+67	ton / ta / tes	tɔ̃ / ta / te	tvůj, tvoje	ADJ:pos		0	72	72 89 147
+68	croire	kʁwaʁ	věřit, myslet si	VER		0	73	
+69	aimer	eme	milovat, mít rád	VER		0	74	
+70	falloir	falwaʁ	být třeba, muset (neosobně)	VER		0	75	
+71	très	tʁɛ	velmi	ADV		0	76	
+72	ou	u	nebo	CON		0	77	
+73	quoi	kwa	co (po předložce, důrazně)	ADJ		0	78	
+74	bon / bonne	bɔ̃ / bɔn	dobrý, dobrá	NOM+ADJ		0	79	
+75	passer	pase	projít, trávit (čas), podat; se passer = stát se	VER	reflexiv	0	80	
+76	penser	pɑ̃se	myslet, přemýšlet	VER		0	81	
+77	aussi	osi	také, taky	ADV		0	82	
+78	jamais	ʒamɛ	nikdy; někdy	ADV		0	83	
+79	attendre	atɑ̃dʁ	čekat; s'attendre à = očekávat	VER	reflexiv	0	84	
+80	pourquoi	puʁkwa	proč	ADV		0	85	
+81	trouver	tʁuve	najít, shledat; se trouver = nacházet se	VER	reflexiv	0	86	
+82	laisser	lese	nechat, zanechat	VER		0	87	
+83	arriver	aʁive	přijít, dorazit; stát se	VER		0	90	
+84	donner	dɔne	dát, dávat	VER		0	92	
+85	regarder	ʁəɡaʁde	dívat se, podívat se	VER		0	93	
+86	encore	ɑ̃kɔʁ	ještě, znovu	ADV		0	94	
+87	appeler	aple	zavolat, volat; s'appeler = jmenovat se	VER	reflexiv	0	95	
+88	est-ce que	ɛs kə	(částice otázky, nepřekládá se)	ADV		0	96	
+89	l'homme (m.)	ɔm	muž, člověk	NOM		0	97	
+90	partir	paʁtiʁ	odejít, odjet	VER		0	98	
+91	petit	pəti	malý	NOM+ADJ		0	99	
+92	toujours	tuʒuʁ	vždycky, stále	ADV		0	101	
+93	le jour	ʒuʁ	den	NOM		0	102	
+94	la femme	fam	žena; manželka	NOM		0	103	
+95	le temps	tɑ̃	čas; počasí	NOM		0	104	
+96	maintenant	mɛ̃tnɑ̃	teď, nyní	ADV		0	105	
+97	notre / nos	nɔtʁ / no	náš, naše	ADJ:pos		0	106	106 181
+98	la vie	vi	život	NOM		0	107	
+99	mettre	mɛtʁ	dát, položit, obléct; se mettre = začít, posadit se	VER	reflexiv	0	108	
+100	rester	ʁɛste	zůstat	VER		0	109	
+101	sans	sɑ̃	bez	PRE		0	110	
+102	arrêter	aʁete	zastavit, přestat; zatknout	VER		0	111	
+103	vraiment	vʁɛmɑ̃	opravdu, vážně	ADV		0	112	
+104	connaître	kɔnɛtʁ	znát	VER		0	113	
+105	sûr	syʁ	jistý, bezpečný	ADJ		0	114	
+106	tuer	tɥe	zabít	VER		0	115	
+107	comment	kɔmɑ̃	jak	ADV		0	116	
+108	mourir	muʁiʁ	umřít, zemřít	VER		0	117	
+109	demander	dəmɑ̃de	zeptat se, požádat; se demander = ptát se sám sebe	VER	reflexiv	0	118	
+110	même	mɛm	stejný; dokonce	ADV		0	119	
+111	peut-être	pøtɛtʁ	možná	ADV		0	120	
+112	le dieu	djø	bůh	NOM		0	121	
+113	la fois	fwa	krát, případ (une fois = jednou)	NOM		0	122	
+114	le père	pɛʁ	otec	NOM		0	123	
+115	le peu	pø	málo, trocha	NOM		0	124	
+116	comprendre	kɔ̃pʁɑ̃dʁ	rozumět, chápat	VER		0	125	
+117	seul	sœl	sám, jediný	NOM+ADJ		0	126	
+118	quelque	kɛlk	nějaký, několik	ADJ:ind		0	127	
+119	sortir	sɔʁtiʁ	vyjít, jít ven, vytáhnout	VER		0	128	
+120	l'an (m.)	ɑ̃	rok (u věku a data)	NOM		0	129	
+121	trop	tʁo	příliš, moc	ADV		0	130	
+122	chez	ʃe	u, k (někomu domů)	PRE		0	131	
+123	la fille	fij	dcera, dívka	NOM		0	132	
+124	aux	o	k, na (à + les)	ART:def		0	133	
+125	le monde	mɔ̃d	svět; lidé	NOM		0	134	
+126	vrai	vʁɛ	pravdivý, skutečný; pravda	NOM+ADJ		0	135	
+127	autre	otʁ	jiný, další	ADJ		0	136	
+128	le besoin	bəzwɛ̃	potřeba	NOM		0	137	
+129	l'accord (m.)	akɔʁ	souhlas, dohoda	NOM		0	138	
+130	l'ami (m.)	ami	přítel; přátelský	NOM+ADJ		0	140	
+131	le monsieur	məsjø	pán	NOM		0	141	
+132	un(e) enfant	ɑ̃fɑ̃	dítě	NOM		0	142	
+133	entendre	ɑ̃tɑ̃dʁ	slyšet; rozumět	VER		0	143	
+134	voilà	vwala	tady je, tak, hle	PRE		0	144	
+135	chercher	ʃɛʁʃe	hledat	VER		0	145	
+136	l'heure (f.)	œʁ	hodina; čas (hodin)	NOM		0	146	
+137	aider	ede	pomoci, pomáhat	VER		0	148	
+138	la mère	mɛʁ	matka	NOM		0	149	
+139	déjà	deʒa	už, již	ADV		0	150	
+140	beau / belle	bo / bɛl	krásný, hezký	NOM+ADJ		0	151	
+141	essayer	esɛje	zkusit, zkoušet	VER		0	152	
+142	quel / quelle	kɛl	jaký, jaká; který, která	ADJ:int		0	153	153 184
+143	juste	ʒyst	spravedlivý; správný; právě, jen	ADJ		0	154	
+144	mieux	mjø	lépe, líp	ADV		0	155	
+145	grand	ɡʁɑ̃	velký, vysoký	NOM+ADJ		0	157	
+146	quelqu'un	kɛlkœ̃	někdo	PRO:ind		0	158	
+147	beaucoup	boku	hodně, mnoho	ADV		0	159	
+148	revenir	ʁəvniʁ	vrátit se, přijít zpět	VER		0	160	
+149	donc	dɔ̃k	tedy, proto	CON		0	161	
+150	plaire	plɛʁ	líbit se, zalíbit se	VER		0	162	
+151	la maison	mɛzɔ̃	dům, domov	NOM	rod-odhad	0	163	
+152	les gens	ʒɑ̃	lidé	NOM	pluriel-tantum	0	164	
+153	après	apʁɛ	po, potom	PRE		0	165	
+154	la nuit	nɥi	noc	NOM		0	166	
+155	personne	pɛʁsɔn	nikdo (se záporem); někdo	PRO:ind		0	167	
+156	le soir	swaʁ	večer	NOM		0	168	
+157	le nom	nɔ̃	jméno, název; podstatné jméno	NOM		0	169	
+158	le bonjour	bɔ̃ʒuʁ	dobrý den, pozdrav	NOM		0	170	
+159	jouer	ʒwe	hrát (si)	VER		0	171	
+160	finir	finiʁ	skončit, dokončit	VER		0	172	
+161	la peur	pœʁ	strach	NOM		0	173	
+162	parce que	paʁs kə	protože	CON		0	174	
+163	perdre	pɛʁdʁ	ztratit, prohrát	VER		0	175	
+164	la maman	mamɑ̃	máma, maminka	NOM		0	176	
+165	sentir	sɑ̃tiʁ	cítit; vonět, zapáchat	VER		0	177	
+166	ouais	wɛ	jo (hovorově)	ADV		0	178	
+167	rentrer	ʁɑ̃tʁe	vrátit se, jít domů	VER		0	179	
+168	avant	avɑ̃	před, dříve	PRE		0	180	
+169	le problème	pʁɔblɛm	problém	NOM		0	182	
+170	l'argent (m.)	aʁʒɑ̃	peníze; stříbro	NOM		0	183	
+171	vivre	vivʁ	žít	VER		0	185	
+172	rendre	ʁɑ̃dʁ	vrátit, odevzdat, učinit; se rendre = odebrat se, jet	VER	reflexiv	0	186	
+173	tenir	təniʁ	držet; trvat na	VER		0	187	
+174	la main	mɛ̃	ruka	NOM		0	189	
+175	cela	səla	to, tamto	PRO:dem		0	190	
+176	vite	vit	rychle	ADV		0	191	
+177	oublier	ublije	zapomenout	VER		0	192	
+178	l'air (m.)	ɛʁ	vzduch; vzhled, dojem	NOM		0	193	
+179	depuis	dəpɥi	od, už (jak dlouho)	PRE		0	194	
+180	le fils	fis	syn	NOM		0	195	
+181	travailler	tʁavaje	pracovat	VER		0	196	
+182	moins	mwɛ̃	méně, míň	ADV		0	197	
+183	la tête	tɛt	hlava	NOM		0	198	
+184	le coup	ku	úder, rána; tah	NOM		0	199	
+185	écouter	ekute	poslouchat	VER		0	200	
+186	la raison	ʁɛzɔ̃	důvod; rozum	NOM		0	201	
+187	manger	mɑ̃ʒe	jíst	VER		0	202	
+188	la mort	mɔʁ	smrt; mrtvý	NOM+ADJ		0	203	
+189	l'amour (m.)	amuʁ	láska	NOM		0	204	
+190	mal	mal	špatně, zle	ADV		0	205	
+191	entrer	ɑ̃tʁe	vejít, vstoupit	VER		0	206	
+192	devenir	dəvəniʁ	stát se	VER		0	207	
+193	commencer	kɔmɑ̃se	začít, začínat	VER		0	208	
+194	le moment	mɔmɑ̃	chvíle, okamžik	NOM		0	209	
+195	dernier / dernière	dɛʁnje / dɛʁnjɛʁ	poslední; minulý	NOM+ADJ		0	210	
+196	la voiture	vwatyʁ	auto	NOM		0	211	
+197	demain	dəmɛ̃	zítra	ADV		0	212	
+198	elles	ɛl	ony (ž. r.)	PRO:per		0	213	
+199	payer	peje	platit, zaplatit	VER		0	214	
+200	tirer	tiʁe	táhnout, vytáhnout, střílet	VER		0	215	
+201	ouvrir	uvʁiʁ	otevřít	VER		0	216	
+202	l'oeil (m.)	œj	oko (mn. č. les yeux)	NOM		0	217	
+203	le fait	fɛ	fakt, skutek	NOM+ADJ		0	218	
+204	changer	ʃɑ̃ʒe	změnit, měnit	VER		0	219	
+205	la question	kɛstjɔ̃	otázka	NOM		0	220	
+206	tomber	tɔ̃be	padnout, spadnout	VER		0	221	
+207	assez	ase	dost, dostatečně	ADV		0	222	
+208	foutre	futʁ	vulg. mít pohlavní styk; hovor. dělat, dát, strčit; je m'en fous = je mi to jedno	VER	vulgaire	1	223	
+209	excuser	ɛkskyze	omluvit; s'excuser = omluvit se	VER		0	224	
+210	l'affaire (f.)	afɛʁ	záležitost, případ, obchod	NOM		0	225	
+211	dormir	dɔʁmiʁ	spát	VER		0	226	
+212	combien	kɔ̃bjɛ̃	kolik	ADV		0	227	
+213	le frère	fʁɛʁ	bratr	NOM		0	228	
+214	le travail	tʁavaj	práce	NOM		0	229	
+215	l'idée (f.)	ide	nápad, myšlenka	NOM		0	230	
+216	la famille	famij	rodina	NOM		0	231	
+217	le truc	tʁyk	věc, fígl (hovorově)	NOM		0	232	
+218	tant	tɑ̃	tolik, tak moc	ADV		0	233	
+219	le merci	mɛʁsi	poděkování, díky	NOM		0	234	
+220	ni	ni	ani	CON		0	235	
+221	premier / première	pʁəmje / pʁəmjɛʁ	první	NOM+ADJ		0	236	
+222	tous	tu(s)	všichni, všechny	PRO:ind		0	237	
+223	occuper	ɔkype	zabrat, zaměstnat; s'occuper de = starat se o	VER		0	238	
+224	entre	ɑ̃tʁ	mezi	PRE		0	239	
+225	marcher	maʁʃe	chodit, jít pěšky; fungovat	VER		0	240	
+226	la chance	ʃɑ̃s	štěstí, šance	NOM		0	241	
+227	aujourd'hui	oʒuʁdɥi	dnes	ADV		0	242	
+228	envoyer	ɑ̃vwaje	poslat	VER		0	243	
+229	l'histoire (f.)	istwaʁ	příběh; historie	NOM		0	244	
+230	tard	taʁ	pozdě	ADV		0	245	
+231	apprendre	apʁɑ̃dʁ	učit se, naučit se; učit (koho); dozvědět se	VER		0	246	
+232	la minute	minyt	minuta	NOM		0	247	
+233	boire	bwaʁ	pít	VER		0	248	
+234	garder	ɡaʁde	držet, ponechat, hlídat	VER		0	249	
+235	quelques	kɛlk	několik, pár	ADJ:ind		0	250	
+236	le type	tip	chlap, typ	NOM		0	251	
+237	la porte	pɔʁt	dveře, brána	NOM		0	252	
+238	montrer	mɔ̃tʁe	ukázat	VER		0	253	
+239	le mal	mal	zlo; bolest	NOM+ADJ		0	254	
+240	le mec	mɛk	chlap, týpek (hovorově)	NOM	familier	0	255	
+241	asseoir	aswaʁ	posadit; s'asseoir = sednout si	VER		0	256	
+242	fou / folle	fu / fɔl	bláznivý, šílený	NOM+ADJ		0	257	
+243	porter	pɔʁte	nosit, mít na sobě	VER		0	258	
+244	l'année (f.)	ane	rok (jako období)	NOM		0	259	
+245	sous	su	pod	PRE		0	260	
+246	se souvenir	sə suvniʁ	pamatovat si, vzpomenout si	VER	reflexiv	0	261	
+247	prêt	pʁɛ	připravený; půjčka	NOM+ADJ		0	262	
+248	contre	kɔ̃tʁ	proti	PRE		0	263	
+249	prier	pʁije	modlit se; prosit	VER		0	264	
+250	pendant	pɑ̃dɑ̃	během, po dobu	PRE		0	265	
+251	le mois	mwa	měsíc	NOM		0	266	
+252	servir	sɛʁviʁ	sloužit, podávat; se servir = nabrat si, použít	VER	reflexiv	0	267	
+253	la madame	madam	paní	NOM		0	268	
+254	la putain	pytɛ̃	prostitutka; hovor. citoslovce vyjadřující překvapení nebo zlost	NOM	vulgaire	1	269	
+255	écrire	ekʁiʁ	psát	VER		0	270	
+256	la part	paʁ	část, podíl	NOM		0	271	
+257	l'eau (f.)	o	voda	NOM		0	272	
+258	le sang	sɑ̃	krev	NOM		0	273	
+259	la place	plas	místo, náměstí	NOM		0	274	
+260	espérer	ɛspeʁe	doufat	VER		0	275	
+261	désoler / désolé	dezɔle	zarmoutit, mrzet; je suis désolé = je mi líto, omlouvám se	VER		0	276	276 300
+262	jeune	ʒœn	mladý	NOM+ADJ		0	277	
+263	la personne	pɛʁsɔn	osoba	NOM		0	278	
+264	eux	ø	oni (důrazně)	PRO:per		0	279	
+265	retrouver	ʁətʁuve	znovu najít, sejít se s; se retrouver = ocitnout se	VER		0	280	
+266	la ville	vil	město	NOM		0	281	
+267	la terre	tɛʁ	země, půda	NOM		0	282	
+268	gagner	ɡaɲe	vyhrát, vydělat	VER		0	283	
+269	la semaine	səmɛn	týden	NOM		0	284	
+270	acheter	aʃte	koupit	VER		0	285	
+271	longtemps	lɔ̃tɑ̃	dlouho	ADV		0	286	
+272	le gars	ɡa	chlap, kluk (hovorově)	NOM		0	287	
+273	la chambre	ʃɑ̃bʁ	pokoj, ložnice	NOM		0	288	
+274	le côté	kote	strana, bok	NOM		0	289	
+275	leur / leurs	lœʁ	jejich (přivlastňovací); jim (zájmeno)	PRO:per		0	290	
+276	vieux / vieille	vjø / vjɛj	starý	NOM+ADJ		0	291	
+277	rappeler	ʁaple	zavolat zpět, připomenout; se rappeler = vzpomenout si	VER	reflexiv	0	292	
+278	lire	liʁ	číst	VER		0	293	
+279	le cas	ka	případ	NOM		0	294	
+280	le mot	mo	slovo	NOM		0	295	
+281	seulement	sœlmɑ̃	jenom, pouze	ADV		0	296	
+282	voici	vwasi	tady je, hle	PRE		0	297	
+283	le salut	saly	ahoj (pozdrav); záchrana	NOM		0	298	
+284	monter	mɔ̃te	vystoupat, nastoupit; zvýšit	VER		0	299	
+285	quitter	kite	opustit, odejít od; ne quitte pas = nezavěšuj	VER		0	301	
+286	la police	pɔlis	policie	NOM		0	302	
+287	la suite	sɥit	pokračování, následek; apartmá	NOM		0	303	
+288	le matin	matɛ̃	ráno	NOM		0	304	
+289	emmener	ɑ̃mne	odvést, vzít s sebou	VER		0	305	
+290	toucher	tuʃe	dotknout se, dotýkat se; pobírat (plat)	VER		0	306	
+291	continuer	kɔ̃tinɥe	pokračovat	VER		0	307	
+292	gros / grosse	ɡʁo / ɡʁos	tlustý, velký, hrubý	NOM+ADJ		0	308	
+293	enfin	ɑ̃fɛ̃	konečně, nakonec	ADV		0	309	
+294	le mari	maʁi	manžel	NOM		0	310	
+295	là-bas	laba	tam, támhle	ADV		0	311	
+296	le revoir	ʁəvwaʁ	shledání (au revoir = nashledanou)	NOM		0	312	
+297	importer	ɛ̃pɔʁte	záležet, být důležitý; dovážet (n'importe = jakýkoli)	VER		0	313	
+298	le papa	papa	táta, tatínek	NOM		0	314	
+299	puis	pɥi	pak, potom	CON		0	315	
+300	le train	tʁɛ̃	vlak	NOM		0	316	
+301	manquer	mɑ̃ke	chybět; minout, zmeškat	VER		0	317	
+302	raconter	ʁakɔ̃te	vyprávět	VER		0	318	
+303	ensemble	ɑ̃sɑ̃bl	spolu	ADV		0	319	
+304	mauvais	movɛ	špatný, zlý	NOM+ADJ		0	320	
+305	le film	film	film	NOM		0	321	
+306	répondre	ʁepɔ̃dʁ	odpovědět	VER		0	322	
+307	le garçon	ɡaʁsɔ̃	kluk, chlapec; číšník	NOM		0	323	
+308	peu	pø	málo	ADV		0	324	
+309	le corps	kɔʁ	tělo	NOM		0	325	
+310	celui / celle / ceux / celles	səlɥi / sɛl / sø	ten, ta, ti, ty (ukazovací zájmeno); celui-ci = tento tady	PRO:dem		0	326	326 389 519
+311	autres / d'autres	otʁ / dotʁ	jiní, jiné; další (množné číslo od autre)	PRO:ind		0	327	327 542
+312	heureux / heureuse	øʁø / øʁøz	šťastný	NOM+ADJ		0	328	
+313	loin	lwɛ̃	daleko	ADV		0	329	
+314	sauver	sove	zachránit	VER		0	330	
+315	chaque	ʃak	každý	ADJ:ind		0	331	
+316	retourner	ʁətuʁne	vrátit se, otočit; se retourner = otočit se	VER	reflexiv	0	332	
+317	rencontrer	ʁɑ̃kɔ̃tʁe	potkat, seznámit se	VER		0	334	
+318	le coeur	kœʁ	srdce	NOM		0	335	
+319	voler	vɔle	letět; krást	VER		0	336	
+320	fermer	fɛʁme	zavřít	VER		0	337	
+321	car	kaʁ	protože, neboť; dálkový autobus	CON		0	338	
+322	valoir	valwaʁ	mít cenu, stát za; il vaut mieux = je lepší	VER		0	339	
+323	descendre	desɑ̃dʁ	jít dolů, vystoupit, snížit	VER		0	340	
+324	ok	ɔke	OK, dobře	ADJ	anglicismus	0	341	
+325	le feu	fø	oheň; semafor	NOM+ADJ		0	342	
+326	le docteur	dɔktœʁ	doktor	NOM		0	343	
+327	suffire	syfiʁ	stačit	VER		0	344	
+328	la façon	fasɔ̃	způsob	NOM		0	345	
+329	nouveau / nouvelle	nuvo / nuvɛl	nový, nová; la nouvelle = novinka, zpráva	NOM+ADJ		0	346	
+330	important	ɛ̃pɔʁtɑ̃	důležitý	ADJ		0	347	
+331	sembler	sɑ̃ble	zdát se	VER		0	348	
+332	compter	kɔ̃te	počítat; spoléhat se	VER		0	349	
+333	vers	vɛʁ	k, směrem k; kolem (čas)	PRE		0	350	
+334	joli	ʒɔli	hezký, pěkný	ADJ		0	351	
+335	le point	pwɛ̃	bod, tečka, stehy	NOM		0	352	
+336	hier	jɛʁ	včera	ADV		0	353	
+337	le chien	ʃjɛ̃	pes	NOM		0	354	
+338	dont	dɔ̃	jehož, z něhož, o čem	PRO:int		0	355	
+339	la guerre	ɡɛʁ	válka	NOM		0	356	
+340	le genre	ʒɑ̃ʁ	druh, žánr; rod	NOM		0	357	
+341	meilleur	mɛjœʁ	lepší, nejlepší	NOM+ADJ		0	358	
+342	marier	maʁje	oženit, provdat; se marier = vzít se	VER		0	359	
+343	l'arme (f.)	aʁm	zbraň	NOM		0	360	
+344	la cause	koz	příčina, důvod; věc (např. dobrá věc)	NOM		0	361	
+345	l'endroit (m.)	ɑ̃dʁwa	místo	NOM		0	362	
+346	l'ordre (m.)	ɔʁdʁ	pořádek, rozkaz	NOM		0	363	
+347	poser	poze	položit; poser une question = zeptat se	VER		0	364	
+348	le reste	ʁɛst	zbytek	NOM		0	365	
+349	le pied	pje	noha (chodidlo)	NOM		0	366	
+350	l'envie (f.)	ɑ̃vi	chuť, touha; avoir envie de = mít chuť na	NOM		0	367	
+351	la fin	fɛ̃	konec	NOM+ADJ		0	368	
+352	la merde	mɛʁd	výkal; hovor. citoslovce (sakra)	NOM	vulgaire	1	369	
+353	inquiéter	ɛ̃kjete	znepokojit; s'inquiéter = dělat si starosti	VER		0	370	
+354	bouger	buʒe	hýbat se, pohnout	VER		0	371	
+355	plutôt	plyto	spíše, raději	ADV		0	372	
+356	apporter	apɔʁte	přinést	VER		0	373	
+357	la photo	fɔto	fotka, fotografie	NOM		0	374	
+358	plein	plɛ̃	plný	NOM+ADJ		0	375	
+359	devant	dəvɑ̃	před (místně)	PRE		0	376	
+360	décider	deside	rozhodnout	VER		0	377	
+361	ainsi	ɛ̃si	tak, takto	ADV		0	378	
+362	le droit	dʁwa	právo; přímý	NOM+ADJ		0	379	
+363	aucun / aucune	okœ̃ / okyn	žádný, žádná; nikdo (se záporem)	ADJ:ind+PRO:ind		0	380	380 432
+364	vendre	vɑ̃dʁ	prodat	VER		0	381	
+365	l'école (f.)	ekɔl	škola	NOM		0	382	
+366	cher / chère	ʃɛʁ	drahý, milý	NOM+ADJ		0	383	
+367	le chef	ʃɛf	šéf, vedoucí	NOM		0	384	
+368	tourner	tuʁne	otočit, točit; natáčet	VER		0	385	
+369	cacher	kaʃe	skrýt, schovat	VER		0	386	
+370	le boulot	bulo	práce (hovor.)	NOM+ADJ	familier	0	387	
+371	le pays	pei	země, stát	NOM		0	388	
+372	possible	pɔsibl	možný	NOM+ADJ		0	390	
+373	expliquer	ɛksplike	vysvětlit	VER		0	391	
+374	battre	batʁ	bít, porazit	VER		0	392	
+375	la peine	pɛn	trest; bolest, námaha; ça vaut la peine = vyplatí se	NOM		0	393	
+376	le livre	livʁ	kniha	NOM		0	394	
+377	agir	aʒiʁ	jednat	VER		0	395	
+378	imaginer	imaʒine	představit si; s'imaginer = představovat si	VER	reflexiv	0	396	
+379	le tour	tuʁ	tah, obchůzka, řada, výlet; věž (la tour)	NOM		0	397	
+380	adorer	adɔʁe	zbožňovat	VER		0	398	
+381	la vérité	veʁite	pravda	NOM		0	399	
+382	recevoir	ʁəsəvwaʁ	dostat, přijmout	VER		0	400	
+383	gentil / gentille	ʒɑ̃ti / ʒɑ̃tij	hodný, milý	NOM+ADJ		0	401	
+384	jeter	ʒəte	hodit, vyhodit	VER		0	402	
+385	pleurer	plœʁe	plakat	VER		0	403	
+386	le bébé	bebe	miminko	NOM		0	404	
+387	la partie	paʁti	část; hra, partie	NOM		0	405	
+388	le jeu	ʒø	hra	NOM		0	407	
+389	amener	amne	přivést; s'amener = dorazit (hovor.)	VER	reflexiv	0	408	
+390	l'instant (m.)	ɛ̃stɑ̃	okamžik	NOM		0	409	
+391	le parent	paʁɑ̃	rodič; příbuzný	NOM+ADJ		0	410	
+392	dur	dyʁ	tvrdý, těžký	NOM+ADJ		0	411	
+393	le service	sɛʁvis	služba, obsluha	NOM		0	412	
+394	le plaisir	plɛziʁ	potěšení, radost	NOM		0	413	
+395	promettre	pʁɔmɛtʁ	slíbit	VER		0	414	
+396	mentir	mɑ̃tiʁ	lhát	VER		0	415	
+397	la soeur	sœʁ	sestra	NOM		0	416	
+398	bientôt	bjɛ̃to	brzy	ADV		0	417	
+399	le lit	li	postel	NOM		0	418	
+400	tellement	tɛlmɑ̃	tak moc, natolik	ADV		0	419	
+401	utiliser	ytilize	použít, používat	VER		0	420	
+402	le lieu	ljø	místo	NOM		0	421	
+403	coucher	kuʃe	uložit ke spánku; se coucher = lehnout si, jít spát; coucher avec = spát s	VER	reflexiv	0	422	
+404	presque	pʁɛsk	skoro, téměř	ADV		0	423	
+405	dehors	dəɔʁ	venku, ven	ADV		0	424	
+406	préférer	pʁefeʁe	dávat přednost, mít raději	VER		0	425	
+407	content	kɔ̃tɑ̃	spokojený, rád	NOM+ADJ		0	426	
+408	pauvre	povʁ	chudý, ubohý	NOM+ADJ		0	427	
+409	offrir	ɔfʁiʁ	nabídnout, darovat	VER		0	428	
+410	le roi	ʁwa	král	NOM		0	429	
+411	le verre	vɛʁ	sklenice; sklo	NOM		0	430	
+412	réveiller	ʁevɛje	probudit; se réveiller = probudit se	VER		0	431	
+413	l'aide (f.)	ɛd	pomoc	NOM		0	433	
+414	d'abord	dabɔʁ	nejdřív, nejprve	ADV		0	434	
+415	la journée	ʒuʁne	den (jako průběh), celý den	NOM		0	435	
+416	préparer	pʁepaʁe	připravit	VER		0	436	
+417	le numéro	nymeʁo	číslo	NOM		0	437	
+418	permettre	pɛʁmɛtʁ	dovolit, umožnit; se permettre = dovolit si	VER	reflexiv	0	438	
+419	ramener	ʁamne	přivést zpět, odvézt domů	VER		0	439	
+420	enlever	ɑ̃lve	odstranit, sundat; unést	VER		0	440	
+421	le chéri	ʃeʁi	miláček; milovaný	NOM+ADJ		0	441	
+422	fort	fɔʁ	silný; hlasitě, pořádně	ADV		0	442	
+423	lâcher	laʃe	pustit, uvolnit	VER		0	443	
+424	choisir	ʃwaziʁ	vybrat	VER		0	444	
+425	la musique	myzik	hudba	NOM		0	445	
+426	conduire	kɔ̃dɥiʁ	řídit (auto), vést	VER		0	446	
+427	la faute	fot	chyba, vina	NOM		0	447	
+428	calmer	kalme	uklidnit; se calmer = uklidnit se	VER		0	448	
+429	le mariage	maʁjaʒ	svatba, manželství	NOM		0	449	
+430	le bureau	byʁo	kancelář, psací stůl	NOM		0	450	
+431	la route	ʁut	silnice, cesta	NOM		0	451	
+432	chanter	ʃɑ̃te	zpívat	VER		0	452	
+433	disparaître	dispaʁɛtʁ	zmizet	VER		0	453	
+434	lever	ləve	zvednout; se lever = vstát	VER	reflexiv	0	454	
+435	présenter	pʁezɑ̃te	představit, předložit	VER		0	455	
+436	accepter	aksɛpte	přijmout, souhlasit	VER		0	456	
+437	sinon	sinɔ̃	jinak, v opačném případě	CON		0	457	
+438	long / longue	lɔ̃ / lɔ̃ɡ	dlouhý	NOM+ADJ		0	458	
+439	le café	kafe	káva; kavárna	NOM+ADJ		0	459	
+440	propre	pʁɔpʁ	čistý; vlastní	NOM+ADJ		0	460	
+441	la confiance	kɔ̃fjɑ̃s	důvěra, sebedůvěra	NOM		0	461	
+442	revoir	ʁəvwaʁ	znovu vidět, zopakovat si	VER		0	462	
+443	le bonsoir	bɔ̃swaʁ	dobrý večer	NOM		0	463	
+444	le compte	kɔ̃t	účet, počet	NOM		0	464	
+445	le téléphone	telefɔn	telefon	NOM		0	465	
+446	casser	kase	rozbít, zlomit	VER		0	466	
+447	prochain	pʁɔʃɛ̃	příští, další	NOM+ADJ		0	467	
+448	frapper	fʁape	udeřit, klepat	VER		0	468	
+449	facile	fasil	snadný	ADJ		0	469	
+450	le rêve	ʁɛv	sen	NOM		0	470	
+451	le copain	kɔpɛ̃	kamarád; přítel	NOM		0	471	
+452	l'attention (f.)	atɑ̃sjɔ̃	pozornost; pozor	NOM		0	472	
+453	malade	malad	nemocný	NOM+ADJ		0	473	
+454	la rue	ʁy	ulice	NOM		0	474	
+455	la lettre	lɛtʁ	dopis; písmeno	NOM		0	475	
+456	ignorer	iɲɔʁe	ignorovat; nevědět	VER		0	476	
+457	la fête	fɛt	oslava, slavnost, svátek	NOM		0	477	
+458	couper	kupe	krájet, stříhat, přerušit	VER		0	478	
+459	l'esprit (m.)	ɛspʁi	duch, mysl	NOM		0	479	
+460	super	sypɛʁ	skvělý, super	NOM+ADJ		0	480	
+461	taire	tɛʁ	zamlčet; se taire = mlčet, ztichnout	VER		0	481	
+462	le seigneur	seɲœʁ	pán; Pán (Bůh)	NOM		0	482	
+463	le flic	flik	policajt (hovor.)	NOM	familier	0	483	
+464	parfois	paʁfwa	někdy	ADV		0	484	
+465	le capitaine	kapitɛn	kapitán	NOM		0	485	
+466	l'âge (m.)	ɑʒ	věk	NOM		0	486	
+467	autant	otɑ̃	tolik, stejně tolik	ADV		0	487	
+468	la force	fɔʁs	síla	NOM		0	488	
+469	la pièce	pjɛs	místnost; mince; kus	NOM		0	489	
+470	le cul	ky	zadek (vulg.)	NOM	vulgaire	1	490	
+471	difficile	difisil	těžký, obtížný	ADJ		0	491	
+472	le bras	bʁa	paže	NOM		0	492	
+473	tromper	tʁɔ̃pe	podvést, oklamat; se tromper = splést se	VER		0	493	
+474	surtout	syʁtu	hlavně, zejména	ADV		0	494	
+475	ressembler	ʁəsɑ̃ble	podobat se	VER		0	495	
+476	jurer	ʒyʁe	přísahat; nadávat	VER		0	496	
+477	le plan	plɑ̃	plán, plánek	NOM		0	497	
+478	la prison	pʁizɔ̃	vězení	NOM		0	498	
+479	sale	sal	špinavý	ADJ		0	499	
+480	courir	kuʁiʁ	běžet	VER		0	500	
+481	l'état (m.)	eta	stav, stát	NOM		0	501	
+482	remettre	ʁəmɛtʁ	vrátit zpět, znovu dát, odložit	VER		0	502	
+483	la carte	kaʁt	karta, mapa, jídelní lístek	NOM		0	503	
+484	la paix	pɛ	mír, klid	NOM		0	504	
+485	noir	nwaʁ	černý; tma	NOM+ADJ		0	505	
+486	exactement	ɛɡzaktəmɑ̃	přesně	ADV		0	506	
+487	drôle	dʁol	legrační, zvláštní	NOM+ADJ		0	507	
+488	refuser	ʁəfyze	odmítnout	VER		0	508	
+489	dès	dɛ	už od, hned od	PRE		0	509	
+490	le président	pʁezidɑ̃	prezident, předseda	NOM		0	510	
+491	le cours	kuʁ	kurz, hodina; průběh	NOM		0	511	
+492	grave	ɡʁav	vážný, závažný	ADJ		0	512	
+493	terminer	tɛʁmine	ukončit, dokončit	VER		0	513	
+494	le ciel	sjɛl	nebe, obloha	NOM		0	514	
+495	partout	paʁtu	všude	ADV		0	515	
+496	l'âme (f.)	ɑm	duše	NOM		0	516	
+497	le patron	patʁɔ̃	šéf, majitel	NOM		0	517	
+498	amuser	amyze	pobavit; s'amuser = bavit se	VER	reflexiv	0	518	
+499	le visage	vizaʒ	obličej, tvář	NOM		0	520	
+500	intéresser	ɛ̃teʁese	zajímat; s'intéresser à = zajímat se o	VER		0	521	
+501	reconnaître	ʁəkɔnɛtʁ	poznat, uznat	VER		0	522	
+502	rire	ʁiʁ	smát se; smích	VER		0	523	
+503	le médecin	medsɛ̃	lékař	NOM		0	524	
+504	le rapport	ʁapɔʁ	vztah, zpráva, souvislost	NOM		0	525	
+505	pardonner	paʁdɔne	odpustit	VER		0	526	
+506	l'avis (m.)	avi	názor, mínění	NOM		0	527	
+507	embrasser	ɑ̃bʁase	políbit, obejmout	VER		0	528	
+508	le retour	ʁətuʁ	návrat	NOM		0	529	
+509	simple	sɛ̃pl	jednoduchý	NOM+ADJ		0	530	
+510	danser	dɑ̃se	tančit	VER		0	531	
+511	exister	ɛɡziste	existovat	VER		0	532	
+512	différent	difeʁɑ̃	jiný, odlišný	ADJ		0	533	
+513	souvent	suvɑ̃	často	ADV		0	534	
+514	la lumière	lymjɛʁ	světlo	NOM		0	535	
+515	génial	ʒenjal	geniální, skvělý	ADJ		0	536	
+516	libre	libʁ	volný, svobodný	ADJ		0	537	
+517	près	pʁɛ	blízko; près de = poblíž	PRE		0	538	
+518	le dollar	dɔlaʁ	dolar	NOM		0	539	
+519	sûrement	syʁmɑ̃	jistě, určitě	ADV		0	540	
+520	pareil / pareille	paʁɛj	stejný, podobný	NOM+ADJ		0	541	
+521	l'hôpital (m.)	ɔpital	nemocnice	NOM		0	543	
+522	ceci	səsi	tohle, toto	PRO:dem		0	544	
+523	réussir	ʁeysiʁ	uspět, podařit se	VER		0	545	
+524	bizarre	bizaʁ	divný, zvláštní	ADJ		0	546	
+525	la voix	vwa	hlas	NOM		0	547	
+526	protéger	pʁɔteʒe	chránit	VER		0	548	
+527	l'honneur (m.)	ɔnœʁ	čest	NOM		0	549	
+528	tôt	to	brzy, časně	ADV		0	550	
+529	l'équipe (f.)	ekip	tým	NOM		0	551	
+530	prévenir	pʁevniʁ	upozornit, varovat; předejít	VER		0	552	
+531	le cheval	ʃəval	kůň	NOM		0	553	
+532	ailleurs	ajœʁ	jinde, jinam	ADV		0	554	
+533	le maître	mɛtʁ	pán, mistr, učitel	NOM+ADJ		0	555	
+534	l'avion (m.)	avjɔ̃	letadlo	NOM		0	556	
+535	le bout	bu	konec, kousek	NOM		0	557	
+536	habiter	abite	bydlet	VER		0	558	
+537	la faim	fɛ̃	hlad	NOM		0	559	
+538	ensuite	ɑ̃sɥit	potom, poté	ADV		0	560	
+539	l'un	œ̃	jeden (z); l'un … l'autre = jeden … druhý	PRO:ind		0	561	
+540	froid	fʁwa	studený; zima, chlad	NOM+ADJ		0	562	
+541	normal	nɔʁmal	normální	NOM+ADJ		0	563	
+542	déranger	deʁɑ̃ʒe	rušit, obtěžovat	VER		0	564	
+543	reprendre	ʁəpʁɑ̃dʁ	vzít zpět, pokračovat, znovu se chopit	VER		0	565	
+544	l'oncle (m.)	ɔ̃kl	strýc	NOM		0	566	
+545	le prix	pʁi	cena; ocenění	NOM		0	567	
+546	le retard	ʁətaʁ	zpoždění	NOM		0	568	
+547	détruire	detʁɥiʁ	zničit	VER		0	569	
+548	le cadeau	kado	dárek	NOM		0	570	
+549	pousser	puse	tlačit, růst	VER		0	571	
+550	la face	fas	tvář, strana; face à = tváří v tvář	NOM		0	572	
+551	la gueule	ɡœl	tlama, huba (hovor.); obličej	NOM		0	573	
+552	le chemin	ʃəmɛ̃	cesta, stezka	NOM		0	574	
+553	vivant	vivɑ̃	živý	NOM+ADJ		0	575	
+554	le général	ʒeneʁal	generál; obecný	NOM+ADJ		0	576	
+555	le bateau	bato	loď, člun	NOM		0	577	
+556	le million	miljɔ̃	milion	NOM		0	578	
+557	le sac	sak	taška, pytel, kabelka	NOM		0	579	
+558	impossible	ɛ̃pɔsibl	nemožný	NOM+ADJ		0	580	
+559	la seconde	səɡɔ̃d	vteřina; druhá (třída)	NOM		0	581	
+560	découvrir	dekuvʁiʁ	objevit, odkrýt	VER		0	582	
+561	l'erreur (f.)	eʁœʁ	chyba, omyl	NOM		0	583	
+562	le soleil	sɔlɛj	slunce	NOM		0	584	
+563	le voyage	vwajaʒ	cesta, cestování	NOM		0	585	
+564	sauter	sote	skočit	VER		0	586	
+565	rêver	ʁeve	snít	VER		0	587	
+566	détester	detɛste	nenávidět, nesnášet	VER		0	588	
+567	clair	klɛʁ	jasný, světlý, zřejmý	NOM+ADJ		0	589	
+568	le con	kɔ̃	hloupý; vulg. hlupák, blbec	NOM+ADJ	vulgaire	1	590	
+569	faux / fausse	fo / fos	nepravdivý, falešný	NOM+ADJ		0	591	
+570	paraître	paʁɛtʁ	zdát se, objevit se	VER		0	592	
+571	la balle	bal	míč, kulka	NOM		0	593	
+572	empêcher	ɑ̃peʃe	zabránit	VER		0	594	
+573	maintenir	mɛ̃təniʁ	udržet, zachovat	VER		0	595	
+574	le cheveu	ʃəvø	vlas (les cheveux = vlasy)	NOM		0	596	
+575	le papier	papje	papír	NOM		0	597	
+576	le sujet	syʒɛ	téma, předmět; podmět	NOM+ADJ		0	598	
+577	supposer	sypoze	předpokládat	VER		0	599	
+578	tranquille	tʁɑ̃kil	klidný	ADJ		0	600	
+579	épouser	epuze	vzít si, oženit se s	VER		0	601	
+580	blanc / blanche	blɑ̃ / blɑ̃ʃ	bílý	NOM+ADJ		0	602	
+581	la table	tabl	stůl	NOM		0	603	
+582	la clé	kle	klíč	NOM		0	605	
+583	l'agent (m.)	aʒɑ̃	agent; policista	NOM		0	606	
+584	approcher	apʁɔʃe	přiblížit, přisunout; s'approcher = přiblížit se	VER	reflexiv	0	607	
+585	le sens	sɑ̃s	smysl, význam, směr	NOM		0	608	
+586	craindre	kʁɛ̃dʁ	bát se, obávat se	VER		0	609	
+587	le message	mesaʒ	zpráva	NOM		0	610	
+588	crier	kʁije	křičet	VER		0	611	
+589	la salle	sal	sál, místnost	NOM		0	612	
+590	inviter	ɛ̃vite	pozvat	VER		0	613	
+591	l'effet (m.)	efɛ	účinek, efekt	NOM		0	614	
+592	réfléchir	ʁefleʃiʁ	přemýšlet, uvažovat	VER		0	615	
+593	l'espèce (f.)	ɛspɛs	druh	NOM		0	616	
+594	arranger	aʁɑ̃ʒe	upravit, zařídit, vyhovovat	VER		0	617	
+595	naître	nɛtʁ	narodit se	VER		0	618	
+596	passé	pase	minulý; minulost	NOM+ADJ		0	619	
+597	le bois	bwa	dřevo, les (menší)	NOM		0	620	
+598	le propos	pʁɔpo	slova, výrok; à propos = mimochodem	NOM		0	621	
+599	le camp	kɑ̃	tábor; strana	NOM		0	622	
+600	la sorte	sɔʁt	druh	NOM		0	623	
+601	l'hôtel (m.)	otɛl	hotel	NOM		0	624	
+602	le début	deby	začátek	NOM		0	625	
+603	souffrir	sufʁiʁ	trpět	VER		0	626	
+604	la jambe	ʒɑ̃b	noha	NOM		0	627	
+605	remercier	ʁəmɛʁsje	poděkovat	VER		0	628	
+606	le choix	ʃwa	výběr, volba	NOM		0	629	
+607	la sécurité	sekyʁite	bezpečí, bezpečnost	NOM		0	630	
+608	baiser	beze	políbit; vulg. mít pohlavní styk	VER	vulgaire	1	631	
+609	l'avocat (m.)	avɔka	právník, advokát; avokádo	NOM		0	632	
+610	attraper	atʁape	chytit	VER		0	633	
+611	le client	klijɑ̃	zákazník, klient	NOM		0	634	
+612	le courant	kuʁɑ̃	proud; průvan; běžný	NOM+ADJ		0	635	
+613	dépêcher	depeʃe	vyslat; se dépêcher = pospíšit si	VER	reflexiv	0	636	
+614	le peuple	pœpl	lid, národ	NOM		0	637	
+615	la dame	dam	dáma, paní	NOM		0	638	
+616	dessus	dəsy	nahoře, na tom	ADV		0	639	
+617	abandonner	abɑ̃dɔne	opustit, vzdát se	VER		0	640	
+618	vérifier	veʁifje	zkontrolovat, ověřit	VER		0	641	
+619	le journal	ʒuʁnal	noviny; deník	NOM		0	642	
+620	sérieux / sérieuse	seʁjø / seʁjøz	vážný	NOM+ADJ		0	643	
+621	brûler	bʁyle	hořet, spálit	VER		0	644	
+622	l'or (m.)	ɔʁ	zlato	NOM+ADJ		0	645	
+623	la loi	lwa	zákon	NOM		0	646	
+624	le fond	fɔ̃	dno, pozadí, podstata	NOM		0	647	
+625	un(e) gosse	ɡɔs	dítě, kluk, holka (hovor.)	NOM	familier	0	648	
+626	le fric	fʁik	prachy (hovor.)	NOM		0	649	
+627	la situation	sitɥasjɔ̃	situace	NOM		0	650	
+628	sauf	sof	kromě	PRE		0	651	
+629	l'accident (m.)	aksidɑ̃	nehoda	NOM		0	652	
+630	le doute	dut	pochybnost	NOM		0	653	
+631	la scène	sɛn	scéna, jeviště	NOM		0	654	
+632	le soldat	sɔlda	voják	NOM		0	655	
+633	amoureux / amoureuse	amuʁø / amuʁøz	zamilovaný	NOM+ADJ		0	656	
+634	assurer	asyʁe	zajistit, ujistit, pojistit	VER		0	657	
+635	la preuve	pʁœv	důkaz	NOM		0	658	
+636	humain	ymɛ̃	lidský; člověk	NOM+ADJ		0	659	
+637	la mer	mɛʁ	moře	NOM		0	660	
+638	le silence	silɑ̃s	ticho	NOM		0	661	
+639	la télé	tele	televize	NOM		0	662	
+640	la victime	viktim	oběť	NOM		0	663	
+641	complètement	kɔ̃plɛtmɑ̃	úplně	ADV		0	664	
+642	la pute	pyt	prostitutka; hovor. nadávka	NOM	vulgaire	1	665	
+643	calme	kalm	klidný; klid	NOM+ADJ		0	666	
+644	derrière	dɛʁjɛʁ	za; zadní strana	PRE		0	667	
+645	la garde	ɡaʁd	stráž, hlídka, péče	NOM		0	668	
+646	le meurtre	mœʁtʁ	vražda	NOM		0	669	
+647	le groupe	ɡʁup	skupina	NOM		0	670	
+648	le crime	kʁim	zločin	NOM		0	671	
+649	traiter	tʁɛte	zacházet, léčit, jednat	VER		0	672	
+650	doucement	dusmɑ̃	jemně, pomalu, tiše	ADV		0	673	
+651	blesser	blese	zranit	VER		0	674	
+652	le colonel	kɔlɔnɛl	plukovník	NOM		0	675	
+653	certain	sɛʁtɛ̃	jistý, určitý	ADJ		0	676	
+654	secret / secrète	səkʁɛ / səkʁɛt	tajný; tajemství	NOM+ADJ		0	677	
+655	la parole	paʁɔl	slovo, řeč	NOM		0	678	
+656	triste	tʁist	smutný	ADJ		0	679	
+657	la honte	ɔ̃t	stud, hanba	NOM	h-aspire	0	680	
+658	rouge	ʁuʒ	červený	NOM+ADJ		0	681	
+659	dégager	deɡaʒe	uvolnit, vyklidit; dégage = vypadni	VER		0	682	
+660	la soirée	swaʁe	večer, večírek	NOM		0	683	
+661	dangereux / dangereuse	dɑ̃ʒʁø / dɑ̃ʒʁøz	nebezpečný	ADJ		0	684	
+662	l'armée (f.)	aʁme	armáda	NOM		0	685	
+663	filer	file	přást; hovor. zmizet, utíkat	VER		0	686	
+664	risquer	ʁiske	riskovat	VER		0	687	
+665	le dos	do	záda	NOM		0	688	
+666	l'appel (m.)	apɛl	volání, hovor, výzva	NOM		0	689	
+667	la visite	vizit	návštěva	NOM		0	690	
+668	mener	məne	vést	VER		0	691	
+669	la fleur	flœʁ	květina	NOM		0	692	
+670	attaquer	atake	napadnout, zaútočit	VER		0	693	
+671	le coin	kwɛ̃	roh, kout	NOM		0	694	
+672	le prince	pʁɛ̃s	princ	NOM		0	695	
+673	pire	piʁ	horší	NOM+ADJ		0	696	
+674	le bordel	bɔʁdɛl	nevěstinec; hovor. nepořádek, binec	NOM	vulgaire	1	697	
+675	un(e) professeur	pʁɔfɛsœʁ	učitel, profesor	NOM		0	698	
+676	fumer	fyme	kouřit	VER		0	699	
+677	répéter	ʁepete	opakovat, zkoušet	VER		0	700	
+678	l'habitude (f.)	abityd	zvyk	NOM		0	701	
+679	signer	siɲe	podepsat	VER		0	702	
+680	ficher	fiʃe	hovor. dělat, dát, strčit; se ficher de = vykašlat se na	VER		0	703	
+681	mériter	meʁite	zasloužit si	VER		0	704	
+682	la réponse	ʁepɔ̃s	odpověď	NOM		0	705	
+683	rejoindre	ʁəʒwɛ̃dʁ	dojít k, připojit se k	VER		0	706	
+684	discuter	diskyte	diskutovat, bavit se	VER		0	707	
+685	le village	vilaʒ	vesnice	NOM		0	708	
+686	pourtant	puʁtɑ̃	přesto, a přece	ADV		0	709	
+687	avancer	avɑ̃se	postoupit, posunout	VER		0	710	
+688	la connerie	kɔnʁi	hloupost; vulg. blbost	NOM	vulgaire	1	711	
+689	reposer	ʁəpoze	odpočívat, položit zpátky; se reposer = odpočinout si	VER		0	712	
+690	échapper	eʃape	uniknout, utéct	VER		0	713	
+691	la forme	fɔʁm	tvar, forma, kondice	NOM		0	714	
+692	le bruit	bʁɥi	hluk, zvuk	NOM		0	715	
+693	chacun	ʃakœ̃	každý (jeden), každý z	PRO:ind		0	716	
+694	le diable	djabl	ďábel	NOM		0	717	
+695	l'exemple (m.)	ɛɡzɑ̃pl	příklad	NOM		0	718	
+696	charger	ʃaʁʒe	nabít, naložit, pověřit	VER		0	719	
+697	le chat	ʃa	kočka	NOM		0	720	
+698	l'ennemi (m.)	ɛnmi	nepřítel	NOM+ADJ		0	721	
+699	le gamin	ɡamɛ̃	kluk, dítě (hovor.)	NOM+ADJ		0	722	
+700	le rendez-vous	ʁɑ̃devu	schůzka	NOM		0	723	
+701	debout	dəbu	vestoje, vzhůru	ADV		0	724	
+702	obliger	ɔbliʒe	přinutit, zavázat	VER		0	725	
+703	le trou	tʁu	díra	NOM		0	726	
+704	idiot	idjo	hloupý; hlupák	NOM+ADJ		0	727	
+705	accompagner	akɔ̃paɲe	doprovodit	VER		0	728	
+706	la fenêtre	fənɛtʁ	okno	NOM		0	729	
+707	oser	oze	odvážit se	VER		0	730	
+708	l'impression (f.)	ɛ̃pʁɛsjɔ̃	dojem, pocit	NOM		0	731	
+709	l'intérieur (m.)	ɛ̃teʁjœʁ	vnitřek; vnitřní	NOM+ADJ		0	732	
+710	la bouche	buʃ	ústa	NOM		0	733	
+711	la ligne	liɲ	čára, linka, řada	NOM		0	734	
+712	absolument	absɔlymɑ̃	naprosto, absolutně	ADV		0	735	
+713	doux / douce	du / dus	jemný, sladký, mírný	NOM+ADJ		0	736	
+714	regretter	ʁəɡʁɛte	litovat; postrádat	VER		0	737	
+715	le mur	myʁ	zeď	NOM		0	738	
+716	l'enfer (m.)	ɑ̃fɛʁ	peklo	NOM		0	739	
+717	prouver	pʁuve	dokázat	VER		0	740	
+718	la boîte	bwat	krabice; podnik, klub	NOM		0	741	
+719	la santé	sɑ̃te	zdraví; na zdraví!	NOM		0	742	
+720	le dîner	dine	večeře	NOM		0	743	
+721	couvrir	kuvʁiʁ	zakrýt, pokrýt	VER		0	744	
+722	magnifique	maɲifik	nádherný	ADJ		0	745	
+723	obtenir	ɔptəniʁ	získat, dosáhnout	VER		0	746	
+724	la cuisine	kɥizin	kuchyně; vaření	NOM		0	747	
+725	la vue	vy	pohled, zrak	NOM		0	748	
+726	terrible	tɛʁibl	hrozný, strašný	ADJ		0	749	
+727	éviter	evite	vyhnout se	VER		0	750	
+728	la peau	po	kůže	NOM		0	751	
+729	le salaud	salo	hovor. darebák, ničema	NOM+ADJ	vulgaire	1	752	
+730	le conseil	kɔ̃sɛj	rada; rada (orgán)	NOM		0	753	
+731	plaisanter	plɛzɑ̃te	žertovat	VER		0	754	
+732	autour	otuʁ	kolem	ADV		0	755	
+733	le vin	vɛ̃	víno	NOM		0	756	
+734	exact	ɛɡzakt	přesný, správný	ADJ		0	757	
+735	virer	viʁe	zatočit; hovor. vyhodit	VER		0	758	
+736	supporter	sypɔʁte	snášet, podporovat	VER		0	759	
+737	régler	ʁeɡle	vyřídit, zaplatit, nastavit	VER		0	760	
+738	le doigt	dwa	prst	NOM		0	761	
+739	grâce	ɡʁas	díky (grâce à = díky); milost	PRE		0	762	
+740	étrange	etʁɑ̃ʒ	zvláštní, divný	NOM+ADJ		0	763	
+741	souhaiter	swɛte	přát si	VER		0	764	
+742	bas / basse	ba / bas	nízký; dole	NOM+ADJ		0	765	
+743	la mission	misjɔ̃	mise, úkol	NOM		0	766	
+744	créer	kʁee	vytvořit	VER		0	767	
+745	la chanson	ʃɑ̃sɔ̃	píseň	NOM		0	768	
+746	le pote	pɔt	kámoš (hovor.)	NOM		0	769	
+747	surveiller	syʁvɛje	hlídat, dohlížet	VER		0	770	
+748	simplement	sɛ̃pləmɑ̃	jednoduše, prostě	ADV		0	771	
+749	recommencer	ʁəkɔmɑ̃se	začít znovu	VER		0	772	
+750	la robe	ʁɔb	šaty	NOM		0	773	
+751	chaud	ʃo	horký, teplý; horko	NOM+ADJ		0	774	
+752	le billet	bijɛ	lístek, bankovka	NOM		0	775	
+753	spécial	spesjal	zvláštní, speciální	ADJ		0	776	
+754	moyen / moyenne	mwajɛ̃ / mwajɛn	střední, průměrný; prostředek	NOM+ADJ		0	777	
+755	sympa	sɛ̃pa	sympatický, fajn (hovor.)	ADJ		0	778	
+756	le vaisseau	vɛso	loď (kosmická), céva	NOM		0	779	
+757	moi-même	mwamɛm	já sám, já sama	PRO:per		0	780	
+758	coûter	kute	stát (o ceně)	VER		0	781	
+759	la surprise	syʁpʁiz	překvapení	NOM		0	782	
+760	le poste	pɔst	místo, pozice, stanice	NOM		0	783	
+761	compris	kɔ̃pʁi	pochopený; včetně	ADJ		0	784	
+762	l'anniversaire (m.)	anivɛʁsɛʁ	narozeniny, výročí	NOM+ADJ		0	785	
+763	le signe	siɲ	znamení, znak	NOM		0	786	
+764	le vol	vɔl	let; krádež	NOM		0	787	
+765	la couleur	kulœʁ	barva	NOM		0	788	
+766	l'image (f.)	imaʒ	obraz, obrázek	NOM		0	789	
+767	parier	paʁje	vsadit si, sázet	VER		0	790	
+768	l'est (m.)	ɛst	východ	NOM+ADJ		0	791	
+769	l'arbre (m.)	aʁbʁ	strom	NOM		0	792	
+770	la bière	bjɛʁ	pivo	NOM		0	793	
+771	le poisson	pwasɔ̃	ryba	NOM		0	795	
+772	selon	səlɔ̃	podle	PRE		0	796	
+773	l'intérêt (m.)	ɛ̃teʁɛ	zájem, úrok, užitek	NOM		0	797	
+774	le lieutenant	ljøtnɑ̃	poručík	NOM		0	798	
+775	le danger	dɑ̃ʒe	nebezpečí	NOM		0	799	
+776	appartenir	apaʁtəniʁ	patřit	VER		0	800	
+777	remarquer	ʁəmaʁke	všimnout si	VER		0	801	
+778	l'animal (m.)	animal	zvíře	NOM+ADJ		0	802	
+779	rater	ʁate	minout, zkazit, nezvládnout	VER		0	803	
+780	retirer	ʁətiʁe	stáhnout, odebrat, vybrat (peníze)	VER		0	804	
+781	le bord	bɔʁ	okraj, břeh	NOM		0	805	
+782	tenter	tɑ̃te	zkusit, pokusit se; lákat	VER		0	806	
+783	la liberté	libɛʁte	svoboda	NOM		0	807	
+784	la règle	ʁɛɡl	pravidlo; pravítko	NOM		0	808	
+785	la banque	bɑ̃k	banka	NOM		0	809	
+786	dîner	dine	večeřet	VER		0	810	
+787	merveilleux / merveilleuse	mɛʁvɛjø / mɛʁvɛjøz	úžasný, nádherný	NOM+ADJ		0	811	
+788	fier / fière	fjɛʁ	hrdý	ADJ		0	812	
+789	partager	paʁtaʒe	sdílet, rozdělit	VER		0	813	
+790	la classe	klas	třída	NOM		0	814	
+791	le dossier	dosje	složka, spis	NOM		0	815	
+792	ressentir	ʁəsɑ̃tiʁ	cítit, pociťovat	VER		0	816	
+793	le bonheur	bɔnœʁ	štěstí	NOM		0	817	
+794	défendre	defɑ̃dʁ	bránit; zakázat	VER		0	818	
+795	le but	byt	cíl; gól	NOM		0	819	
+796	la bande	bɑ̃d	banda, parta; pás	NOM		0	820	
+797	fatiguer	fatiɡe	unavit	VER		0	821	
+798	la radio	ʁadjo	rádio	NOM		0	822	
+799	prévoir	pʁevwaʁ	předvídat, plánovat	VER		0	823	
+800	celui-là / celle-là / ceux-là / celles-là	səlɥila / sɛlla / søla	ten tam, ta tam, ti tam	PRO:dem		0	824	
+801	haut	o	vysoký; nahoře	NOM+ADJ		0	825	
+802	un(e) camarade	kamaʁad	kamarád, soudruh	NOM		0	826	
+803	se douter	sə dute	tušit, domnívat se	VER	reflexiv	0	827	
+804	l'oiseau (m.)	wazo	pták	NOM		0	828	
+805	le vent	vɑ̃	vítr	NOM		0	829	
+806	la recherche	ʁəʃɛʁʃ	hledání, výzkum	NOM		0	830	
+807	apprécier	apʁesje	ocenit, mít rád	VER		0	831	
+808	le système	sistɛm	systém	NOM		0	832	
+809	la ferme	fɛʁm	farma; pevný	NOM+ADJ		0	833	
+810	capable	kapabl	schopný	ADJ		0	834	
+811	fuir	fɥiʁ	utéct, unikat	VER		0	835	
+812	l'ennui (m.)	ɑ̃nɥi	nuda; starost, potíž	NOM		0	836	
+813	la tante	tɑ̃t	teta	NOM		0	837	
+814	le héros	eʁo	hrdina	NOM	h-aspire	0	838	
+815	dedans	dədɑ̃	uvnitř	ADV		0	839	
+816	excellent	ɛksɛlɑ̃	výborný	ADJ		0	840	
+817	la pitié	pitje	soucit, lítost	NOM		0	841	
+818	l'appartement (m.)	apaʁtəmɑ̃	byt	NOM		0	842	
+819	bosser	bɔse	dřít, makat (hovor.)	VER		0	843	
+820	respirer	ʁɛspiʁe	dýchat	VER		0	844	
+821	entier / entière	ɑ̃tje / ɑ̃tjɛʁ	celý	NOM+ADJ		0	845	
+822	récupérer	ʁekypeʁe	získat zpět, vyzvednout	VER		0	846	
+823	la douleur	dulœʁ	bolest	NOM		0	847	
+824	libérer	libeʁe	osvobodit, uvolnit	VER		0	848	
+825	le sentiment	sɑ̃timɑ̃	cit, pocit	NOM		0	849	
+826	le grand-père	ɡʁɑ̃pɛʁ	dědeček	NOM		0	850	
+827	la société	sɔsjete	společnost; firma	NOM		0	851	
+828	lancer	lɑ̃se	hodit, spustit	VER		0	852	
+829	le nez	ne	nos	NOM		0	853	
+830	la joie	ʒwa	radost	NOM		0	854	
+831	la relation	ʁəlasjɔ̃	vztah	NOM		0	855	
+832	le témoin	temwɛ̃	svědek	NOM		0	856	
+833	l'acteur (m.)	aktœʁ	herec	NOM		0	857	
+834	la moitié	mwatje	polovina	NOM		0	858	
+835	incroyable	ɛ̃kʁwajabl	neuvěřitelný	NOM+ADJ		0	859	
+836	le bain	bɛ̃	koupel	NOM		0	860	
+837	durer	dyʁe	trvat	VER		0	861	
+838	le marché	maʁʃe	trh; dohoda	NOM		0	862	
+839	laver	lave	mýt; se laver = umýt se	VER	reflexiv	0	863	
+840	la dent	dɑ̃	zub	NOM		0	864	
+841	là-dedans	ladədɑ̃	tady uvnitř, v tom	ADV		0	865	
+842	la mademoiselle	madmwazɛl	slečna	NOM		0	866	
+843	l'adresse (f.)	adʁɛs	adresa	NOM		0	867	
+844	le cousin	kuzɛ̃	bratranec	NOM		0	868	
+845	riche	ʁiʃ	bohatý	NOM+ADJ		0	869	
+846	la compagnie	kɔ̃paɲi	společnost, firma; společnost (doprovod)	NOM		0	870	
+847	sonner	sɔne	zvonit	VER		0	871	
+848	la chaussure	ʃosyʁ	bota	NOM		0	872	
+849	l'oreille (f.)	ɔʁɛj	ucho	NOM		0	873	
+850	la grand-mère	ɡʁɑ̃mɛʁ	babička	NOM		0	874	
+851	ancien / ancienne	ɑ̃sjɛ̃ / ɑ̃sjɛn	starý, dřívější, bývalý	NOM+ADJ		0	875	
+852	l'art (m.)	aʁ	umění	NOM		0	876	
+853	deviner	dəvine	uhodnout, tušit	VER		0	877	
+854	inutile	inytil	zbytečný	NOM+ADJ		0	878	
+855	ravir	ʁaviʁ	okouzlit, potěšit	VER		0	879	
+856	la blague	blaɡ	vtip	NOM		0	880	
+857	l'avenir (m.)	avniʁ	budoucnost	NOM		0	881	
+858	la beauté	bote	krása	NOM		0	882	
+859	la laisse	lɛs	vodítko	NOM		0	883	
+860	la course	kuʁs	závod, běh; nákup (faire les courses)	NOM		0	884	
+861	la manière	manjɛʁ	způsob	NOM		0	885	
+862	traverser	tʁavɛʁse	přejít, projít	VER		0	886	
+863	l'expérience (f.)	ɛkspeʁjɑ̃s	zkušenost; pokus	NOM		0	887	
+864	le soin	swɛ̃	péče	NOM		0	888	
+865	hors	ɔʁ	mimo, ven z	PRE		0	889	
+866	la cour	kuʁ	dvůr; soud	NOM		0	890	
+867	gauche	ɡoʃ	levý; levá strana	NOM+ADJ		0	891	
+868	stupide	stypid	hloupý	NOM+ADJ		0	892	
+869	retenir	ʁətəniʁ	zadržet, zapamatovat si	VER		0	893	
+870	la liste	list	seznam	NOM		0	894	
+871	remonter	ʁəmɔ̃te	vystoupat znovu, vrátit se nahoru	VER		0	895	
+872	réaliser	ʁealize	uskutečnit, uvědomit si	VER		0	896	
+873	se moquer	sə mɔke	posmívat se, vysmívat se; se moquer de = dělat si legraci z	VER	reflexiv	0	897	
+874	étudier	etydje	studovat	VER		0	898	
+875	installer	ɛ̃stale	nainstalovat; s'installer = usadit se	VER	reflexiv	0	899	
+876	le courage	kuʁaʒ	odvaha	NOM		0	900	
+877	bleu	blø	modrý; modř	NOM+ADJ		0	901	
+878	le secours	səkuʁ	pomoc, záchrana	NOM		0	902	
+879	le milieu	miljø	střed, prostředí	NOM		0	903	
+880	proposer	pʁɔpoze	navrhnout, nabídnout	VER		0	904	
+881	le contact	kɔ̃takt	kontakt	NOM		0	905	
+882	l'inspecteur (m.)	ɛ̃spɛktœʁ	inspektor	NOM		0	906	
+883	mignon / mignonne	miɲɔ̃ / miɲɔn	roztomilý	NOM+ADJ		0	907	
+884	le projet	pʁɔʒɛ	projekt, plán	NOM		0	908	
+885	probablement	pʁɔbabləmɑ̃	pravděpodobně	ADV		0	909	
+886	le rôle	ʁol	role	NOM		0	910	
+887	le risque	ʁisk	riziko	NOM		0	911	
+888	l'action (f.)	aksjɔ̃	čin, akce; akcie	NOM		0	912	
+889	l'ange (m.)	ɑ̃ʒ	anděl	NOM		0	913	
+890	l'avance (f.)	avɑ̃s	náskok, záloha; en avance = předčasně	NOM		0	914	
+891	parmi	paʁmi	mezi (z více)	PRE		0	915	
+892	intéressant	ɛ̃teʁɛsɑ̃	zajímavý	NOM+ADJ		0	916	
+893	la langue	lɑ̃ɡ	jazyk	NOM		0	917	
+894	emporter	ɑ̃pɔʁte	odnést, vzít s sebou	VER		0	918	
+895	le thé	te	čaj	NOM		0	919	
+896	lequel / laquelle / lesquels / lesquelles	ləkɛl / lakɛl / lekɛl	který, která, které (tázací a vztažné zájmeno)	PRO:int		0	920	920 976
+897	la colère	kɔlɛʁ	hněv, vztek	NOM		0	921	
+898	le départ	depaʁ	odjezd, start	NOM		0	922	
+899	l'époque (f.)	epɔk	doba, epocha	NOM		0	923	
+900	engager	ɑ̃ɡaʒe	najmout, zahájit, zavázat	VER		0	924	
+901	le voleur	vɔlœʁ	zloděj	NOM+ADJ		0	925	
+902	cesser	sese	přestat	VER		0	926	
+903	le tort	tɔʁ	křivda, chyba; avoir tort = nemít pravdu	NOM		0	927	
+904	les vacances	vakɑ̃s	prázdniny, dovolená	NOM	display-fix	0	928	
+905	là-haut	lao	tam nahoře	ADV		0	929	
+906	signifier	siɲifje	znamenat	VER		0	930	
+907	la machine	maʃin	stroj	NOM		0	931	
+908	réparer	ʁepaʁe	opravit	VER		0	932	
+909	bête	bɛt	hloupý; zvíře	NOM+ADJ		0	933	
+910	construire	kɔ̃stʁɥiʁ	postavit, stavět	VER		0	934	
+911	le pain	pɛ̃	chléb	NOM		0	935	
+912	le bar	baʁ	bar	NOM		0	936	
+913	chier	ʃje	vulg. vyprazdňovat se; hovor. otravovat; faire chier = štvát	VER	vulgaire	1	937	
+914	le club	klœb	klub	NOM		0	938	
+915	l'été (m.)	ete	léto	NOM		0	939	
+916	horrible	ɔʁibl	hrozný	ADJ		0	940	
+917	profiter	pʁɔfite	využít, těžit	VER		0	941	
+918	pleuvoir	pløvwaʁ	pršet	VER		0	942	
+919	la pierre	pjɛʁ	kámen	NOM		0	943	
+920	plusieurs	plyzjœʁ	několik, více	ADJ:ind+PRO:ind		0	944	
+921	la salope	salɔp	hovor. hrubá nadávka ženě	NOM	vulgaire	1	945	
+922	bon	bɔ̃	dobrá, tak, no (citoslovce)	ADV		0	946	
+923	tel / telle	tɛl	takový, taková	ADJ:ind+PRO:ind		0	947	
+924	la glace	ɡlas	led; zmrzlina; zrcadlo	NOM		0	948	
+925	présent	pʁezɑ̃	přítomný; přítomnost	NOM+ADJ		0	949	
+926	la décision	desizjɔ̃	rozhodnutí	NOM		0	950	
+927	le juge	ʒyʒ	soudce	NOM		0	951	
+928	le contrôle	kɔ̃tʁol	kontrola	NOM		0	952	
+929	séparer	sepaʁe	oddělit	VER		0	953	
+930	la maladie	maladi	nemoc	NOM		0	954	
+931	le quartier	kaʁtje	čtvrť	NOM		0	955	
+932	désirer	deziʁe	přát si, toužit	VER		0	956	
+933	le travers	tʁavɛʁ	vada, chyba; à travers = skrz	NOM		0	957	
+934	le dommage	dɔmaʒ	škoda; c'est dommage = je škoda	NOM		0	958	
+935	la cigarette	siɡaʁɛt	cigareta	NOM		0	959	
+936	traîner	tʁene	táhnout; poflakovat se	VER		0	960	
+937	respecter	ʁɛspɛkte	respektovat	VER		0	961	
+938	l'époux (m.)	epu	manžel	NOM		0	962	
+939	le tas	ta	hromada	NOM		0	963	
+940	s'enfuir	sɑ̃fɥiʁ	utéct, uprchnout	VER	reflexiv	0	964	
+941	diriger	diʁiʒe	řídit, vést	VER		0	965	
+942	crever	kʁəve	prasknout; hovor. chcípnout	VER		0	966	
+943	le fil	fil	nit, drát	NOM		0	967	
+944	poursuivre	puʁsɥivʁ	pronásledovat, pokračovat	VER		0	968	
+945	le combat	kɔ̃ba	boj	NOM		0	969	
+946	le morceau	mɔʁso	kus, kousek	NOM		0	970	
+947	l'église (f.)	egliz	kostel, církev	NOM		0	971	
+948	le directeur	diʁɛktœʁ	ředitel	NOM+ADJ		0	972	
+949	forcer	fɔʁse	nutit, vynutit	VER		0	973	
+950	la demande	dəmɑ̃d	žádost, poptávka	NOM		0	974	
+951	la bombe	bɔ̃b	bomba	NOM		0	975	
+952	l'espoir (m.)	ɛspwaʁ	naděje	NOM		0	977	
+953	le tueur	tɥœʁ	vrah, zabiják	NOM		0	978	
+954	grandir	ɡʁɑ̃diʁ	vyrůstat, růst	VER		0	979	
+955	le dimanche	dimɑ̃ʃ	neděle	NOM		0	980	
+956	américain	ameʁikɛ̃	americký; Američan	NOM+ADJ		0	981	
+957	le taxi	taksi	taxi	NOM		0	982	
+958	interdire	ɛ̃tɛʁdiʁ	zakázat	VER		0	983	
+959	baisser	bese	snížit, sklonit	VER		0	984	
+960	enterrer	ɑ̃tɛʁe	pohřbít	VER		0	985	
+961	causer	koze	způsobit; povídat si	VER		0	986	
+962	cool	kul	skvělý, v pohodě	ADJ	anglicismus	0	987	
+963	survivre	syʁvivʁ	přežít	VER		0	988	
+964	commander	kɔmɑ̃de	objednat, velet	VER		0	989	
+965	le cinéma	sinema	kino	NOM		0	990	
+966	le match	matʃ	zápas	NOM	anglicismus	0	991	
+967	le souvenir	suvniʁ	vzpomínka, suvenýr	NOM		0	992	
+968	l'information (f.)	ɛ̃fɔʁmasjɔ̃	informace	NOM		0	993	
+969	la toilette	twalɛt	toaleta, WC (les toilettes); hygiena	NOM		0	994	
+970	la note	nɔt	poznámka, známka; účet	NOM		0	995	
+971	le gouvernement	ɡuvɛʁnəmɑ̃	vláda	NOM		0	996	
+972	le monstre	mɔ̃stʁ	příšera, netvor	NOM+ADJ		0	997	
+973	censé	sɑ̃se	údajný; je suis censé = mám prý	ADJ		0	998	
+974	ennuyer	ɑ̃nɥije	nudit, obtěžovat; s'ennuyer = nudit se	VER		0	999	
+975	le contraire	kɔ̃tʁɛʁ	opak; opačný	NOM+ADJ		0	1000	
+976	justement	ʒystəmɑ̃	právě, přesně	ADV		0	1001	
+977	la montagne	mɔ̃taɲ	hora	NOM		0	1002	
+978	prêter	pʁete	půjčit	VER		0	1003	
+979	la solution	sɔlysjɔ̃	řešení	NOM		0	1004	
+980	nettoyer	netwaje	uklidit, vyčistit	VER		0	1005	
+981	l'opération (f.)	ɔpeʁasjɔ̃	operace	NOM		0	1006	
+982	l'occasion (f.)	ɔkazjɔ̃	příležitost	NOM		0	1007	
+983	atteindre	atɛ̃dʁ	dosáhnout, zasáhnout	VER		0	1008	
+984	rouler	ʁule	jet, kutálet, balit	VER		0	1009	
+985	débarrasser	debaʁase	zbavit, uklidit; se débarrasser de = zbavit se	VER		0	1010	
+986	la position	pozisjɔ̃	poloha, pozice	NOM		0	1011	
+987	le patient	pasjɑ̃	pacient; trpělivý	NOM+ADJ		0	1012	
+988	le cerveau	sɛʁvo	mozek	NOM		0	1013	
+989	l'excuse (f.)	ɛkskyz	omluva, výmluva	NOM		0	1014	
+990	ridicule	ʁidikyl	směšný; směšnost	NOM+ADJ		0	1015	
+991	avouer	avwe	přiznat	VER		0	1016	
+992	le vêtement	vɛtmɑ̃	oděv	NOM		0	1017	
+993	ben	bɛ̃	hovor. no, tak (částice)	NOM		0	1018	
+994	le regard	ʁəɡaʁ	pohled	NOM		0	1019	
+995	plaindre	plɛ̃dʁ	litovat (někoho); se plaindre = stěžovat si	VER		0	1020	
+996	remplir	ʁɑ̃pliʁ	naplnit, vyplnit	VER		0	1021	
+997	contrôler	kɔ̃tʁole	kontrolovat, ovládat	VER		0	1022	
+998	la planète	planɛt	planeta	NOM		0	1023	
+999	taper	tape	bouchnout, psát (na klávesnici)	VER		0	1024	
+1000	le mensonge	mɑ̃sɔ̃ʒ	lež	NOM		0	1025	
+1001	personnel / personnelle	pɛʁsɔnɛl	osobní; personál	NOM+ADJ		0	1026	
+1002	la lune	lyn	měsíc (na obloze)	NOM		0	1027	
+1003	le démon	demɔ̃	démon	NOM		0	1028	
+1004	la mémoire	memwaʁ	paměť	NOM		0	1029	
+1005	le magasin	maɡazɛ̃	obchod	NOM		0	1030	
+1006	téléphoner	telefɔne	telefonovat	VER		0	1031	
+1007	dépendre	depɑ̃dʁ	záviset	VER		0	1032	
+1008	vide	vid	prázdný; prázdnota	NOM+ADJ		0	1033	
+1009	le jardin	ʒaʁdɛ̃	zahrada	NOM		0	1034	
+1010	la nature	natyʁ	příroda; přirozený	NOM+ADJ		0	1035	
+1011	la trace	tʁas	stopa	NOM		0	1036	
+1012	la félicitation	felisitasjɔ̃	gratulace	NOM		0	1037	
+1013	parfaire	paʁfɛʁ	dokončit, zdokonalit (knižně)	VER		0	1038	
+1014	l'attaque (f.)	atak	útok	NOM		0	1039	
+1015	le lait	lɛ	mléko	NOM		0	1040	
+1016	le résultat	ʁezylta	výsledek	NOM		0	1041	
+1017	le camion	kamjɔ̃	nákladní auto	NOM		0	1042	
+1018	neuf / neuve	nœf / nœv	nový, zánovní; (číslo) devět	ADJ		0	1043	
+1019	la bonne	bɔn	služka; správná (odpověď)	NOM		0	1044	
+1020	étranger / étrangère	etʁɑ̃ʒe / etʁɑ̃ʒɛʁ	cizí; cizinec	NOM+ADJ		0	1045	
+1021	renvoyer	ʁɑ̃vwaje	poslat zpět, propustit	VER		0	1047	
+1022	la base	baz	základ, základna	NOM		0	1048	
+1023	puisque	pɥiskə	protože, když už	CON		0	1049	
+1024	la reine	ʁɛn	královna	NOM		0	1050	
+1025	repartir	ʁəpaʁtiʁ	odjet znovu, vyrazit zpět	VER		0	1051	
+1026	enfermer	ɑ̃fɛʁme	zavřít, uzamknout	VER		0	1052	
+1027	parfait	paʁfɛ	dokonalý	NOM+ADJ		0	1053	
+1028	la drogue	dʁɔɡ	droga	NOM		0	1054	
+1029	la droite	dʁwat	pravá strana; pravice	NOM		0	1055	
+1030	dingue	dɛ̃ɡ	bláznivý (hovor.)	NOM+ADJ		0	1056	
+1031	pur	pyʁ	čistý	ADJ		0	1057	
+1032	l'île (f.)	il	ostrov	NOM		0	1058	
+1033	habiller	abije	obléknout; s'habiller = obléknout se	VER		0	1059	
+1034	refaire	ʁəfɛʁ	udělat znovu	VER		0	1060	
+1035	le couteau	kuto	nůž	NOM		0	1061	
+1036	l'enquête (f.)	ɑ̃kɛt	vyšetřování, průzkum	NOM		0	1062	
+1037	le goût	ɡu	chuť	NOM		0	1063	
+1038	la pensée	pɑ̃se	myšlenka	NOM		0	1064	
+1039	gêner	ʒɛne	překážet, obtěžovat	VER		0	1065	
+1040	certains	sɛʁtɛ̃	někteří	ADJ:ind+PRO:ind		0	1066	
+1041	intelligent	ɛ̃teliʒɑ̃	inteligentní, chytrý	ADJ		0	1067	
+1042	marre	maʁ	en avoir marre = mít dost	ADV		0	1068	
+1043	éteindre	etɛ̃dʁ	zhasnout, vypnout	VER		0	1069	
+1044	l'importance (f.)	ɛ̃pɔʁtɑ̃s	důležitost	NOM		0	1070	
+1045	la bouteille	butɛj	láhev	NOM		0	1071	
+1046	le champ	ʃɑ̃	pole	NOM		0	1072	
+1047	le centre	sɑ̃tʁ	střed, centrum	NOM		0	1073	
+1048	rapporter	ʁapɔʁte	přinést zpět, vynášet; hlásit	VER		0	1074	
+1049	coincer	kwɛ̃se	zaseknout, přistihnout	VER		0	1075	
+1050	le malheur	malœʁ	neštěstí	NOM		0	1076	
+1051	le miracle	miʁakl	zázrak	NOM		0	1077	
+1052	sacré	sakʁe	svatý; hovor. pořádný	NOM+ADJ		0	1078	
+1053	la réunion	ʁeynjɔ̃	schůzka, setkání	NOM		0	1079	
+1054	l'acte (m.)	akt	čin, akt, listina	NOM		0	1080	
+1055	surprendre	syʁpʁɑ̃dʁ	překvapit	VER		0	1081	
+1056	convaincre	kɔ̃vɛ̃kʁ	přesvědčit	VER		0	1082	
+1057	livrer	livʁe	dodat, vydat	VER		0	1083	
+1058	le pont	pɔ̃	most	NOM		0	1085	
+1059	le faîte	fɛt	vrchol, hřeben (střechy)	NOM		0	1086	
+1060	immédiatement	imedjatmɑ̃	okamžitě	ADV		0	1087	
+1061	la caméra	kameʁa	kamera	NOM	anglicismus	0	1088	
+1062	juger	ʒyʒe	soudit	VER		0	1089	
+1063	le membre	mɑ̃bʁ	člen; úd	NOM		0	1090	
+1064	la voie	vwa	cesta, kolej	NOM		0	1091	
+1065	le voisin	vwazɛ̃	soused	NOM+ADJ		0	1092	
+1066	la différence	difeʁɑ̃s	rozdíl	NOM		0	1093	
+1067	le détail	detaj	detail	NOM		0	1094	
+1068	annoncer	anɔ̃se	oznámit	VER		0	1095	
+1069	le pardon	paʁdɔ̃	odpuštění; pardon (omluva)	NOM		0	1096	
+1070	environ	ɑ̃viʁɔ̃	asi, přibližně	ADV		0	1097	
+1071	haïr	aiʁ	nenávidět	VER		0	1099	
+1072	le test	tɛst	test	NOM		0	1100	
+1073	l'assassin (m.)	asasɛ̃	vrah	NOM+ADJ		0	1101	
+1074	l'officier (m.)	ɔfisje	důstojník	NOM		0	1102	
+1075	proche	pʁɔʃ	blízký; příbuzný	NOM+ADJ		0	1103	
+1076	le commandant	kɔmɑ̃dɑ̃	velitel, kapitán	NOM+ADJ		0	1104	
+1077	briser	bʁize	rozbít, zlomit	VER		0	1105	
+1078	le gâteau	ɡato	dort	NOM		0	1106	
+1079	le spectacle	spɛktakl	představení, podívaná	NOM		0	1107	
+1080	certainement	sɛʁtɛnmɑ̃	jistě	ADV		0	1108	
+1081	le métier	metje	povolání	NOM		0	1109	
+1082	enchanté	ɑ̃ʃɑ̃te	těší mě; okouzlený	ADJ		0	1110	
+1083	chasser	ʃase	lovit, vyhnat	VER		0	1111	
+1084	attirer	atiʁe	přitáhnout, přilákat	VER		0	1112	
+1085	le chapeau	ʃapo	klobouk	NOM		0	1113	
+1086	allumer	alyme	zapnout, rozsvítit, zapálit	VER		0	1114	
+1087	le respect	ʁɛspɛ	respekt	NOM		0	1115	
+1088	le dessus	dəsy	vršek, horní strana	NOM		0	1116	
+1089	le sous-titrage	sutitʁaʒ	titulkování, titulky	NOM		0	1117	
+1090	l'étoile (f.)	etwal	hvězda	NOM		0	1118	
+1091	charmant	ʃaʁmɑ̃	okouzlující, milý	ADJ		0	1119	
+1092	écraser	ekʁaze	rozdrtit, přejet	VER		0	1120	
+1093	le genou	ʒənu	koleno	NOM		0	1121	
+1094	formidable	fɔʁmidabl	skvělý, úžasný	ADJ		0	1122	
+1095	arracher	aʁaʃe	vytrhnout, utrhnout	VER		0	1123	
+1096	le mieux	mjø	to nejlepší, nejlepší	NOM		0	1124	
+1097	soit	swa	buď, totiž	CON		0	1125	
+1098	le sorcier	sɔʁsje	čaroděj	NOM+ADJ		0	1126	
+1099	la foi	fwa	víra	NOM		0	1127	
+1100	mien / mienne	mjɛ̃ / mjɛn	můj, ten můj (zájmeno; le mien = ten můj)	PRO:pos		0	1128	1128 1189
+1101	sourire	suʁiʁ	usmívat se; úsměv	VER		0	1129	
+1102	inventer	ɛ̃vɑ̃te	vymyslet	VER		0	1130	
+1103	la zone	zon	zóna	NOM		0	1131	
+1104	honnête	ɔnɛt	poctivý, čestný	ADJ		0	1132	
+1105	mêler	mele	smíchat, zapojit; se mêler de = míchat se do	VER		0	1133	
+1106	énerver	enɛʁve	rozčílit; s'énerver = rozčilovat se	VER		0	1134	
+1107	exploser	ɛksploze	explodovat	VER		0	1135	
+1108	la réalité	ʁealite	realita	NOM		0	1136	
+1109	supplier	syplije	úpěnlivě prosit	VER		0	1137	
+1110	étonner	etɔne	udivit	VER		0	1138	
+1111	superbe	sypɛʁb	nádherný	NOM+ADJ		0	1139	
+1112	méchant	meʃɑ̃	zlý, zlomyslný	NOM+ADJ		0	1140	
+1113	le ton	tɔ̃	tón, hlas	NOM		0	1141	
+1114	le contrat	kɔ̃tʁa	smlouva	NOM		0	1142	
+1115	la marche	maʁʃ	chůze, schod, pochod	NOM		0	1143	
+1116	déposer	depoze	položit, složit, podat	VER		0	1144	
+1117	le destin	dɛstɛ̃	osud	NOM		0	1145	
+1118	l'urgence (f.)	yʁʒɑ̃s	naléhavost, pohotovost	NOM		0	1146	
+1119	placer	plase	umístit	VER		0	1147	
+1120	remplacer	ʁɑ̃plase	nahradit	VER		0	1148	
+1121	accuser	akyze	obvinit	VER		0	1149	
+1122	vert	vɛʁ	zelený	NOM+ADJ		0	1151	
+1123	le terrain	teʁɛ̃	pozemek, hřiště, terén	NOM		0	1152	
+1124	nourrir	nuʁiʁ	krmit, živit	VER		0	1153	
+1125	second	səɡɔ̃	druhý (ze dvou)	NOM+ADJ		0	1154	
+1126	la folie	fɔli	šílenství	NOM		0	1155	
+1127	presser	pʁese	tlačit, mačkat; se presser = pospíšit si	VER	reflexiv	0	1156	
+1128	accorder	akɔʁde	udělit, přiznat; naladit	VER		0	1157	
+1129	emmerder	ɑ̃mɛʁde	hovor. otravovat, štvát	VER	vulgaire	1	1158	
+1130	le baiser	beze	polibek	NOM	vulgaire	0	1159	
+1131	reculer	ʁəkyle	couvnout, ustoupit	VER		0	1160	
+1132	l'arrière (m.)	aʁjɛʁ	zadní část, týl; zadní	NOM+ADJ		0	1161	
+1133	le sexe	sɛks	pohlaví; sex	NOM		0	1162	
+1134	élever	elve	zvednout, vychovat, chovat	VER		0	1163	
+1135	nécessaire	neseseʁ	nutný, potřebný	NOM+ADJ		0	1164	
+1136	la piste	pist	stopa, dráha	NOM		0	1165	
+1137	le prêtre	pʁɛtʁ	kněz	NOM		0	1166	
+1138	l'usine (f.)	yzin	továrna	NOM		0	1167	
+1139	accrocher	akʁɔʃe	pověsit, zavěsit, zachytit	VER		0	1168	
+1140	l'appareil (m.)	apaʁɛj	přístroj, aparát	NOM		0	1169	
+1141	entendu	ɑ̃tɑ̃dy	domluveno, dobře; bien entendu = samozřejmě	ADJ		0	1170	
+1142	le fiancé	fjɑ̃se	snoubenec	NOM		0	1171	
+1143	le costume	kɔstym	oblek, kostým	NOM		0	1172	
+1144	le déjeuner	deʒøne	oběd	NOM		0	1173	
+1145	coller	kɔle	nalepit, přilepit	VER		0	1174	
+1146	le code	kɔd	kód	NOM		0	1175	
+1147	la danse	dɑ̃s	tanec	NOM		0	1176	
+1148	la campagne	kɑ̃paɲ	venkov; kampaň	NOM		0	1177	
+1149	l'intention (f.)	ɛ̃tɑ̃sjɔ̃	záměr	NOM		0	1178	
+1150	anglais	ɑ̃ɡlɛ	anglický; angličtina; Angličan	NOM+ADJ		0	1179	
+1151	serrer	seʁe	stisknout, utáhnout	VER		0	1180	
+1152	la valise	valiz	kufr	NOM		0	1181	
+1153	la justice	ʒystis	spravedlnost, soudnictví	NOM		0	1182	
+1154	la défense	defɑ̃s	obrana; zákaz	NOM		0	1183	
+1155	l'arrêt (m.)	aʁɛ	zastávka, zastavení	NOM		0	1184	
+1156	coupable	kupabl	vinný; viník	NOM+ADJ		0	1185	
+1157	le niveau	nivo	úroveň, patro	NOM		0	1186	
+1158	entraîner	ɑ̃tʁene	trénovat, způsobit, strhnout; s'entraîner = trénovat	VER		0	1187	
+1159	le bus	bys	autobus	NOM		0	1188	
+1160	nerveux / nerveuse	nɛʁvø / nɛʁvøz	nervózní	NOM+ADJ		0	1190	
+1161	le demain	dəmɛ̃	zítřek	NOM		0	1191	
+1162	le nord	nɔʁ	sever; severní	NOM+ADJ		0	1192	
+1163	la crise	kʁiz	krize	NOM		0	1193	
+1164	connard	kɔnaʁ	vulg. hlupák, blbec	NOM+ADJ	vulgaire	1	1194	
+1165	moindre	mwɛ̃dʁ	menší, nejmenší	ADJ		0	1195	
+1166	le tableau	tablo	obraz, tabule, tabulka	NOM		0	1196	
+1167	piquer	pike	píchnout, štípnout; hovor. šlohnout	VER		0	1197	
+1168	admettre	admɛtʁ	připustit, přijmout	VER		0	1198	
+1169	le restaurant	ʁɛstɔʁɑ̃	restaurace	NOM		0	1199	
+1170	le trésor	tʁezɔʁ	poklad	NOM		0	1200	
+1171	nu	ny	nahý; nahota	NOM+ADJ		0	1201	
+1172	produire	pʁɔdɥiʁ	vyrábět, produkovat	VER		0	1202	
+1173	la tombe	tɔ̃b	hrob	NOM		0	1203	
+1174	la poche	pɔʃ	kapsa	NOM		0	1204	
+1175	menacer	mənase	hrozit, vyhrožovat	VER		0	1205	
+1176	le couple	kupl	pár	NOM		0	1206	
+1177	gâcher	ɡɑʃe	pokazit, zkazit, promarnit	VER		0	1207	
+1178	l'odeur (f.)	ɔdœʁ	vůně, zápach	NOM		0	1208	
+1179	vu	vy	viděný; vzhledem k (vu que = vzhledem k tomu, že)	NOM+ADJ		0	1209	
+1180	le souci	susi	starost	NOM		0	1210	
+1181	lorsque	lɔʁskə	když, jakmile	CON		0	1211	
+1182	concerner	kɔ̃sɛʁne	týkat se	VER		0	1212	
+1183	énorme	enɔʁm	obrovský	ADJ		0	1213	
+1184	le programme	pʁɔɡʁam	program	NOM		0	1214	
+1185	allemand	almɑ̃	německý; němčina; Němec	NOM+ADJ		0	1215	
+1186	le toit	twa	střecha	NOM		0	1216	
+1187	représenter	ʁəpʁezɑ̃te	představovat, zastupovat	VER		0	1217	
+1188	bénir	beniʁ	žehnat, požehnat	VER		0	1218	
+1189	rapide	ʁapid	rychlý	NOM+ADJ		0	1220	
+1190	le fusil	fyzi	puška	NOM		0	1221	
+1191	enceinte	ɑ̃sɛ̃t	těhotná; reproduktor	NOM+ADJ		0	1222	
+1192	le repas	ʁəpa	jídlo (chod), oběd	NOM		0	1223	
+1193	la montre	mɔ̃tʁ	hodinky	NOM		0	1225	
+1194	le fantôme	fɑ̃tom	duch, přízrak	NOM		0	1226	
+1195	endormir	ɑ̃dɔʁmiʁ	uspat; s'endormir = usnout	VER		0	1227	
+1196	la plage	plaʒ	pláž	NOM		0	1228	
+1197	louer	lwe	pronajmout, najmout; chválit	VER		0	1229	
+1198	l'entrée (f.)	ɑ̃tʁe	vchod, vstup, předkrm	NOM		0	1230	
+1199	la mine	min	vzhled, výraz; důl	NOM		0	1231	
+1200	le hasard	azaʁ	náhoda	NOM	h-aspire	0	1232	
+1201	soigner	swaɲe	léčit, pečovat	VER		0	1233	
+1202	la chasse	ʃas	lov	NOM		0	1234	
+1203	organiser	ɔʁɡanize	organizovat	VER		0	1235	
+1204	la sortie	sɔʁti	východ, výlet	NOM		0	1236	
+1205	l'examen (m.)	ɛɡzamɛ̃	zkouška, vyšetření	NOM		0	1237	
+1206	le cadavre	kadavʁ	mrtvola	NOM		0	1238	
+1207	la vache	vaʃ	kráva	NOM+ADJ		0	1239	
+1208	ranger	ʁɑ̃ʒe	uklidit, srovnat	VER		0	1240	
+1209	la passe	pas	průsmyk, přihrávka	NOM		0	1241	
+1210	couler	kule	téct, potopit se	VER		0	1242	
+1211	rigoler	ʁiɡɔle	smát se, legrace (hovor.)	VER		0	1243	
+1212	commettre	kɔmɛtʁ	spáchat, dopustit se	VER		0	1244	
+1213	in	in	módní (angl. in)	ADJ		0	1245	
+1214	la volonté	vɔlɔ̃te	vůle	NOM		0	1246	
+1215	public / publique	pyblik	veřejný; veřejnost	NOM+ADJ		0	1247	
+1216	le ventre	vɑ̃tʁ	břicho	NOM		0	1249	
+1217	trahir	tʁaiʁ	zradit	VER		0	1250	
+1218	la condition	kɔ̃disjɔ̃	podmínka, stav	NOM		0	1251	
+1219	débrouiller	debʁuje	rozmotat; se débrouiller = poradit si	VER		0	1252	
+1220	le shérif	ʃeʁif	šerif	NOM		0	1253	
+1221	fâcher	fɑʃe	rozzlobit; se fâcher = rozzlobit se, pohádat se	VER	reflexiv	0	1254	
+1222	le parti	paʁti	politická strana; volba, rozhodnutí	NOM+ADJ		0	1255	
+1223	lui-même	lɥimɛm	on sám	PRO:per		0	1256	
+1224	le samedi	samdi	sobota	NOM		0	1257	
+1225	malgré	malɡʁe	navzdory	PRE		0	1258	
+1226	l'étage (m.)	etaʒ	patro	NOM		0	1259	
+1227	la source	suʁs	pramen, zdroj	NOM		0	1260	
+1228	frais / fraîche	fʁɛ / fʁɛʃ	čerstvý, chladný	NOM+ADJ		0	1261	
+1229	attacher	ataʃe	připevnit, přivázat	VER		0	1262	
+1230	joindre	ʒwɛ̃dʁ	spojit, připojit, zastihnout	VER		0	1263	
+1231	l'horreur (f.)	ɔʁœʁ	hrůza	NOM		0	1264	
+1232	sexuel / sexuelle	sɛksɥɛl	sexuální, pohlavní	ADJ		0	1265	
+1233	la pluie	plɥi	déšť	NOM		0	1266	
+1234	responsable	ʁɛspɔ̃sabl	odpovědný; zodpovědná osoba	NOM+ADJ		0	1267	
+1235	celui-ci / celle-ci / ceux-ci / celles-ci	səlɥisi / sɛlsi / søsi	tento, tato, tito (ukazovací zájmeno; ten tady)	PRO:dem		0	1268	1268 1459
+1236	l'objet (m.)	ɔbʒɛ	předmět	NOM		0	1269	
+1237	finalement	finalmɑ̃	nakonec	ADV		0	1270	
+1238	toi-même	twamɛm	ty sám	PRO:per		0	1271	
+1239	la presse	pʁɛs	tisk, média	NOM		0	1272	
+1240	le siècle	sjɛkl	století	NOM		0	1273	
+1241	voyager	vwajaʒe	cestovat	VER		0	1274	
+1242	la larme	laʁm	slza	NOM		0	1275	
+1243	l'ombre (f.)	ɔ̃bʁ	stín	NOM		0	1277	
+1244	nommer	nɔme	jmenovat, pojmenovat	VER		0	1278	
+1245	le rat	ʁa	krysa	NOM		0	1279	
+1246	le cri	kʁi	křik	NOM		0	1280	
+1247	la conscience	kɔ̃sjɑ̃s	svědomí, vědomí	NOM		0	1281	
+1248	rechercher	ʁəʃɛʁʃe	hledat, pátrat	VER		0	1282	
+1249	parfaitement	paʁfɛtmɑ̃	dokonale, naprosto	ADV		0	1283	
+1250	unique	ynik	jedinečný, jediný	ADJ		0	1284	
+1251	le procès	pʁɔsɛ	soudní proces	NOM		0	1285	
+1252	la valeur	valœʁ	hodnota	NOM		0	1286	
+1253	le désir	deziʁ	touha, přání	NOM		0	1287	
+1254	juif / juive	ʒɥif / ʒɥiv	židovský; Žid	NOM+ADJ		0	1288	
+1255	obéir	ɔbeiʁ	poslechnout	VER		0	1289	
+1256	saluer	salɥe	pozdravit	VER		0	1290	
+1257	le mets	mɛ	pokrm, jídlo	NOM		0	1291	
+1258	la direction	diʁɛksjɔ̃	směr, vedení	NOM		0	1292	
+1259	la présence	pʁezɑ̃s	přítomnost	NOM		0	1293	
+1260	utile	ytil	užitečný	NOM+ADJ		0	1294	
+1261	le paquet	pakɛ	balík, krabička	NOM		0	1295	
+1262	le sein	sɛ̃	prs, ňadro	NOM		0	1296	
+1263	la nourriture	nuʁityʁ	jídlo, potrava	NOM		0	1297	
+1264	mordre	mɔʁdʁ	kousnout	VER		0	1298	
+1265	le sort	sɔʁ	osud, kouzlo	NOM		0	1299	
+1266	guérir	ɡeʁiʁ	uzdravit, vyléčit	VER		0	1300	
+1267	le passage	pasaʒ	průchod, pasáž	NOM		0	1301	
+1268	jaloux / jalouse	ʒalu / ʒaluz	žárlivý	NOM+ADJ		0	1302	
+1269	nombreux / nombreuse	nɔ̃bʁø / nɔ̃bʁøz	početný	ADJ		0	1303	
+1270	nul / nulle	nyl	žádný, nulový, neschopný; nikdo (se záporem)	NOM+ADJ		0	1304	1304 1306 1482
+1271	le sommeil	sɔmɛj	spánek	NOM		0	1305	
+1272	le week-end	wikɛnd	víkend	NOM	anglicismus	0	1307	
+1273	le stop	stɔp	stop, značka stop	NOM		0	1308	
+1274	le flingue	flɛ̃ɡ	bouchačka, zbraň (hovor.)	NOM		0	1309	
+1275	l'article (m.)	aʁtikl	článek, člen, zboží	NOM		0	1310	
+1276	l'adieu (m.)	adjø	sbohem, rozloučení	NOM		0	1311	
+1277	la viande	vjɑ̃d	maso	NOM		0	1312	
+1278	détendre	detɑ̃dʁ	uvolnit; se détendre = odpočinout si	VER		0	1313	
+1279	interroger	ɛ̃teʁɔʒe	vyslechnout, ptát se	VER		0	1314	
+1280	l'étude (f.)	etyd	studie, studium	NOM		0	1315	
+1281	faillir	fajiʁ	být těsně před (j'ai failli tomber = málem jsem spadl)	VER		0	1316	
+1282	le talent	talɑ̃	talent	NOM		0	1317	
+1283	condamner	kɔ̃dane	odsoudit	VER		0	1318	
+1284	le cou	ku	krk	NOM		0	1319	
+1285	deuxième	døzjɛm	druhý	NOM+ADJ		0	1320	
+1286	au-dessus	odəsy	nad, nahoře	ADV		0	1321	
+1287	l'espace (m.)	ɛspas	prostor, vesmír	NOM		0	1322	
+1288	apparaître	apaʁɛtʁ	objevit se	VER		0	1323	
+1289	marquer	maʁke	označit, zaznamenat, skórovat	VER		0	1324	
+1290	le don	dɔ̃	dar, nadání	NOM		0	1325	
+1291	ramasser	ʁamase	sebrat, zvednout	VER		0	1326	
+1292	militaire	militɛʁ	vojenský; voják	NOM+ADJ		0	1327	
+1293	le château	ʃato	zámek, hrad	NOM		0	1328	
+1294	la chemise	ʃəmiz	košile	NOM		0	1329	
+1295	le mètre	mɛtʁ	metr	NOM		0	1330	
+1296	abattre	abatʁ	srazit, zastřelit, porazit	VER		0	1331	
+1297	l'unité (f.)	ynite	jednotka, jednota	NOM		0	1332	
+1298	la majesté	maʒɛste	Veličenstvo; velebnost	NOM		0	1333	
+1299	un(e) imbécile	ɛ̃besil	hlupák; pitomý	NOM+ADJ		0	1334	
+1300	un(e) commissaire	kɔmisɛʁ	komisař	NOM		0	1335	
+1301	la taille	taj	velikost, postava, pas	NOM		0	1336	
+1302	apparemment	apaʁamɑ̃	zřejmě, očividně	ADV		0	1337	
+1303	la connaissance	kɔnɛsɑ̃s	znalost, známý	NOM		0	1338	
+1304	français	fʁɑ̃sɛ	francouzský; francouzština; Francouz	NOM+ADJ		0	1339	
+1305	l'énergie (f.)	enɛʁʒi	energie	NOM		0	1340	
+1306	sec / sèche	sɛk / sɛʃ	suchý	ADJ		0	1341	
+1307	considérer	kɔ̃sideʁe	považovat, zvážit	VER		0	1342	
+1308	pendre	pɑ̃dʁ	pověsit, viset	VER		0	1343	
+1309	la cellule	selyl	cela, buňka	NOM		0	1344	
+1310	combattre	kɔ̃batʁ	bojovat	VER		0	1345	
+1311	posséder	pɔsede	vlastnit	VER		0	1346	
+1312	le discours	diskuʁ	projev, řeč	NOM		0	1347	
+1313	bouffer	bufe	žrát, jíst (hovor.)	VER	familier	0	1348	
+1314	l'effort (m.)	efɔʁ	úsilí	NOM		0	1349	
+1315	observer	ɔpsɛʁve	pozorovat	VER		0	1350	
+1316	l'arrivée (f.)	aʁive	příjezd, příchod	NOM		0	1351	
+1317	dépasser	depase	předjet, překročit	VER		0	1352	
+1318	le lycée	lise	střední škola, lyceum	NOM		0	1353	
+1319	fonctionner	fɔ̃ksjɔne	fungovat	VER		0	1354	
+1320	profond	pʁɔfɔ̃	hluboký	ADJ		0	1355	
+1321	fouiller	fuje	prohledat, hrabat se	VER		0	1356	
+1322	la pomme	pɔm	jablko	NOM		0	1357	
+1323	le repos	ʁəpo	odpočinek, klid	NOM		0	1358	
+1324	goûter	ɡute	ochutnat; svačina (le goûter)	VER		0	1359	
+1325	la conversation	kɔ̃vɛʁsasjɔ̃	rozhovor	NOM		0	1360	
+1326	insister	ɛ̃siste	trvat na, naléhat	VER		0	1361	
+1327	transformer	tʁɑ̃sfɔʁme	přeměnit, změnit	VER		0	1362	
+1328	la gare	ɡaʁ	nádraží	NOM		0	1363	
+1329	annuler	anyle	zrušit	VER		0	1364	
+1330	l'empreinte (f.)	ɑ̃pʁɛ̃t	otisk	NOM		0	1365	
+1331	l'oeuvre (f.)	œvʁ	dílo	NOM		0	1366	
+1332	réunir	ʁeyniʁ	sejít se, spojit, shromáždit	VER		0	1367	
+1333	le médicament	medikamɑ̃	lék	NOM		0	1368	
+1334	la blessure	blesyʁ	rána, zranění	NOM		0	1369	
+1335	piger	piʒe	chápat, kapírovat (hovor.)	VER		0	1370	
+1336	punir	pyniʁ	potrestat	VER		0	1371	
+1337	renoncer	ʁənɔ̃se	vzdát se	VER		0	1372	
+1338	déclarer	deklaʁe	prohlásit, ohlásit	VER		0	1373	
+1339	la queue	kø	ocas; fronta	NOM		0	1374	
+1340	confier	kɔ̃fje	svěřit	VER		0	1375	
+1341	malin / maligne	malɛ̃ / maliɲ	mazaný, chytrý; zhoubný	NOM+ADJ		0	1376	
+1342	le théâtre	teɑtʁ	divadlo	NOM		0	1377	
+1343	la leçon	ləsɔ̃	lekce, poučení	NOM		0	1378	
+1344	la violence	vjɔlɑ̃s	násilí	NOM		0	1379	
+1345	un(e) ministre	ministʁ	ministr	NOM		0	1380	
+1346	rompre	ʁɔ̃pʁ	zpřetrhat, ukončit vztah	VER		0	1381	
+1347	le titre	titʁ	název, titul	NOM		0	1382	
+1348	éclater	eklate	prasknout, vybuchnout	VER		0	1383	
+1349	l'alcool (m.)	alkɔl	alkohol	NOM		0	1384	
+1350	le poulet	pulɛ	kuře	NOM		0	1385	
+1351	le péché	peʃe	hřích	NOM		0	1386	
+1352	l'invité (m.)	ɛ̃vite	host; pozvaný	NOM+ADJ		0	1387	
+1353	éloigner	elwaɲe	vzdálit; s'éloigner = vzdálit se	VER	reflexiv	0	1388	
+1354	court	kuʁ	krátký	NOM+ADJ		0	1389	
+1355	le porc	pɔʁ	prase; vepřové	NOM		0	1390	
+1356	allonger	alɔ̃ʒe	natáhnout, prodloužit; s'allonger = lehnout si	VER		0	1391	
+1357	le front	fʁɔ̃	čelo; fronta	NOM		0	1392	
+1358	appuyer	apɥije	opřít, stisknout, podepřít	VER		0	1393	
+1359	résoudre	ʁezudʁ	vyřešit	VER		0	1394	
+1360	un(e) artiste	aʁtist	umělec	NOM+ADJ		0	1396	
+1361	le geste	ʒɛst	gesto	NOM		0	1397	
+1362	l'os (m.)	ɔs	kost	NOM		0	1398	
+1363	l'université (f.)	ynivɛʁsite	univerzita	NOM		0	1399	
+1364	le chauffeur	ʃofœʁ	řidič	NOM		0	1400	
+1365	fabriquer	fabʁike	vyrábět	VER		0	1401	
+1366	le mouvement	muvmɑ̃	pohyb, hnutí	NOM		0	1402	
+1367	la marque	maʁk	značka	NOM		0	1403	
+1368	agréable	aɡʁeabl	příjemný	ADJ		0	1404	
+1369	autrement	otʁəmɑ̃	jinak	ADV		0	1405	
+1370	le nombre	nɔ̃bʁ	číslo, počet	NOM		0	1406	
+1371	balancer	balɑ̃se	houpat, hodit; hovor. vyhodit	VER		0	1407	
+1372	la vitesse	vitɛs	rychlost	NOM		0	1408	
+1373	filmer	filme	natáčet	VER		0	1409	
+1374	la chaise	ʃɛz	židle	NOM		0	1410	
+1375	puissant	pɥisɑ̃	mocný, silný	NOM+ADJ		0	1411	
+1376	ouvert	uvɛʁ	otevřený	ADJ		0	1412	
+1377	le manteau	mɑ̃to	kabát	NOM		0	1413	
+1378	joyeux / joyeuse	ʒwajø / ʒwajøz	veselý	ADJ		0	1414	
+1379	déconner	dekɔne	plácat nesmysly, dělat blbosti (hovor.)	VER		0	1415	
+1380	saint	sɛ̃	svatý	NOM+ADJ		0	1416	
+1381	heureusement	øʁøzmɑ̃	naštěstí	ADV		0	1417	
+1382	voiler	vwale	zahalit; se voiler = zahalit se	VER		0	1418	
+1383	naturel / naturelle	natyʁɛl	přirozený	NOM+ADJ		0	1419	
+1384	la naissance	nɛsɑ̃s	narození	NOM		0	1420	
+1385	former	fɔʁme	vytvořit, vzdělat	VER		0	1421	
+1386	le signal	siɲal	signál	NOM		0	1422	
+1387	concentrer	kɔ̃sɑ̃tʁe	soustředit; se concentrer = soustředit se	VER		0	1423	
+1388	le succès	syksɛ	úspěch	NOM		0	1424	
+1389	la nana	nana	holka, ženská (hovor.)	NOM		0	1425	
+1390	l'enfoiré (m.)	ɑ̃fwaʁe	vulg. ničema, hajzl	NOM+ADJ	vulgaire	1	1426	
+1391	l'infirmier (m.)	ɛ̃fiʁmje	zdravotní bratr, ošetřovatel	NOM		0	1427	
+1392	relever	ʁəlve	zvednout, všimnout si; se relever = vstát	VER		0	1428	
+1393	le fruit	fʁɥi	ovoce, plod	NOM		0	1429	
+1394	la retraite	ʁətʁɛt	důchod, ústup	NOM		0	1430	
+1395	violer	vjɔle	porušit; znásilnit	VER		0	1431	
+1396	la page	paʒ	stránka	NOM		0	1432	
+1397	l'oeuf (m.)	œf	vejce (mn. č. les œufs)	NOM		0	1433	
+1398	le coffre	kɔfʁ	truhla, kufr (auta), trezor	NOM		0	1434	
+1399	sérieusement	seʁjøzmɑ̃	vážně	ADV		0	1435	
+1400	la neige	nɛʒ	sníh	NOM		0	1436	
+1401	la star	staʁ	hvězda (celebrita)	NOM		0	1437	
+1402	le poil	pwal	chlup, srst	NOM		0	1438	
+1403	disputer	dispyte	hádat se, soutěžit; se disputer = pohádat se	VER		0	1439	
+1404	innocent	inɔsɑ̃	nevinný	NOM+ADJ		0	1440	
+1405	la bêtise	betiz	hloupost, blbost	NOM		0	1441	
+1406	le lapin	lapɛ̃	králík	NOM		0	1442	
+1407	le salon	salɔ̃	obývák, salon	NOM		0	1443	
+1408	désormais	dezɔʁmɛ	odteď, od nynějška	ADV		0	1444	
+1409	la chaleur	ʃalœʁ	teplo, horko	NOM		0	1445	
+1410	sage	saʒ	rozumný, hodný; mudrc	NOM+ADJ		0	1446	
+1411	la miss	mis	Miss, slečna	NOM		0	1447	
+1412	pisser	pise	hovor. čůrat, močit	VER	vulgaire	1	1448	
+1413	contacter	kɔ̃takte	kontaktovat	VER		0	1449	
+1414	l'hiver (m.)	ivɛʁ	zima (roční období)	NOM		0	1450	
+1415	un(e) collègue	kɔlɛɡ	kolega	NOM		0	1451	
+1416	résister	ʁeziste	odolat, vzdorovat	VER		0	1452	
+1417	ajouter	aʒute	přidat	VER		0	1453	
+1418	le rire	ʁiʁ	smích	NOM		0	1454	
+1419	convenir	kɔ̃vəniʁ	vyhovovat, dohodnout se	VER		0	1455	
+1420	la chaîne	ʃɛn	řetěz, kanál	NOM		0	1456	
+1421	la couille	kuj	varle (vulg.)	NOM	vulgaire	1	1457	
+1422	faible	fɛbl	slabý	NOM+ADJ		0	1458	
+1423	réel / réelle	ʁeɛl	skutečný	NOM+ADJ		0	1460	
+1424	déplacer	deplase	přemístit, posunout	VER		0	1461	
+1425	bloquer	blɔke	zablokovat	VER		0	1462	
+1426	la corde	kɔʁd	lano	NOM		0	1463	
+1427	aveugle	avœɡl	slepý	NOM+ADJ		0	1464	
+1428	identifier	idɑ̃tifje	identifikovat	VER		0	1465	
+1429	le minuit	minɥi	půlnoc	NOM		0	1466	
+1430	veiller	veje	bdít, dávat pozor	VER		0	1467	
+1431	politique	pɔlitik	politický; politika	NOM+ADJ		0	1468	
+1432	rattraper	ʁatʁape	dohnat, dohonit	VER		0	1469	
+1433	planter	plɑ̃te	zasadit	VER		0	1470	
+1434	demi	dəmi	poloviční; půl	NOM+ADJ		0	1471	
+1435	égal	eɡal	rovný, stejný	NOM+ADJ		0	1472	
+1436	l'étudiant (m.)	etydjɑ̃	student	NOM+ADJ		0	1473	
+1437	prisonnier / prisonnière	pʁizɔnje / pʁizɔnjɛʁ	vězeň	NOM+ADJ		0	1474	
+1438	viser	vize	mířit	VER		0	1475	
+1439	la caisse	kɛs	pokladna, bedna	NOM		0	1476	
+1440	le génie	ʒeni	génius, nadání	NOM		0	1477	
+1441	le tribunal	tʁibynal	soud	NOM		0	1478	
+1442	malheureux / malheureuse	malœʁø / malœʁøz	nešťastný	NOM+ADJ		0	1479	
+1443	le millier	milje	tisícovka	NOM		0	1480	
+1444	la lèvre	lɛvʁ	ret	NOM		0	1481	
+1445	un(e) prof	pʁɔf	učitel (hovor.)	NOM		0	1483	
+1446	promener	pʁɔmne	vodit na procházku; se promener = jít na procházku	VER	reflexiv	0	1484	
+1447	la perte	pɛʁt	ztráta	NOM		0	1485	
+1448	léger / légère	leʒe / leʒɛʁ	lehký	ADJ		0	1486	
+1449	venger	vɑ̃ʒe	pomstít; se venger = pomstít se	VER		0	1487	
+1450	la veste	vɛst	sako, bunda	NOM		0	1488	
+1451	le changement	ʃɑ̃ʒmɑ̃	změna	NOM		0	1489	
+1452	un(e) pilote	pilɔt	pilot; pilotní	NOM+ADJ		0	1490	
+1453	le terme	tɛʁm	termín, výraz, konec	NOM		0	1491	
+1454	prudent	pʁydɑ̃	opatrný	ADJ		0	1492	
+1455	le pantalon	pɑ̃talɔ̃	kalhoty	NOM		0	1493	
+1456	un(e) esclave	ɛsklav	otrok	NOM+ADJ		0	1494	
+1457	la responsabilité	ʁɛspɔ̃sabilite	odpovědnost	NOM		0	1495	
+1458	informer	ɛ̃fɔʁme	informovat	VER		0	1496	
+1459	la pression	pʁɛsjɔ̃	tlak	NOM		0	1497	
+1460	un(e) propriétaire	pʁɔpʁijetɛʁ	majitel, vlastník	NOM		0	1498	
+1461	maudit	modi	proklatý	NOM+ADJ		0	1499	
+1462	lier	lje	spojit, svázat	VER		0	1500	
+1463	l'ordinateur (m.)	ɔʁdinatœʁ	počítač	NOM		0	1501	
+1464	marié	maʁje	ženatý, vdaná; ženich, nevěsta	NOM+ADJ		0	1502	
+1465	le fer	fɛʁ	železo	NOM		0	1503	
+1466	la chair	ʃɛʁ	maso (tělo), tělo	NOM		0	1504	
+1467	effrayer	efʁeje	vyděsit	VER		0	1505	
+1468	fêter	fete	slavit	VER		0	1506	
+1469	le cauchemar	koʃmaʁ	noční můra	NOM		0	1507	
+1470	le lundi	lœ̃di	pondělí	NOM		0	1508	
+1471	un(e) élève	elɛv	žák	NOM		0	1509	
+1472	saisir	sezi	popadnout, uchopit, pochopit	VER		0	1510	
+1473	impliquer	ɛ̃plike	zahrnovat, zapojit	VER		0	1511	
+1474	ordonner	ɔʁdɔne	nařídit, seřadit	VER		0	1512	
+1475	la poule	pul	slepice	NOM		0	1513	
+1476	l'amitié (f.)	amitje	přátelství	NOM		0	1514	
+1477	principal	pʁɛ̃sipal	hlavní; ředitel	NOM+ADJ		0	1515	
+1478	la faveur	favœʁ	laskavost, přízeň	NOM		0	1516	
+1479	le menteur	mɑ̃tœʁ	lhář	NOM+ADJ		0	1517	
+1480	la carrière	kaʁjɛʁ	kariéra; lom	NOM		0	1518	
+1481	la série	seʁi	série, seriál	NOM		0	1519	
+1482	indiquer	ɛ̃dike	ukázat, označit	VER		0	1520	
+1483	perdu	pɛʁdy	ztracený; promarněný	ADJ		0	1521	
+1484	privé	pʁive	soukromý	NOM+ADJ		0	1522	
+1485	examiner	ɛɡzamine	prozkoumat, vyšetřit	VER		0	1523	
+1486	le gaz	ɡɑz	plyn	NOM		0	1524	
+1487	la fesse	fɛs	půlka zadku; (mn. č.) zadek	NOM		0	1525	
+1488	puer	pɥe	smrdět	VER		0	1526	
+1489	le sourire	suʁiʁ	úsměv	NOM		0	1528	
+1490	la douche	duʃ	sprcha	NOM		0	1529	
+1491	peindre	pɛ̃dʁ	malovat	VER		0	1530	
+1492	le sou	su	drobák (stará mince); (mn. č.) peníze	NOM		0	1531	
+1493	avaler	avale	spolknout, polykat	VER		0	1532	
+1494	le lien	ljɛ̃	pouto, odkaz	NOM		0	1533	
+1495	fatigué	fatiɡe	unavený	ADJ		0	1534	
+1496	portable	pɔʁtabl	přenosný; mobil	ADJ		0	1535	
+1497	lors	lɔʁ	lors de = při, během	ADV		0	1536	
+1498	marrant	maʁɑ̃	legrační (hovor.)	NOM+ADJ		0	1537	
+1499	la rencontre	ʁɑ̃kɔ̃tʁ	setkání	NOM		0	1538	
+1500	démarrer	demaʁe	nastartovat, rozjet se	VER		0	1539	
+1501	prétendre	pʁetɑ̃dʁ	tvrdit; dělat si nárok	VER		0	1540	
+1502	criminel / criminelle	kʁiminɛl	zločinný; zločinec	NOM+ADJ		0	1541	
+1503	le vélo	velo	kolo	NOM		0	1542	
+1504	soutenir	sutəniʁ	podporovat, tvrdit	VER		0	1543	
+1505	le singe	sɛ̃ʒ	opice	NOM		0	1544	
+1506	la vision	vizjɔ̃	vidění, vize	NOM		0	1545	
+1507	envers	ɑ̃vɛʁ	vůči	PRE		0	1546	
+1508	russe	ʁys	ruský; ruština; Rus	NOM+ADJ		0	1547	
+1509	déjeuner	deʒøne	obědvat	VER		0	1548	
+1510	malheureusement	malœʁøzmɑ̃	bohužel	ADV		0	1549	
+1511	un(e) journaliste	ʒuʁnalist	novinář	NOM		0	1550	
+1512	la gloire	ɡlwaʁ	sláva	NOM		0	1551	
+1513	la somme	sɔm	částka, součet	NOM		0	1552	
+1514	la créature	kʁeatyʁ	tvor	NOM		0	1553	
+1515	continu / continue	kɔ̃tiny	nepřetržitý, souvislý	ADJ		0	1554	
+1516	le midi	midi	poledne; jih	NOM		0	1555	
+1517	la côte	kot	pobřeží, žebro, svah	NOM		0	1556	
+1518	franchement	fʁɑ̃ʃmɑ̃	upřímně	ADV		0	1557	
+1519	l'amant (m.)	amɑ̃	milenec	NOM		0	1558	
+1520	le champion	ʃɑ̃pjɔ̃	šampion	NOM		0	1559	
+1521	exiger	ɛɡziʒe	požadovat	VER		0	1560	
+1522	affreux / affreuse	afʁø / afʁøz	hrozný	NOM+ADJ		0	1561	
+1523	inquiet / inquiète	ɛ̃kjɛ / ɛ̃kjɛt	nervózní, znepokojený	ADJ		0	1562	
+1524	la victoire	viktwaʁ	vítězství	NOM		0	1563	
+1525	la forêt	fɔʁɛ	les	NOM		0	1564	
+1526	visiter	vizite	navštívit (místo)	VER		0	1565	
+1527	le chasseur	ʃasœʁ	lovec	NOM		0	1566	
+1528	le pistolet	pistɔlɛ	pistole	NOM		0	1567	
+1529	saigner	sɛɲe	krvácet	VER		0	1568	
+1530	l'herbe (f.)	ɛʁb	tráva	NOM		0	1569	
+1531	point	pwɛ̃	vůbec ne (knižně, ne … point)	ADV		0	1570	
+1532	le bouge	buʒ	špeluňka, díra (hovor.)	NOM		0	1571	
+1533	l'identité (f.)	idɑ̃tite	identita	NOM		0	1572	
+1534	glisser	ɡlise	klouzat, uklouznout	VER		0	1573	
+1535	cher	ʃɛʁ	draho (coûter cher = stát hodně peněz)	ADV		0	1575	
+1536	la gaffe	ɡaf	faux pas, trapas; faire gaffe = dávat pozor	NOM		0	1577	
+1537	national	nasjɔnal	národní	NOM+ADJ		0	1578	
+1538	la patte	pat	tlapa	NOM		0	1579	
+1539	la grâce	ɡʁas	půvab, milost	NOM		0	1580	
+1540	s'apercevoir	sapɛʁsəvwaʁ	všimnout si, uvědomit si	VER	reflexiv	0	1581	
+1541	l'offre (f.)	ɔfʁ	nabídka	NOM		0	1582	
+1542	la frontière	fʁɔ̃tjɛʁ	hranice	NOM		0	1583	
+1543	le poids	pwa	váha, tíha	NOM		0	1584	
+1544	social	sɔsjal	společenský, sociální	ADJ		0	1585	
+1545	la couverture	kuvɛʁtyʁ	přikrývka, obálka	NOM		0	1586	
+1546	curieux / curieuse	kyʁjø / kyʁjøz	zvědavý, zvláštní	NOM+ADJ		0	1587	
+1547	réserver	ʁezɛʁve	rezervovat	VER		0	1588	
+1548	l'univers (m.)	ynivɛʁ	vesmír	NOM		0	1589	
+1549	provoquer	pʁɔvɔke	vyvolat, provokovat	VER		0	1590	
+1550	durant	dyʁɑ̃	během	PRE		0	1591	
+1551	le policier	pɔlisje	policista; detektivní	NOM+ADJ		0	1592	
+1552	trembler	tʁɑ̃ble	třást se	VER		0	1593	
+1553	embêter	ɑ̃bete	hovor. obtěžovat, otravovat	VER		0	1595	
+1554	l'opinion (f.)	ɔpinjɔ̃	názor	NOM		0	1596	
+1555	confirmer	kɔ̃fiʁme	potvrdit	VER		0	1597	
+1556	la passion	pasjɔ̃	vášeň	NOM		0	1598	
+1557	la puissance	pɥisɑ̃s	moc, síla	NOM		0	1599	
+1558	le moteur	mɔtœʁ	motor	NOM+ADJ		0	1600	
+1559	la fortune	fɔʁtyn	jmění, štěstí	NOM		0	1601	
+1560	le disque	disk	disk, deska	NOM		0	1602	
+1561	participer	paʁtisipe	účastnit se	VER		0	1603	
+1562	la cible	sibl	cíl, terč	NOM		0	1604	
+1563	le crétin	kʁetɛ̃	hovor. blbec, kretén	NOM+ADJ		0	1605	
+1564	l'aile (f.)	ɛl	křídlo	NOM		0	1606	
+1565	la lunette	lynɛt	dalekohled; (mn. č.) brýle	NOM		0	1607	
+1566	rare	ʁaʁ	vzácný	ADJ		0	1608	
+1567	l'essence (f.)	esɑ̃s	benzín; podstata	NOM		0	1609	
+1568	décevoir	desəvwaʁ	zklamat	VER		0	1610	
+1569	foutu	futy	hovor. zatracený, zničený; être foutu = být v háji	ADJ		0	1611	
+1570	le paradis	paʁadi	ráj	NOM		0	1612	
+1571	réagir	ʁeaʒiʁ	reagovat	VER		0	1613	
+1572	hurler	yʁle	řvát, výt	VER		0	1614	
+1573	l'aéroport (m.)	aeʁɔpɔʁ	letiště	NOM		0	1615	
+1574	le piège	pjɛʒ	past	NOM		0	1616	
+1575	le pédé	pede	urážlivé označení homosexuála (nadávka)	NOM	injure	1	1617	
+1576	la haine	ɛn	nenávist	NOM	h-aspire	0	1618	
+1577	enregistrer	ɑ̃ʁəʒistʁe	nahrát, zaregistrovat	VER		0	1619	
+1578	vôtre / vôtres	votʁ	váš (zájmeno; le vôtre = ten váš)	PRO:pos		0	1620	
+1579	la coupe	kup	pohár; střih	NOM		0	1621	
+1580	l'enfance (f.)	ɑ̃fɑ̃s	dětství	NOM		0	1622	
+1581	la science	sjɑ̃s	věda	NOM		0	1623	
+1582	l'autorité (f.)	otɔʁite	autorita	NOM		0	1624	
+1583	le ballon	balɔ̃	míč, balon	NOM		0	1625	
+1584	la charge	ʃaʁʒ	břemeno, náboj, poplatek	NOM		0	1626	
+1585	le parc	paʁk	park	NOM		0	1627	
+1586	le zéro	zeʁo	nula	NOM		0	1628	
+1587	l'épée (f.)	epe	meč	NOM		0	1629	
+1588	la limite	limit	hranice, limit	NOM		0	1630	
+1589	l'échange (m.)	eʃɑ̃ʒ	výměna	NOM		0	1631	
+1590	fixer	fikse	upevnit, stanovit; zírat	VER		0	1632	
+1591	l'aise (f.)	ɛz	pohodlí, pohoda; à l'aise = uvolněně	NOM+ADJ		0	1633	
+1592	la prière	pʁijɛʁ	modlitba	NOM		0	1634	
+1593	la rivière	ʁivjɛʁ	řeka	NOM		0	1635	
+1594	révéler	ʁevele	odhalit	VER		0	1636	
+1595	évident	evidɑ̃	zřejmý	ADJ		0	1637	
+1596	le champagne	ʃɑ̃paɲ	šampaňské	NOM+ADJ		0	1638	
+1597	le vendredi	vɑ̃dʁədi	pátek	NOM		0	1639	
+1598	le suspect	syspɛ	podezřelý	NOM+ADJ		0	1640	
+1599	le bouton	butɔ̃	knoflík, tlačítko, pupínek	NOM		0	1641	
+1600	l'épaule (f.)	epol	rameno	NOM		0	1642	
+1601	déménager	demenaʒe	stěhovat se	VER		0	1643	
+1602	la cassette	kasɛt	kazeta	NOM		0	1644	
+1603	admirer	admiʁe	obdivovat	VER		0	1645	
+1604	la théorie	teɔʁi	teorie	NOM		0	1646	
+1605	le style	stil	styl	NOM		0	1647	
+1606	l'émission (f.)	emisjɔ̃	pořad, vysílání	NOM		0	1648	
+1607	l'escalier (m.)	ɛskalje	schody	NOM		0	1649	
+1608	la joue	ʒu	tvář (líc)	NOM		0	1650	
+1609	la soupe	sup	polévka	NOM		0	1651	
+1610	la promesse	pʁɔmɛs	slib	NOM		0	1652	
+1611	le serpent	sɛʁpɑ̃	had	NOM		0	1653	
+1612	également	egalmɑ̃	také, rovněž	ADV		0	1654	
+1613	la botte	bɔt	vysoká bota, svazek	NOM		0	1655	
+1614	la mesure	məzyʁ	míra, opatření	NOM		0	1656	
+1615	conseiller	kɔ̃seje	radit, doporučit; poradce	VER		0	1657	
+1616	le tir	tiʁ	střelba	NOM		0	1658	
+1617	la mise	miz	sázka, vklad; oblečení	NOM		0	1659	
+1618	le chèque	ʃɛk	šek	NOM		0	1660	
+1619	la bataille	bataj	bitva	NOM		0	1661	
+1620	le sucre	sykʁ	cukr	NOM		0	1662	
+1621	accueillir	akœjiʁ	přivítat	VER		0	1663	
+1622	enseigner	ɑ̃sɛɲe	učit	VER		0	1664	
+1623	plonger	plɔ̃ʒe	ponořit, skočit do vody	VER		0	1665	
+1624	la saison	sɛzɔ̃	roční období, sezóna	NOM		0	1666	
+1625	l'assistant (m.)	asistɑ̃	asistent	NOM		0	1667	
+1626	le gardien	ɡaʁdjɛ̃	strážce, brankář	NOM+ADJ		0	1668	
+1627	habituer	abitye	navyknout; s'habituer = zvyknout si	VER		0	1669	
+1628	l'ensemble (m.)	ɑ̃sɑ̃bl	celek, soubor	NOM		0	1670	
+1629	buter	byte	narazit, klopýtnout; hovor. zabít	VER		0	1671	
+1630	sombre	sɔ̃bʁ	temný, ponurý	ADJ		0	1672	
+1631	la soif	swaf	žízeň	NOM		0	1673	
+1632	enculé	ɑ̃kyle	vulg. hajzl, ničema	ADJ	vulgaire	1	1674	
+1633	l'explication (f.)	ɛksplikasjɔ̃	vysvětlení	NOM		0	1675	
+1634	le port	pɔʁ	přístav	NOM		0	1676	
+1635	célèbre	selɛbʁ	slavný	ADJ		0	1677	
+1636	la mode	mɔd	móda	NOM		0	1678	
+1637	péter	pete	hovor. prdět; praskat, bouchnout	VER		0	1679	
+1638	le concert	kɔ̃sɛʁ	koncert	NOM		0	1680	
+1639	le personnage	pɛʁsɔnaʒ	postava	NOM		0	1681	
+1640	précis	pʁesi	přesný	ADJ		0	1682	
+1641	urgent	yʁʒɑ̃	naléhavý	ADJ		0	1683	
+1642	la distance	distɑ̃s	vzdálenost	NOM		0	1684	
+1643	droit	dʁwa	přímo, rovně	ADV		0	1685	
+1644	médical	medikal	lékařský	ADJ		0	1686	
+1645	le choc	ʃɔk	šok, náraz	NOM		0	1687	
+1646	la date	dat	datum	NOM		0	1688	
+1647	la commande	kɔmɑ̃d	objednávka	NOM		0	1689	
+1648	le cimetière	simtjɛʁ	hřbitov	NOM		0	1690	
+1649	emprunter	ɑ̃pʁœ̃te	půjčit si	VER		0	1691	
+1650	l'humeur (f.)	ymœʁ	nálada	NOM		0	1692	
+1651	noter	nɔte	poznamenat, zapsat si, ohodnotit	VER		0	1693	
+1652	un(e) secrétaire	səkʁetɛʁ	sekretář, sekretářka	NOM		0	1694	
+1653	verser	vɛʁse	nalít, vylít; zaplatit	VER		0	1695	
+1654	le cochon	kɔʃɔ̃	prase; hovor. sviňák	NOM+ADJ		0	1696	
+1655	la permission	pɛʁmisjɔ̃	povolení	NOM		0	1697	
+1656	le lac	lak	jezero	NOM		0	1698	
+1657	dépenser	depɑ̃se	utratit	VER		0	1699	
+1658	l'ordure (f.)	ɔʁdyʁ	odpad, smetí; hovor. svině	NOM		0	1700	
+1659	le chocolat	ʃɔkɔla	čokoláda	NOM		0	1701	
+1660	la tâche	tɑʃ	úkol	NOM		0	1702	
+1661	l'uniforme (m.)	ynifɔʁm	uniforma	NOM		0	1703	
+1662	l'emploi (m.)	ɑ̃plwa	zaměstnání, použití	NOM		0	1704	
+1663	brave	bʁav	statečný, hodný	NOM+ADJ		0	1705	
+1664	la troupe	tʁup	jednotka, skupina	NOM		0	1706	
+1665	là-dessus	ladəsy	na tom, po tomhle	ADV		0	1707	
+1666	assassiner	asasine	zavraždit	VER		0	1708	
+1667	la gorge	ɡɔʁʒ	hrdlo, krk	NOM		0	1709	
+1668	avertir	avɛʁtiʁ	upozornit	VER		0	1710	
+1669	l'employé (m.)	ɑ̃plwaje	zaměstnanec	NOM		0	1711	
+1670	le revolver	ʁevɔlvɛʁ	revolver	NOM		0	1712	
+1671	affronter	afʁɔ̃te	čelit	VER		0	1713	
+1672	adresser	adʁese	adresovat, obrátit se	VER		0	1714	
+1673	vider	vide	vyprázdnit	VER		0	1715	
+1674	la boule	bul	koule	NOM		0	1716	
+1675	la patience	pasjɑ̃s	trpělivost	NOM		0	1717	
+1676	échouer	eʃwe	selhat, ztroskotat	VER		0	1718	
+1677	assister	asiste	být přítomen, asistovat	VER		0	1719	
+1678	la race	ʁas	rasa, plemeno	NOM		0	1720	
+1679	éternel / éternelle	etɛʁnɛl	věčný	ADJ		0	1721	
+1680	parer	paʁe	ozdobit; odrazit (útok)	VER		0	1722	
+1681	troisième	tʁwazjɛm	třetí	NOM+ADJ		0	1723	
+1682	double	dubl	dvojitý; dvojnásobek	NOM+ADJ		0	1724	
+1683	le fiston	fistɔ̃	synek (hovor.)	NOM		0	1725	
+1684	le loup	lu	vlk	NOM		0	1726	
+1685	nager	naʒe	plavat	VER		0	1727	
+1686	la menace	mənas	hrozba	NOM		0	1728	
+1687	l'aube (f.)	ob	úsvit	NOM		0	1729	
+1688	la bague	baɡ	prsten	NOM		0	1730	
+1689	autoriser	otɔʁize	povolit	VER		0	1731	
+1690	éliminer	elimine	vyloučit, odstranit	VER		0	1732	
+1691	foncer	fɔ̃se	uhánět, řítit se; ztmavit	VER		0	1733	
+1692	le nuage	nɥaʒ	mrak	NOM		0	1734	
+1693	le bal	bal	ples	NOM		0	1735	
+1694	le plat	pla	jídlo, mísa; plochý	NOM+ADJ		0	1736	
+1695	le whisky	wiski	whisky	NOM		0	1737	
+1696	pis	pi	hůř, horší	ADV		0	1738	
+1697	subir	sybiʁ	podstoupit, trpět	VER		0	1739	
+1698	le nerf	nɛʁ	nerv	NOM		0	1740	
+1699	la feuille	fœj	list, papír	NOM		0	1741	
+1700	suicider	sɥiside	(se suicider) spáchat sebevraždu	VER		0	1742	
+1701	contenir	kɔ̃təniʁ	obsahovat	VER		0	1743	
+1702	hésiter	ezite	váhat	VER		0	1744	
+1703	le sport	spɔʁ	sport	NOM		0	1745	
+1704	l'immeuble (m.)	imœbl	činžák, budova	NOM		0	1746	
+1705	exprimer	ɛkspʁime	vyjádřit	VER		0	1747	
+1706	la souffrance	sufʁɑ̃s	utrpení	NOM		0	1748	
+1707	le parfum	paʁfœ̃	parfém, vůně	NOM		0	1749	
+1708	dessiner	desine	kreslit	VER		0	1750	
+1709	auprès	opʁɛ	u, vedle (někoho)	PRE		0	1751	
+1710	le labo	labo	laboratoř (hovor.)	NOM		0	1752	
+1711	le vers	vɛʁ	verš	NOM		0	1753	
+1712	brillant	bʁijɑ̃	zářivý, skvělý	NOM+ADJ		0	1754	
+1713	le pot	po	hrnec, džbán, sklenice	NOM		0	1755	
+1714	augmenter	oɡmɑ̃te	zvýšit, zvýšit se	VER		0	1756	
+1715	le chou	ʃu	zelí; miláček (mon chou)	NOM		0	1757	
+1716	l'assurance (f.)	asyʁɑ̃s	pojištění, jistota	NOM		0	1758	
+1717	armer	aʁme	vyzbrojit, nabít (zbraň)	VER		0	1759	
+1718	la station	stasjɔ̃	stanice	NOM		0	1760	
+1719	le bagage	baɡaʒ	zavazadlo	NOM		0	1761	
+1720	l'aventure (f.)	avɑ̃tyʁ	dobrodružství	NOM		0	1762	
+1721	la fac	fak	fakulta, univerzita (hovor.)	NOM		0	1763	
+1722	le mille	mil	míle; terč (dans le mille = zásah do černého)	NOM		0	1764	
+1723	voter	vɔte	hlasovat	VER		0	1765	
+1724	le citoyen	sitwajɛ̃	občan	NOM		0	1766	
+1725	le dessin	desɛ̃	kresba	NOM		0	1767	
+1726	opérer	ɔpeʁe	operovat; působit	VER		0	1768	
+1727	dénoncer	denɔ̃se	udat, odsoudit	VER		0	1769	
+1728	davantage	davɑ̃taʒ	více	ADV		0	1770	
+1729	le palais	palɛ	palác; patro (v ústech)	NOM		0	1771	
+1730	l'accès (m.)	aksɛ	přístup	NOM		0	1772	
+1731	la peinture	pɛ̃tyʁ	malba, barva	NOM		0	1773	
+1732	le ménage	menaʒ	domácnost, úklid	NOM		0	1774	
+1733	lourd	luʁ	těžký	ADJ		0	1775	
+1734	le procureur	pʁɔkyʁœʁ	žalobce	NOM		0	1776	
+1735	le siège	sjɛʒ	sedadlo, sídlo, obléhání	NOM		0	1777	
+1736	amusant	amyzɑ̃	zábavný	ADJ		0	1778	
+1737	véritable	veʁitabl	skutečný, pravý	ADJ		0	1779	
+1738	le lendemain	lɑ̃dmɛ̃	následující den	NOM		0	1780	
+1739	rassurer	ʁasyʁe	uklidnit, ujistit	VER		0	1781	
+1740	le traitement	tʁɛtmɑ̃	léčba, zacházení	NOM		0	1782	
+1741	délicieux / délicieuse	delisjø / delisjøz	báječný, lahodný	ADJ		0	1783	
+1742	la centaine	sɑ̃tɛn	stovka	NOM		0	1784	
+1743	complet / complète	kɔ̃plɛ / kɔ̃plɛt	úplný, plný	NOM+ADJ		0	1785	
+1744	le masque	mask	maska	NOM		0	1786	
+1745	le couloir	kulwaʁ	chodba	NOM		0	1787	
+1746	la qualité	kalite	kvalita	NOM		0	1788	
+1747	la croix	kʁwa	kříž	NOM		0	1789	
+1748	la fuite	fɥit	útěk, únik	NOM		0	1790	
+1749	contenter	kɔ̃tɑ̃te	uspokojit; se contenter de = spokojit se s	VER		0	1791	
+1750	effacer	efase	smazat, vymazat	VER		0	1792	
+1751	suggérer	syɡʒeʁe	navrhnout, naznačit	VER		0	1793	
+1752	cruel / cruelle	kʁyɛl	krutý	ADJ		0	1794	
+1753	le foyer	fwaje	domov, krb, ohnisko	NOM		0	1795	
+1754	briller	bʁije	zářit, svítit	VER		0	1796	
+1755	la lire	liʁ	lira (měna)	NOM		0	1798	
+1756	croiser	kʁwaze	potkat, zkřížit	VER		0	1799	
+1757	envoler	ɑ̃vɔle	(s'envoler) odletět, vzlétnout	VER		0	1800	
+1758	suivant	sɥivɑ̃	následující; další	NOM+ADJ		0	1801	
+1759	le produit	pʁɔdɥi	výrobek, produkt	NOM		0	1802	
+1760	l'essai (m.)	esɛ	pokus, zkouška; esej	NOM		0	1803	
+1761	moche	mɔʃ	ošklivý (hovor.)	ADJ		0	1804	
+1762	la jeunesse	ʒœnɛs	mládí	NOM		0	1805	
+1763	noble	nɔbl	ušlechtilý; šlechtic	NOM+ADJ		0	1806	
+1764	courageux / courageuse	kuʁaʒø / kuʁaʒøz	odvážný	ADJ		0	1807	
+1765	totalement	tɔtalmɑ̃	úplně	ADV		0	1808	
+1766	le job	dʒɔb	práce, brigáda (hovor.)	NOM	anglicismus	0	1809	
+1767	le crâne	kʁɑn	lebka	NOM		0	1810	
+1768	le voeu	vø	přání, slib	NOM		0	1811	
+1769	l'événement (m.)	evɛnmɑ̃	událost	NOM		0	1812	
+1770	raser	ʁaze	oholit, srovnat se zemí	VER		0	1813	
+1771	un(e) partenaire	paʁtənɛʁ	partner	NOM		0	1814	
+1772	étouffer	etufe	dusit, udusit	VER		0	1815	
+1773	le joueur	ʒwœʁ	hráč	NOM+ADJ		0	1816	
+1774	tarder	taʁde	otálet, váhat; il me tarde de = nemohu se dočkat	VER		0	1817	
+1775	l'entreprise (f.)	ɑ̃tʁəpʁiz	podnik, firma	NOM		0	1818	
+1776	le miroir	miʁwaʁ	zrcadlo	NOM		0	1819	
+1777	souffler	sufle	foukat, dýchat	VER		0	1820	
+1778	décrire	dekʁiʁ	popsat	VER		0	1821	
+1779	la vengeance	vɑ̃ʒɑ̃s	pomsta	NOM		0	1822	
+1780	raisonnable	ʁɛzɔnabl	rozumný	ADJ		0	1823	
+1781	la prise	pʁiz	zásuvka, chyt, zajetí	NOM		0	1824	
+1782	la pause	poz	přestávka	NOM		0	1825	
+1783	soi	swa	sebe, se (neurčitě)	PRO:per		0	1826	
+1784	évidemment	evidamɑ̃	samozřejmě	ADV		0	1827	
+1785	le crédit	kʁedi	úvěr, kredit	NOM		0	1828	
+1786	le rang	ʁɑ̃	řada, pořadí	NOM		0	1829	
+1787	vous-même	vumɛm	vy sám	PRO:per		0	1830	
+1788	le maire	mɛʁ	starosta	NOM		0	1831	
+1789	la région	ʁeʒjɔ̃	region, oblast	NOM		0	1832	
+1790	un(e) môme	mom	hovor. dítě, mladá holka	NOM		0	1833	
+1791	raccrocher	ʁakʁɔʃe	zavěsit (telefon)	VER		0	1834	
+1792	l'origine (f.)	ɔʁiʒin	původ	NOM		0	1835	
+1793	l'approche (f.)	apʁɔʃ	přístup, přiblížení	NOM		0	1836	
+1794	la goutte	ɡut	kapka	NOM		0	1837	
+1795	le mystère	mistɛʁ	záhada	NOM		0	1838	
+1796	exciter	ɛksite	vzrušit, podráždit	VER		0	1839	
+1797	grand-chose	ɡʁɑ̃ʃoz	pas grand-chose = moc toho ne	PRO:ind		0	1840	
+1798	cracher	kʁaʃe	plivat	VER		0	1841	
+1799	signaler	siɲale	oznámit, upozornit	VER		0	1842	
+1800	réduire	ʁedɥiʁ	snížit, zmenšit	VER		0	1843	
+1801	le printemps	pʁɛ̃tɑ̃	jaro	NOM		0	1844	
+1802	vaincre	vɛ̃kʁ	porazit, zvítězit	VER		0	1845	
+1803	la foule	ful	dav	NOM		0	1846	
+1804	fini	fini	hotový, skončený	ADJ		0	1847	
+1805	l'ouest (m.)	wɛst	západ; západní	NOM+ADJ		0	1848	
+1806	le royaume	ʁwajom	království	NOM		0	1849	
+1807	le studio	stydjo	studio, garsonka	NOM		0	1850	
+1808	rembourser	ʁɑ̃buʁse	splatit, vrátit peníze	VER		0	1851	
+1809	le désert	dezɛʁ	poušť; pustý	NOM+ADJ		0	1853	
+1810	la puce	pys	blecha; čip	NOM		0	1854	
+1811	l'habit (m.)	abi	oděv, hábit	NOM		0	1855	
+1812	l'imagination (f.)	imaʒinasjɔ̃	představivost	NOM		0	1856	
+1813	la poupée	pupe	panenka	NOM		0	1857	
+1814	le bâtiment	bɑtimɑ̃	budova	NOM		0	1858	
+1815	l'espion (m.)	ɛspjɔ̃	špión	NOM		0	1859	
+1816	l'ambulance (f.)	ɑ̃bylɑ̃s	sanitka	NOM		0	1860	
+1817	la vente	vɑ̃t	prodej	NOM		0	1861	
+1818	gérer	ʒeʁe	řídit, spravovat, zvládat	VER		0	1862	
+1819	fichu	fiʃy	hovor. zatracený, zpackaný	ADJ		0	1863	
+1820	divorcer	divɔʁse	rozvést se	VER		0	1864	
+1821	interrompre	ɛ̃teʁɔ̃pʁ	přerušit	VER		0	1865	
+1822	préféré	pʁefeʁe	oblíbený	NOM+ADJ		0	1866	
+1823	échanger	eʃɑ̃ʒe	vyměnit	VER		0	1867	
+1824	extraordinaire	ɛkstʁaɔʁdinɛʁ	mimořádný	NOM+ADJ		0	1868	
+1825	le comte	kɔ̃t	hrabě	NOM		0	1869	
+1826	le sergent	sɛʁʒɑ̃	seržant	NOM		0	1870	
+1827	l'enterrement (m.)	ɑ̃tɛʁmɑ̃	pohřeb	NOM		0	1871	
+1828	le suicide	sɥisid	sebevražda	NOM		0	1872	
+1829	la monnaie	mɔnɛ	měna, drobné	NOM		0	1873	
+1830	noyer	nwaje	utopit; se noyer = utopit se	VER		0	1874	
+1831	le chiffre	ʃifʁ	číslice, číslo	NOM		0	1875	
+1832	le vampire	vɑ̃piʁ	upír	NOM		0	1876	
+1833	conclure	kɔ̃klyʁ	uzavřít, dojít k závěru	VER		0	1877	
+1834	repérer	ʁəpeʁe	zpozorovat, vypátrat	VER		0	1878	
+1835	le fromage	fʁɔmaʒ	sýr	NOM		0	1879	
+1836	garer	ɡaʁe	zaparkovat	VER		0	1880	
+1837	lâche	lɑʃ	zbabělý; zbabělec; uvolněný	NOM+ADJ		0	1881	
+1838	cuisiner	kɥizine	vařit	VER		0	1882	
+1839	le poème	pɔɛm	báseň	NOM		0	1883	
+1840	cogner	kɔɲe	bouchnout, narazit	VER		0	1884	
+1841	le rayon	ʁɛjɔ̃	paprsek; oddělení; poloměr	NOM		0	1885	
+1842	la taule	tol	hovor. basa, vězení	NOM		0	1886	
+1843	le souffle	sufl	dech, závan	NOM		0	1887	
+1844	le permis	pɛʁmi	povolení; řidičský průkaz	NOM+ADJ		0	1888	
+1845	exagérer	ɛɡzaʒeʁe	přehánět	VER		0	1889	
+1846	insulter	ɛ̃sylte	urazit	VER		0	1890	
+1847	magique	maʒik	kouzelný	ADJ		0	1891	
+1848	la flamme	flam	plamen	NOM		0	1892	
+1849	repasser	ʁəpase	žehlit; znovu projít	VER		0	1893	
+1850	fantastique	fɑ̃tastik	fantastický	NOM+ADJ		0	1894	
+1851	autrefois	otʁəfwa	dříve, kdysi	ADV		0	1895	
+1852	facilement	fasilmɑ̃	snadno	ADV		0	1896	
+1853	sexy	sɛksi	sexy	ADJ		0	1897	
+1854	sensible	sɑ̃sibl	citlivý	ADJ		0	1898	
+1855	directement	diʁɛktəmɑ̃	přímo	ADV		0	1899	
+1856	atterrir	ateʁiʁ	přistát	VER		0	1900	
+1857	le tuyau	tɥijo	trubka, hadice; tip (hovor.)	NOM		0	1901	
+1858	barrer	baʁe	přehradit, škrtnout	VER		0	1902	
+1859	se méfier	sə mefje	mít se na pozoru, nedůvěřovat	VER	reflexiv	0	1903	
+1860	italien / italienne	italjɛ̃ / italjɛn	italský; italština; Ital	NOM+ADJ		0	1904	
+1861	la demi-heure	dəmiœʁ	půlhodina	NOM		0	1905	
+1862	tendre	tɑ̃dʁ	natáhnout; něžný	VER		0	1906	
+1863	sain	sɛ̃	zdravý	ADJ		0	1907	
+1864	le pari	paʁi	sázka	NOM		0	1908	
+1865	la maîtresse	mɛtʁɛs	milenka; učitelka	NOM		0	1909	
+1866	inspirer	ɛ̃spiʁe	inspirovat, nadechnout se	VER		0	1910	
+1867	l'asile (m.)	azil	azyl, útočiště	NOM		0	1911	
+1868	divin	divɛ̃	božský	ADJ		0	1912	
+1869	armé	aʁme	ozbrojený	ADJ		0	1913	
+1870	la boutique	butik	butik, obchůdek	NOM		0	1914	
+1871	le secteur	sɛktœʁ	sektor, oblast	NOM		0	1915	
+1872	rapidement	ʁapidmɑ̃	rychle	ADV		0	1916	
+1873	embarquer	ɑ̃baʁke	nalodit se, nastoupit; hovor. odvést	VER		0	1917	
+1874	lentement	lɑ̃tmɑ̃	pomalu	ADV		0	1918	
+1875	déchirer	deʃiʁe	roztrhnout	VER		0	1919	
+1876	la poitrine	pwatʁin	hrudník, prsa	NOM		0	1920	
+1877	le salaire	salɛʁ	plat, mzda	NOM		0	1921	
+1878	baigner	bɛɲe	koupat; se baigner = koupat se	VER		0	1922	
+1879	la bite	bit	penis (vulg.)	NOM	vulgaire	1	1923	
+1880	la réaction	ʁeaksjɔ̃	reakce	NOM		0	1924	
+1881	l'otage (m.)	ɔtaʒ	rukojmí	NOM		0	1925	
+1882	épargner	epaʁɲe	ušetřit	VER		0	1926	
+1883	la colline	kɔlin	kopec	NOM		0	1927	
+1884	établir	etabliʁ	založit, stanovit	VER		0	1928	
+1885	la télévision	televizjɔ̃	televize	NOM		0	1929	
+1886	le principe	pʁɛ̃sip	princip	NOM		0	1930	
+1887	le traître	tʁɛtʁ	zrádce; zrádný	NOM+ADJ		0	1931	
+1888	futur	fytyʁ	budoucí; budoucnost	NOM+ADJ		0	1932	
+1889	l'émotion (f.)	emosjɔ̃	emoce, dojetí	NOM		0	1933	
+1890	le monseigneur	mɔ̃sɛɲœʁ	Jeho Excelence, monsignore	NOM		0	1934	
+1891	tien / tienne	tjɛ̃ / tjɛn	tvůj (zájmeno; le tien = ten tvůj)	PRO:pos		0	1935	1935 1974
+1892	bas	ba	dole, nízko (příslovce)	ADV		0	1936	
+1893	l'explosion (f.)	ɛksplozjɔ̃	výbuch	NOM		0	1937	
+1894	la dette	dɛt	dluh	NOM		0	1938	
+1895	vomir	vɔmiʁ	zvracet	VER		0	1939	
+1896	le jeudi	ʒødi	čtvrtek	NOM		0	1940	
+1897	vierge	vjɛʁʒ	panna; panenský	NOM+ADJ		0	1941	
+1898	rassembler	ʁasɑ̃ble	shromáždit	VER		0	1942	
+1899	adorable	adɔʁabl	rozkošný	ADJ		0	1943	
+1900	raccompagner	ʁakɔ̃paɲe	doprovodit domů	VER		0	1944	
+1901	l'abri (m.)	abʁi	úkryt	NOM		0	1945	
+1902	le chant	ʃɑ̃	zpěv, píseň	NOM		0	1946	
+1903	le prénom	pʁenɔ̃	křestní jméno	NOM		0	1947	
+1904	la possibilité	pɔsibilite	možnost	NOM		0	1948	
+1905	la lampe	lɑ̃p	lampa	NOM		0	1949	
+1906	comparer	kɔ̃paʁe	srovnat	VER		0	1950	
+1907	le portrait	pɔʁtʁɛ	portrét	NOM		0	1951	
+1908	supérieur	sypeʁjœʁ	vyšší, nadřízený	NOM+ADJ		0	1952	
+1909	la copie	kɔpi	kopie, opis	NOM		0	1953	
+1910	sourd	suʁ	hluchý; hluchý člověk	NOM+ADJ		0	1954	
+1911	fournir	fuʁniʁ	dodat, poskytnout	VER		0	1955	
+1912	sacrifier	sakʁifje	obětovat	VER		0	1956	
+1913	débarquer	debaʁke	vylodit se, přijít nečekaně	VER		0	1957	
+1914	la magie	maʒi	kouzlo, magie	NOM		0	1958	
+1915	la pub	pyb	reklama (hovor.)	NOM		0	1959	
+1916	la période	peʁjɔd	období	NOM		0	1960	
+1917	l'abruti (m.)	abʁyti	hovor. hlupák, trouba	NOM+ADJ	familier	0	1961	
+1918	la serviette	sɛʁvjɛt	ubrousek, ručník, aktovka	NOM		0	1962	
+1919	le semblant	sɑ̃blɑ̃	zdání; faire semblant = předstírat	NOM		0	1963	
+1920	torturer	tɔʁtyʁe	mučit	VER		0	1964	
+1921	l'empereur (m.)	ɑ̃pʁœʁ	císař	NOM		0	1965	
+1922	le passeport	paspɔʁ	pas (cestovní)	NOM		0	1966	
+1923	l'extérieur (m.)	ɛksteʁjœʁ	vnějšek, venek; vnější	NOM+ADJ		0	1967	
+1924	l'info (f.)	ɛ̃fo	informace, zprávy (hovor.)	NOM		0	1968	
+1925	le jouet	ʒwɛ	hračka	NOM		0	1969	
+1926	pointer	pwɛ̃te	ukázat, zaznamenat příchod	VER		0	1970	
+1927	inscrire	ɛ̃skʁiʁ	zapsat, přihlásit	VER		0	1971	
+1928	lutter	lyte	bojovat	VER		0	1972	
+1929	épuiser	epɥize	vyčerpat	VER		0	1973	
+1930	le meurtrier	mœʁtʁije	vrah; vražedný	NOM+ADJ		0	1975	
+1931	l'ascenseur (m.)	asɑ̃sœʁ	výtah	NOM		0	1976	
+1932	furieux / furieuse	fyʁjø / fyʁjøz	zuřivý	ADJ		0	1977	
+1933	digne	diɲ	hodný, důstojný	ADJ		0	1978	
+1934	la saloperie	salɔpʁi	hovor. svinstvo, sviňárna	NOM	vulgaire	1	1979	
+1935	le matériel	mateʁjɛl	vybavení; materiální	NOM+ADJ		0	1980	
+1936	le garage	ɡaʁaʒ	garáž	NOM		0	1981	
+1937	le mandat	mɑ̃da	mandát, příkaz	NOM		0	1982	
+1938	la moto	mɔto	motorka	NOM		0	1983	
+1939	le sable	sabl	písek	NOM		0	1984	
+1940	rapprocher	ʁapʁɔʃe	přiblížit	VER		0	1985	
+1941	la figure	fiɡyʁ	obličej, postava, obrazec	NOM		0	1986	
+1942	sacrer	sakʁe	korunovat, vysvětit	VER		0	1987	
+1943	unir	yniʁ	spojit	VER		0	1988	
+1944	la chute	ʃyt	pád	NOM		0	1989	
+1945	creuser	kʁøze	kopat, vyhloubit	VER		0	1990	
+1946	satisfaire	satisfɛʁ	uspokojit	VER		0	1991	
+1947	transmettre	tʁɑ̃smɛtʁ	předat, přenést	VER		0	1992	
+1948	pressé	pʁese	spěchající	ADJ		0	1993	
+1949	commun	kɔmœ̃	společný, běžný	NOM+ADJ		0	1994	
+1950	l'attente (f.)	atɑ̃t	čekání	NOM		0	1995	
+1951	le modèle	mɔdɛl	model, vzor	NOM+ADJ		0	1996	
+1952	la donne	dɔn	rozdání karet; situace	NOM		0	1997	
+1953	exécuter	ɛɡzekyte	provést, popravit	VER		0	1998	
+1954	élevé	elve	vysoký, vychovaný	ADJ		0	1999	
+1955	le gant	ɡɑ̃	rukavice	NOM		0	2000	
+1956	accomplir	akɔ̃pliʁ	dokončit, vykonat	VER		0	2001	
+1957	décrocher	dekʁɔʃe	sundat, zvednout (telefon), získat	VER		0	2002	
+1958	la fièvre	fjɛvʁ	horečka	NOM		0	2003	
+1959	la révolution	ʁevɔlysjɔ̃	revoluce	NOM		0	2004	
+1960	prononcer	pʁɔnɔ̃se	vyslovit	VER		0	2005	
+1961	violent	vjɔlɑ̃	násilný	ADJ		0	2006	
+1962	impressionner	ɛ̃pʁesjɔne	zapůsobit	VER		0	2007	
+1963	l'existence (f.)	ɛɡzistɑ̃s	existence	NOM		0	2008	
+1964	particulier / particulière	paʁtikylje / paʁtikyljɛʁ	zvláštní, soukromý; jednotlivec	NOM+ADJ		0	2009	
+1965	l'océan (m.)	oseɑ̃	oceán	NOM		0	2010	
+1966	la méthode	metɔd	metoda	NOM		0	2011	
+1967	nier	nje	popřít	VER		0	2012	
+1968	le document	dɔkymɑ̃	dokument	NOM		0	2013	
+1969	écarter	ekaʁte	odsunout, rozevřít	VER		0	2014	
+1970	le kilomètre	kilɔmɛtʁ	kilometr	NOM		0	2015	
+1971	la nation	nasjɔ̃	národ	NOM		0	2016	
+1972	guider	ɡide	vést, provázet	VER		0	2017	
+1973	la protection	pʁɔtɛksjɔ̃	ochrana	NOM		0	2018	
+1974	le manque	mɑ̃k	nedostatek	NOM		0	2019	
+1975	musical	myzikal	hudební	ADJ		0	2020	
+1976	chinois	ʃinwa	čínský; čínština; Číňan	NOM+ADJ		0	2021	
+1977	l'écoute (f.)	ekut	poslech	NOM		0	2022	
+1978	sauvage	sovaʒ	divoký; divoch	NOM+ADJ		0	2023	
+1979	la religion	ʁəliʒjɔ̃	náboženství	NOM		0	2024	
+1980	rose	ʁoz	růžový; růže	NOM+ADJ		0	2025	
+1981	précieux / précieuse	pʁesjø / pʁesjøz	cenný, drahocenný	ADJ		0	2026	
+1982	la mouche	muʃ	moucha	NOM		0	2027	
+1983	l'avantage (m.)	avɑ̃taʒ	výhoda	NOM		0	2028	
+1984	boucler	bukle	zapnout, uzavřít, uzamknout	VER		0	2029	
+1985	fidèle	fidɛl	věrný	NOM+ADJ		0	2030	
+1986	un(e) détective	detɛktiv	detektiv	NOM		0	2031	
+1987	comporter	kɔ̃pɔʁte	obsahovat; se comporter = chovat se	VER		0	2032	
+1988	songer	sɔ̃ʒe	snít, přemýšlet, pomýšlet (à)	VER		0	2033	
+1989	total	tɔtal	úplný; celkem	NOM+ADJ		0	2034	
+1990	la panne	pan	porucha	NOM		0	2035	
+1991	l'ours (m.)	uʁs	medvěd	NOM		0	2036	
+1992	l'écrivain (m.)	ekʁivɛ̃	spisovatel	NOM		0	2037	
+1993	la commission	kɔmisjɔ̃	komise, provize, pochůzka	NOM		0	2038	
+1994	remuer	ʁəmɥe	hýbat, míchat	VER		0	2039	
+1995	la poussière	pusjɛʁ	prach	NOM		0	2040	
+1996	la pêche	pɛʃ	broskev; rybolov	NOM		0	2041	
+1997	le mai	mɛ	květen	NOM		0	2042	
+1998	l'échec (m.)	eʃɛk	neúspěch, šach	NOM		0	2044	
+1999	balader	balade	hovor. vodit na procházku; se balader = courat se, procházet se	VER	reflexiv	0	2045	
+2000	témoigner	temwaɲe	svědčit	VER		0	2046	
+2001	gratuit	ɡʁatɥi	bezplatný	ADJ		0	2047	
+2002	soulever	sulve	zvednout	VER		0	2048	
+2003	inconnu	ɛ̃kɔny	neznámý; cizinec	NOM+ADJ		0	2049	
+2004	le ticket	tikɛ	lístek	NOM		0	2050	
+2005	forcément	fɔʁsemɑ̃	nutně, určitě	ADV		0	2051	
+2006	céder	sede	ustoupit, podlehnout, přenechat	VER		0	2052	
+2007	le foot	fut	fotbal (hovor.)	NOM	anglicismus	0	2053	
+2008	la barbe	baʁb	vousy; la barbe! = to je otrava	NOM		0	2054	
+2009	mortel / mortelle	mɔʁtɛl	smrtelný; smrtelník	NOM+ADJ		0	2055	
+2010	priver	pʁive	připravit (o něco)	VER		0	2056	
+2011	exprès / expresse	ɛkspʁɛ	záměrný; záměrně	ADJ		0	2057	
+2012	l'élément (m.)	elemɑ̃	prvek	NOM		0	2058	
+2013	renverser	ʁɑ̃vɛʁse	převrhnout, srazit	VER		0	2059	
+2014	entourer	ɑ̃tuʁe	obklopit	VER		0	2060	
+2015	le courrier	kuʁje	pošta	NOM		0	2061	
+2016	le virus	viʁys	virus	NOM		0	2062	
+2017	le sud	syd	jih; jižní	NOM+ADJ		0	2063	
+2018	la bagnole	baɲɔl	auto, fára (hovor.)	NOM	familier	0	2064	
+2019	l'ouvrier (m.)	uvʁije	dělník	NOM+ADJ		0	2065	
+2020	le concours	kɔ̃kuʁ	soutěž, přijímací zkouška	NOM		0	2066	
+2021	le canard	kanaʁ	kachna	NOM		0	2068	
+2022	la cérémonie	seʁemɔni	obřad	NOM		0	2069	
+2023	chouette	ʃwɛt	hezký, fajn; sova	NOM+ADJ		0	2070	
+2024	l'annonce (f.)	anɔ̃s	oznámení, inzerát	NOM		0	2071	
+2025	le roman	ʁɔmɑ̃	román; románský	NOM+ADJ		0	2072	
+2026	l'écran (m.)	ekʁɑ̃	obrazovka	NOM		0	2073	
+2027	le mardi	maʁdi	úterý	NOM		0	2074	
+2028	correspondre	kɔʁɛspɔ̃dʁ	odpovídat, dopisovat si	VER		0	2075	
+2029	imposer	ɛ̃poze	uložit, vnutit	VER		0	2076	
+2030	la piscine	pisin	bazén	NOM		0	2077	
+2031	vidéo	video	video	NOM+ADJ		0	2078	
+2032	absurde	apsyʁd	absurdní	NOM+ADJ		0	2079	
+2033	la discussion	diskysjɔ̃	diskuse	NOM		0	2080	
+2034	l'estomac (m.)	ɛstɔma	žaludek	NOM		0	2081	
+2035	l'auteur (m.)	otœʁ	autor	NOM		0	2082	
+2036	compliqué	kɔ̃plike	složitý	ADJ		0	2083	
+2037	la médecine	medsin	medicína	NOM		0	2084	
+2038	le foie	fwa	játra	NOM		0	2085	
+2039	l'activité (f.)	aktivite	aktivita	NOM		0	2086	
+2040	sucer	syse	sát, cucat	VER	vulgaire	0	2087	
+2041	le bonbon	bɔ̃bɔ̃	bonbon	NOM		0	2088	
+2042	l'épreuve (f.)	epʁœv	zkouška, útrapa	NOM		0	2089	
+2043	geler	ʒəle	mrznout, zamrznout	VER		0	2090	
+2044	peser	pəze	vážit	VER		0	2091	
+2045	aimable	ɛmabl	laskavý, milý	ADJ		0	2092	
+2046	la plupart des	plypaʁ de	většina (la plupart des gens = většina lidí)	ADJ:ind		0	2093	
+2047	la communauté	kɔmynote	společenství, komunita	NOM		0	2094	
+2048	le dé	de	kostka (hrací); náprstek	NOM		0	2095	
+2049	la patrie	patʁi	vlast	NOM		0	2096	
+2050	éprouver	epʁuve	pociťovat, vyzkoušet	VER		0	2097	
+2051	un(e) adulte	adylt	dospělý	NOM+ADJ		0	2098	
+2052	généreux / généreuse	ʒeneʁø / ʒeneʁøz	štědrý	ADJ		0	2099	
+2053	l'humanité (f.)	ymanite	lidstvo	NOM		0	2100	
+2054	enfoncer	ɑ̃fɔ̃se	zarazit, zatlačit	VER		0	2101	
+2055	l'excellence (f.)	ɛksɛlɑ̃s	vynikající kvalita; Excelence	NOM		0	2102	
+2056	le paysan	peizɑ̃	rolník, venkovan; selský	NOM+ADJ		0	2103	
+2057	l'analyse (f.)	analiz	analýza	NOM		0	2104	
+2058	le cirque	siʁk	cirkus	NOM		0	2105	
+2059	le divorce	divɔʁs	rozvod	NOM		0	2106	
+2060	le serveur	sɛʁvœʁ	číšník; server	NOM		0	2107	
+2061	la lutte	lyt	boj, zápas	NOM		0	2108	
+2062	rejeter	ʁəʒəte	odmítnout, zamítnout	VER		0	2109	
+2063	l'agence (f.)	aʒɑ̃s	agentura	NOM		0	2110	
+2064	le cancer	kɑ̃sɛʁ	rakovina	NOM		0	2111	
+2065	la couronne	kuʁɔn	koruna	NOM		0	2112	
+2066	la poudre	pudʁ	prášek, pudr; střelný prach	NOM		0	2113	
+2067	le sacrifice	sakʁifis	oběť	NOM		0	2114	
+2068	professionnel / professionnelle	pʁɔfesjɔnɛl	profesionální; profesionál	NOM+ADJ		0	2115	
+2069	la pizza	pidza	pizza	NOM		0	2116	
+2070	le sous-titre	sutitʁ	titulek, podtitul	NOM		0	2117	
+2071	le danseur	dɑ̃sœʁ	tanečník	NOM		0	2118	
+2072	l'attitude (f.)	atityd	postoj	NOM		0	2119	
+2073	le conseiller	kɔ̃sɛje	poradce, rádce	NOM		0	2120	
+2074	le quart	kaʁ	čtvrtina	NOM		0	2121	
+2075	déshabiller	dezabije	svléknout; se déshabiller = svléknout se	VER		0	2122	
+2076	achever	aʃve	dokončit; dorazit	VER		0	2123	
+2077	vif / vive	vif / viv	živý, čilý	NOM+ADJ		0	2124	
+2078	le charme	ʃaʁm	kouzlo, půvab	NOM		0	2125	
+2079	la pompe	pɔ̃p	pumpa, čerpadlo; pompa	NOM		0	2126	
+2080	la séance	seɑ̃s	zasedání, sezení, představení	NOM		0	2127	
+2081	le neveu	nəvø	synovec	NOM		0	2128	
+2082	le robot	ʁɔbo	robot	NOM		0	2129	
+2083	la file	fil	řada, fronta; pruh	NOM		0	2130	
+2084	pourrir	puʁiʁ	hnít	VER		0	2131	
+2085	l'absence (f.)	apsɑ̃s	nepřítomnost	NOM		0	2132	
+2086	quiconque	kikɔ̃k	kdokoli	PRO:ind		0	2133	
+2087	régner	ʁeɲe	vládnout	VER		0	2134	
+2088	parvenir	paʁvəniʁ	dosáhnout, dojít	VER		0	2135	
+2089	la propriété	pʁɔpʁijete	vlastnictví, majetek	NOM		0	2136	
+2090	la surface	syʁfas	povrch	NOM		0	2137	
+2091	l'huile (f.)	ɥil	olej	NOM		0	2138	
+2092	l'instrument (m.)	ɛ̃stʁymɑ̃	nástroj	NOM		0	2139	
+2093	chérir	ʃeʁiʁ	milovat, opatrovat	VER		0	2140	
+2094	l'exercice (m.)	ɛɡzɛʁsis	cvičení	NOM		0	2141	
+2095	honorer	ɔnɔʁe	ctít, poctít	VER		0	2142	
+2096	royal	ʁwajal	královský	ADJ		0	2143	
+2097	blond	blɔ̃	plavý; blonďák	NOM+ADJ		0	2144	
+2098	la culture	kyltyʁ	kultura	NOM		0	2145	
+2099	le poète	pɔɛt	básník	NOM		0	2146	
+2100	la pilule	pilyl	pilulka, tableta	NOM		0	2147	
+2101	la bienvenue	bjɛ̃vəny	uvítání; vítej	NOM		0	2148	
+2102	nôtre / nôtres	notʁ	náš (zájmeno; le nôtre = ten náš, les nôtres = naši)	PRO:pos		0	2149	
+2103	repousser	ʁəpuse	odmítnout, odstrčit; znovu růst	VER		0	2150	
+2104	la facture	faktyʁ	faktura	NOM		0	2151	
+2105	la ceinture	sɛ̃tyʁ	pás, opasek	NOM		0	2152	
+2106	le kilo	kilo	kilo	NOM		0	2154	
+2107	délicat	delika	jemný, choulostivý	ADJ		0	2155	
+2108	l'associé (m.)	asɔsje	společník	NOM+ADJ		0	2156	
+2109	romantique	ʁɔmɑ̃tik	romantický	NOM+ADJ		0	2157	
+2110	soucier	susje	se soucier de = starat se o, dbát na	VER		0	2158	
+2111	la proposition	pʁɔpozisjɔ̃	návrh	NOM		0	2159	
+2112	exposer	ɛkspoze	vystavit, vyložit	VER		0	2160	
+2113	la cave	kav	sklep	NOM		0	2161	
+2114	grouiller	ɡʁuje	hemžit se; se grouiller = pospíšit si (hovor.)	VER		0	2162	
+2115	intervenir	ɛ̃tɛʁvəniʁ	zasáhnout, vstoupit	VER		0	2163	
+2116	l'instruction (f.)	ɛ̃stʁyksjɔ̃	vzdělání, pokyn, vyšetřování	NOM		0	2164	
+2117	le jus	ʒy	šťáva, džus	NOM		0	2165	
+2118	améliorer	ameljoʁe	zlepšit	VER		0	2166	
+2119	compliquer	kɔ̃plike	zkomplikovat	VER		0	2167	
+2120	bref / brève	bʁɛf / bʁɛv	krátký, stručný; stručně řečeno	ADJ+ADV		0	2168	2168 2742
+2121	le canon	kanɔ̃	dělo; hovor. krásný; kánon	NOM+ADJ		0	2169	
+2122	le piano	pjano	klavír	NOM		0	2170	
+2123	le compagnon	kɔ̃paɲɔ̃	společník, partner	NOM		0	2171	
+2124	le cercueil	sɛʁkœj	rakev	NOM		0	2172	
+2125	l'indice (m.)	ɛ̃dis	stopa, indicie, index	NOM		0	2173	
+2126	bourrer	buʁe	nacpat, napěchovat	VER		0	2174	
+2127	la comédie	kɔmedi	komedie	NOM		0	2175	
+2128	le rock	ʁɔk	rock	NOM		0	2176	
+2129	la rumeur	ʁymœʁ	pověst, šum	NOM		0	2177	
+2130	le véhicule	veikyl	vozidlo	NOM		0	2178	
+2131	transporter	tʁɑ̃spɔʁte	přepravit	VER		0	2179	
+2132	cassé	kase	rozbitý	ADJ		0	2180	
+2133	jouir	ʒwiʁ	užívat, těšit se z (jouir de)	VER		0	2181	
+2134	la phrase	fʁɑz	věta	NOM		0	2183	
+2135	le navire	naviʁ	loď	NOM		0	2184	
+2136	le cabinet	kabinɛ	ordinace, kancelář, kabinet	NOM		0	2185	
+2137	la tenue	təny	oblečení, držení těla	NOM		0	2186	
+2138	la fonction	fɔ̃ksjɔ̃	funkce	NOM		0	2187	
+2139	la souris	suʁi	myš	NOM+ADJ		0	2188	
+2140	étendre	etɑ̃dʁ	natáhnout, rozprostřít	VER		0	2189	
+2141	direct	diʁɛkt	přímý; přímý přenos	NOM+ADJ		0	2190	
+2142	la tasse	tas	šálek	NOM		0	2191	
+2143	blessé	blese	raněný, zraněný	NOM+ADJ		0	2192	
+2144	la roue	ʁu	kolo	NOM		0	2193	
+2145	uniquement	ynikmɑ̃	výhradně	ADV		0	2194	
+2146	la plante	plɑ̃t	rostlina; chodidlo	NOM		0	2195	
+2147	idéal	ideal	ideální; ideál	NOM+ADJ		0	2196	
+2148	le sel	sɛl	sůl	NOM		0	2197	
+2149	la circonstance	siʁkɔ̃stɑ̃s	okolnost	NOM		0	2198	
+2150	la salade	salad	salát	NOM		0	2199	
+2151	le salopard	salɔpaʁ	hovor. darebák, sviňák	NOM		1	2200	
+2152	au-delà	odəla	dál, za; posmrtný život	ADV		0	2201	
+2153	piéger	pjeʒe	nachytat, nastražit past	VER		0	2202	
+2154	le cercle	sɛʁkl	kruh	NOM		0	2203	
+2155	chauffer	ʃofe	ohřát, topit	VER		0	2204	
+2156	le gouverneur	ɡuvɛʁnœʁ	guvernér	NOM		0	2205	
+2157	solide	sɔlid	pevný; pevná látka	NOM+ADJ		0	2206	
+2158	la garce	ɡaʁs	hovor. mrcha, potvora	NOM		1	2207	
+2159	franc / franche	fʁɑ̃ / fʁɑ̃ʃ	upřímný	NOM+ADJ		0	2208	
+2160	cuire	kɥiʁ	vařit, péct	VER		0	2209	
+2161	le promis	pʁɔmi	snoubenec; slíbený	NOM+ADJ		0	2210	
+2162	l'anneau (m.)	ano	prsten, kroužek	NOM		0	2211	
+2163	le chagrin	ʃaɡʁɛ̃	zármutek	NOM		0	2212	
+2164	la paire	pɛʁ	pár	NOM		0	2213	
+2165	le pré	pʁe	louka	NOM		0	2214	
+2166	la vague	vaɡ	vlna; neurčitý	NOM+ADJ		0	2215	
+2167	le fleuve	flœv	řeka (velká, do moře)	NOM		0	2216	
+2168	soulager	sulaʒe	ulevit	VER		0	2217	
+2169	le domaine	dɔmɛn	oblast, panství	NOM		0	2218	
+2170	immense	imɑ̃s	obrovský	ADJ		0	2219	
+2171	pourvoir	puʁvwaʁ	opatřit, zásobit; pourvoir à = postarat se o	VER		0	2220	
+2172	le mercredi	mɛʁkʁədi	středa	NOM		0	2221	
+2173	le placard	plakaʁ	skříň, vestavěná skříň	NOM		0	2222	
+2174	fermé	fɛʁme	zavřený	ADJ		0	2223	
+2175	un(e) fan	fan	fanoušek	NOM		0	2224	
+2176	le jugement	ʒyʒmɑ̃	rozsudek, úsudek	NOM		0	2225	
+2177	le magazine	maɡazin	časopis, magazín	NOM		0	2226	
+2178	estimer	ɛstime	odhadnout, vážit si	VER		0	2227	
+2179	le renfort	ʁɑ̃fɔʁ	posila	NOM		0	2228	
+2180	relâcher	ʁəlɑʃe	uvolnit, propustit	VER		0	2229	
+2181	la réputation	ʁepytasjɔ̃	pověst	NOM		0	2230	
+2182	officiel / officielle	ɔfisjɛl	oficiální	NOM+ADJ		0	2231	
+2183	la poubelle	pubɛl	popelnice, koš	NOM		0	2232	
+2184	le for	fɔʁ	soud; dans son for intérieur = v hloubi duše	NOM		0	2233	
+2185	moderne	mɔdɛʁn	moderní	ADJ		0	2234	
+2186	le degré	dəɡʁe	stupeň	NOM		0	2235	
+2187	la pile	pil	baterie; hromada	NOM		0	2236	
+2188	la tension	tɑ̃sjɔ̃	napětí, tlak	NOM		0	2237	
+2189	le règlement	ʁɛɡləmɑ̃	předpis, řád; vyřízení, platba	NOM		0	2238	
+2190	dit	di	zvaný, řečený	NOM+ADJ		0	2239	
+2191	l'assiette (f.)	asjɛt	talíř	NOM		0	2240	
+2192	craquer	kʁake	praskat, zhroutit se	VER		0	2241	
+2193	le serment	sɛʁmɑ̃	přísaha	NOM		0	2242	
+2194	le chanteur	ʃɑ̃tœʁ	zpěvák	NOM		0	2243	
+2195	soudain	sudɛ̃	náhle, najednou	ADV		0	2244	
+2196	la merveille	mɛʁvɛj	zázrak, div	NOM		0	2245	
+2197	décoller	dekɔle	odlepit, odstartovat	VER		0	2246	
+2198	l'ingénieur (m.)	ɛ̃ʒenjœʁ	inženýr	NOM		0	2247	
+2199	la réserve	ʁezɛʁv	rezerva, zásoba, výhrada	NOM		0	2248	
+2200	l'autorisation (f.)	otɔʁizasjɔ̃	povolení	NOM		0	2249	
+2201	débile	debil	hloupý; hovor. blbec	NOM+ADJ		0	2250	
+2202	jaune	ʒon	žlutý	NOM+ADJ		0	2251	
+2203	le voyou	vwaju	pobuda, násilník	NOM		0	2252	
+2204	récemment	ʁesamɑ̃	nedávno	ADV		0	2253	
+2205	disposer	dispoze	uspořádat, mít k dispozici	VER		0	2254	
+2206	publier	pyblije	vydat, zveřejnit	VER		0	2255	
+2207	naturellement	natyʁɛlmɑ̃	přirozeně, samozřejmě	ADV		0	2256	
+2208	grimper	ɡʁɛ̃pe	šplhat, lézt	VER		0	2257	
+2209	la tache	taʃ	skvrna	NOM		0	2258	
+2210	réjouir	ʁeʒwiʁ	potěšit; se réjouir = radovat se	VER		0	2259	
+2211	draguer	dʁaɡe	balit (hovor.), bagrovat	VER		0	2260	
+2212	réclamer	ʁeklame	požadovat, domáhat se	VER		0	2261	
+2213	l'appétit (m.)	apeti	chuť k jídlu	NOM		0	2262	
+2214	l'organisation (f.)	ɔʁɡanizasjɔ̃	organizace	NOM		0	2263	
+2215	espagnol	ɛspaɲɔl	španělský; španělština; Španěl	NOM+ADJ		0	2264	
+2216	le comportement	kɔ̃pɔʁtəmɑ̃	chování	NOM		0	2265	
+2217	incapable	ɛ̃kapabl	neschopný	NOM+ADJ		0	2266	
+2218	la donnée	dɔne	údaj, data	NOM		0	2267	
+2219	le scandale	skɑ̃dal	skandál	NOM		0	2268	
+2220	assis	asi	sedící	ADJ		0	2269	
+2221	le lion	ljɔ̃	lev	NOM		0	2270	
+2222	le baron	baʁɔ̃	baron	NOM		0	2272	
+2223	la tomate	tɔmat	rajče	NOM		0	2273	
+2224	le congé	kɔ̃ʒe	dovolená, volno	NOM		0	2274	
+2225	le musée	myze	muzeum	NOM		0	2275	
+2226	vilain	vilɛ̃	ošklivý, zlý, nezbedný	NOM+ADJ		0	2276	
+2227	tester	tɛste	testovat	VER		0	2277	
+2228	le bijou	biʒu	šperk, klenot	NOM		0	2278	
+2229	occupé	ɔkype	obsazený, zaneprázdněný	ADJ		0	2279	
+2230	la crème	kʁɛm	krém, smetana	NOM+ADJ		0	2280	
+2231	piper	pipe	pískat; hovor. pípnout; ne pas piper mot = neříct ani slovo	VER		0	2281	
+2232	reconnaissant	ʁəkɔnɛsɑ̃	vděčný	ADJ		0	2282	
+2233	l'arrestation (f.)	aʁɛstasjɔ̃	zatčení	NOM		0	2283	
+2234	la tournée	tuʁne	turné, obchůzka; kolo (pití)	NOM		0	2284	
+2235	le diamant	djamɑ̃	diamant	NOM		0	2285	
+2236	la tradition	tʁadisjɔ̃	tradice	NOM		0	2286	
+2237	cardiaque	kaʁdjak	srdeční	ADJ		0	2287	
+2238	ordinaire	ɔʁdinɛʁ	obyčejný	NOM+ADJ		0	2288	
+2239	la génération	ʒeneʁasjɔ̃	generace	NOM		0	2289	
+2240	le voile	vwal	závoj, šátek	NOM		0	2290	
+2241	la plaque	plak	deska, cedulka, plát	NOM		0	2291	
+2242	l'éducation (f.)	edykasjɔ̃	vzdělání, výchova	NOM		0	2292	
+2243	renseigner	ʁɑ̃seɲe	informovat; se renseigner = zeptat se na informace	VER		0	2293	
+2244	vieillir	vjɛjiʁ	stárnout	VER		0	2294	
+2245	le commandement	kɔmɑ̃dmɑ̃	velení, přikázání	NOM		0	2295	
+2246	civil	sivil	civilní; civilista	NOM+ADJ		0	2296	
+2247	le rythme	ʁitm	rytmus	NOM		0	2297	
+2248	ennuyeux / ennuyeuse	ɑ̃nɥijø / ɑ̃nɥijøz	nudný	ADJ		0	2298	
+2249	le texte	tɛkst	text	NOM		0	2299	
+2250	développer	devlɔpe	rozvíjet, vyvolat (fotografie)	VER		0	2300	
+2251	la légende	leʒɑ̃d	legenda	NOM		0	2301	
+2252	ruiner	ʁɥine	zničit, zruinovat	VER		0	2302	
+2253	répandre	ʁepɑ̃dʁ	rozlít, rozšířit	VER		0	2303	
+2254	normalement	nɔʁmalmɑ̃	normálně	ADV		0	2304	
+2255	l'ongle (m.)	ɔ̃ɡl	nehet	NOM		0	2305	
+2256	électrique	elɛktʁik	elektrický	ADJ		0	2306	
+2257	l'incident (m.)	ɛ̃sidɑ̃	incident	NOM		0	2307	
+2258	brancher	bʁɑ̃ʃe	zapojit	VER		0	2308	
+2259	la liaison	ljɛzɔ̃	spojení, poměr, vázání	NOM		0	2309	
+2260	la section	sɛksjɔ̃	sekce, oddíl	NOM		0	2310	
+2261	le transport	tʁɑ̃spɔʁ	doprava	NOM		0	2311	
+2262	gay	ɡɛ	gay, homosexuální	NOM+ADJ		0	2312	
+2263	l'entraînement (m.)	ɑ̃tʁɛnmɑ̃	trénink	NOM		0	2313	
+2264	douer	dwe	obdařit	VER		0	2314	
+2265	réfléchi	ʁeflefi	rozvážný, zvratný	ADJ		0	2315	
+2266	la fumée	fyme	kouř	NOM		0	2316	
+2267	le plomb	plɔ̃	olovo	NOM		0	2317	
+2268	l'expert (m.)	ɛkspɛʁ	odborník	NOM+ADJ		0	2318	
+2269	le tapis	tapi	koberec	NOM		0	2319	
+2270	la version	vɛʁsjɔ̃	verze	NOM		0	2320	
+2271	cependant	səpɑ̃dɑ̃	avšak, přesto	ADV		0	2321	
+2272	abuser	abyze	zneužít, příliš využívat	VER		0	2323	
+2273	gai	ɡɛ	veselý	ADJ		0	2324	
+2274	la cabine	kabin	kabina	NOM		0	2325	
+2275	la hauteur	otœʁ	výška	NOM	h-aspire	0	2326	
+2276	dégueulasse	deɡœlas	hovor. nechutný, hnusný	ADJ		0	2327	
+2277	le blé	ble	pšenice	NOM		0	2328	
+2278	l'oignon (m.)	ɔɲɔ̃	cibule	NOM		0	2329	
+2279	net / nette	nɛt	jasný, čistý	ADJ		0	2330	
+2280	la couche	kuʃ	vrstva; plena	NOM		0	2331	
+2281	reparler	ʁəpaʁle	znovu spolu mluvit	VER		0	2332	
+2282	le collier	kɔlje	náhrdelník, obojek	NOM		0	2333	
+2283	l'équipage (m.)	ekipaʒ	posádka	NOM		0	2334	
+2284	soupçonner	supsɔne	podezírat	VER		0	2335	
+2285	illégal	ilegal	nezákonný	ADJ		0	2336	
+2286	vain	vɛ̃	marný	ADJ		0	2337	
+2287	persuader	pɛʁsɥade	přesvědčit	VER		0	2338	
+2288	la bibliothèque	biblijɔtɛk	knihovna	NOM		0	2339	
+2289	la conférence	kɔ̃feʁɑ̃s	konference, přednáška	NOM		0	2340	
+2290	reprocher	ʁəpʁɔʃe	vyčítat	VER		0	2341	
+2291	étonnant	etɔnɑ̃	překvapivý	ADJ		0	2342	
+2292	l'incendie (m.)	ɛ̃sɑ̃di	požár	NOM		0	2343	
+2293	âgé	ɑʒe	starý (o osobě)	ADJ		0	2344	
+2294	semer	səme	zasít, rozsévat	VER		0	2345	
+2295	le sénateur	senatœʁ	senátor	NOM		0	2346	
+2296	paniquer	panike	panikařit	VER		0	2347	
+2297	le poison	pwazɔ̃	jed	NOM		0	2348	
+2298	garantir	ɡaʁɑ̃tiʁ	zaručit	VER		0	2349	
+2299	la déclaration	deklaʁasjɔ̃	prohlášení	NOM		0	2350	
+2300	la veine	vɛn	žíla; hovor. štěstí	NOM		0	2351	
+2301	la tempête	tɑ̃pɛt	bouře	NOM		0	2352	
+2302	l'accusation (f.)	akyzasjɔ̃	obvinění	NOM		0	2353	
+2303	la cloche	klɔʃ	zvon; hovor. trouba, hlupák; bezdomovec	NOM+ADJ	familier	0	2354	
+2304	dévorer	devɔʁe	hltat, pohltit	VER		0	2355	
+2305	le bandit	bɑ̃di	bandita	NOM		0	2356	
+2306	détacher	detaʃe	odpoutat, odvázat	VER		0	2357	
+2307	le drapeau	dʁapo	vlajka	NOM		0	2358	
+2308	la bourse	buʁs	burza; stipendium; peněženka	NOM		0	2359	
+2309	la récompense	ʁekɔ̃pɑ̃s	odměna	NOM		0	2360	
+2310	enquêter	ɑ̃kete	vyšetřovat	VER		0	2361	
+2311	mesurer	məzyʁe	měřit	VER		0	2362	
+2312	le volant	vɔlɑ̃	volant, řídítka	NOM+ADJ		0	2363	
+2313	gris	ɡʁi	šedý	NOM+ADJ		0	2364	
+2314	la solitude	sɔlityd	samota	NOM		0	2365	
+2315	empoisonner	ɑ̃pwazɔne	otrávit	VER		0	2366	
+2316	mystérieux / mystérieuse	misteʁjø / misteʁjøz	tajemný	ADJ		0	2367	
+2317	l'opéra (m.)	ɔpeʁa	opera	NOM		0	2368	
+2318	chic	ʃik	elegantní	NOM+ADJ		0	2369	
+2319	le commerce	kɔmɛʁs	obchod	NOM		0	2370	
+2320	le puits	pɥi	studna	NOM		0	2371	
+2321	sincère	sɛ̃sɛʁ	upřímný	ADJ		0	2372	
+2322	la statue	staty	socha	NOM		0	2373	
+2323	sécher	seʃe	sušit, schnout	VER		0	2374	
+2324	le cap	kap	mys; kurs	NOM		0	2375	
+2325	le meuble	mœbl	kus nábytku	NOM		0	2376	
+2326	employer	ɑ̃plwaje	zaměstnat, používat	VER		0	2377	
+2327	l'empire (m.)	ɑ̃piʁ	říše	NOM		0	2378	
+2328	un(e) pro	pʁo	profesionál (hovor.)	NOM		0	2379	
+2329	l'hôte (m.)	ot	hostitel, host	NOM		0	2380	
+2330	le régime	ʁeʒim	režim, dieta	NOM		0	2381	
+2331	physique	fizik	fyzický; fyzika; tělesná stavba	NOM+ADJ		0	2382	
+2332	volontiers	vɔlɔ̃tje	rád	ADV		0	2383	
+2333	le passager	pasaʒe	cestující	NOM+ADJ		0	2384	
+2334	mouiller	muje	namočit, zvlhčit	VER		0	2385	
+2335	le top	tɔp	vrchol, špička; top (hovor.)	NOM		0	2386	
+2336	populaire	pɔpylɛʁ	oblíbený, lidový	ADJ		0	2387	
+2337	l'alarme (f.)	alaʁm	alarm	NOM		0	2389	
+2338	le frigo	fʁiɡo	lednička (hovor.)	NOM		0	2390	
+2339	la conséquence	kɔ̃sekɑ̃s	důsledek	NOM		0	2391	
+2340	le demi-tour	dəmituʁ	obrat, otočka	NOM		0	2392	
+2341	le fauteuil	fotœj	křeslo	NOM		0	2393	
+2342	correct	kɔʁɛkt	správný, slušný	ADJ		0	2394	
+2343	la bagarre	baɡaʁ	rvačka	NOM		0	2395	
+2344	la sauce	sos	omáčka	NOM		0	2396	
+2345	le tunnel	tynɛl	tunel	NOM		0	2397	
+2346	déclencher	deklɑ̃ʃe	spustit, vyvolat	VER		0	2398	
+2347	le drap	dʁa	prostěradlo	NOM		0	2399	
+2348	l'expression (f.)	ɛkspʁɛsjɔ̃	výraz	NOM		0	2400	
+2349	la conduite	kɔ̃dɥit	chování; řízení	NOM		0	2401	
+2350	la surveillance	syʁvɛjɑ̃s	dohled, sledování	NOM		0	2402	
+2351	contrer	kɔ̃tʁe	čelit, zablokovat (útok)	VER		0	2403	
+2352	l'illusion (f.)	ilyzjɔ̃	iluze	NOM		0	2404	
+2353	le scénario	senaʁjo	scénář	NOM		0	2405	
+2354	l'union (f.)	ynjɔ̃	unie, svaz	NOM		0	2406	
+2355	le rideau	ʁido	záclona, opona	NOM		0	2407	
+2356	communiquer	kɔmynike	komunikovat	VER		0	2408	
+2357	le territoire	teʁitwaʁ	území	NOM		0	2409	
+2358	le nègre	nɛɡʁ	urážlivé označení černocha (nadávka); nègre littéraire = pisatel za jiného	NOM	injure	1	2410	
+2359	la poésie	pɔezi	poezie	NOM		0	2411	
+2360	la tentative	tɑ̃tativ	pokus	NOM		0	2412	
+2361	profondément	pʁɔfɔ̃demɑ̃	hluboce	ADV		0	2414	
+2362	pénétrer	penetʁe	proniknout	VER		0	2415	
+2363	secouer	səkwe	třást	VER		0	2416	
+2364	le renseignement	ʁɑ̃sɛɲmɑ̃	informace, zpravodajství	NOM		0	2418	
+2365	fréquenter	fʁekɑ̃te	navštěvovat, stýkat se	VER		0	2419	
+2366	cingler	sɛ̃ɡle	švihnout, bičovat	VER		0	2420	
+2367	franchir	fʁɑ̃ʃiʁ	překročit, přeskočit	VER		0	2421	
+2368	s'évanouir	sevanwiʁ	omdlít; zmizet	VER	reflexiv	0	2422	
+2369	l'entretien (m.)	ɑ̃tʁətjɛ̃	údržba, rozhovor	NOM		0	2423	
+2370	l'objectif (m.)	ɔbʒɛktif	cíl; objektiv; objektivní	NOM+ADJ		0	2424	
+2371	le soutien	sutjɛ̃	podpora	NOM		0	2425	
+2372	emballer	ɑ̃bale	zabalit; hovor. nadchnout	VER		0	2426	
+2373	la boucle	bukl	smyčka, přezka	NOM		0	2427	
+2374	le caractère	kaʁaktɛʁ	povaha, písmeno	NOM		0	2428	
+2375	l'alliance (f.)	aljɑ̃s	spojenectví, snubní prsten	NOM		0	2429	
+2376	la hâte	ɑt	spěch	NOM	h-aspire	0	2430	
+2377	négocier	neɡɔsje	vyjednávat	VER		0	2431	
+2378	démolir	demɔliʁ	zbourat, zničit	VER		0	2432	
+2379	l'as (m.)	ɑs	eso	NOM		0	2433	
+2380	le jury	ʒyʁi	porota	NOM		0	2434	
+2381	planquer	plɑ̃ke	hovor. schovat, ukrýt	VER		0	2435	
+2382	la clinique	klinik	klinika; klinický	NOM+ADJ		0	2436	
+2383	la barre	baʁ	tyč, lišta	NOM		0	2437	
+2384	la misère	mizɛʁ	bída	NOM		0	2438	
+2385	clairement	klɛʁmɑ̃	jasně	ADV		0	2439	
+2386	concevoir	kɔ̃səvwaʁ	počít, navrhnout, pochopit	VER		0	2440	
+2387	le fumier	fymje	hnůj; hovor. darebák, mizera	NOM		0	2441	
+2388	la production	pʁɔdyksjɔ̃	produkce	NOM		0	2442	
+2389	le comité	kɔmite	výbor	NOM		0	2443	
+2390	navrer	navʁe	zarmoutit; je suis navré = je mi líto	VER		0	2444	
+2391	fameux / fameuse	famø / famøz	slavný, proslulý	ADJ		0	2445	
+2392	large	laʁʒ	široký	NOM+ADJ		0	2446	
+2393	l'auto (f.)	oto	auto	NOM		0	2447	
+2394	la mamie	mami	babička (hovor.)	NOM		0	2448	
+2395	bâtir	bɑtiʁ	stavět	VER		0	2449	
+2396	la trahison	tʁaizɔ̃	zrada	NOM		0	2450	
+2397	le canapé	kanape	pohovka	NOM		0	2451	
+2398	la boisson	bwasɔ̃	nápoj	NOM		0	2452	
+2399	laid	lɛ	ošklivý	ADJ		0	2453	
+2400	étrangler	etʁɑ̃ɡle	uškrtit	VER		0	2454	
+2401	le progrès	pʁɔɡʁɛ	pokrok	NOM		0	2455	
+2402	le riz	ʁi	rýže	NOM		0	2456	
+2403	la signature	siɲatyʁ	podpis	NOM		0	2457	
+2404	consulter	kɔ̃sylte	konzultovat	VER		0	2458	
+2405	la dose	doz	dávka	NOM		0	2459	
+2406	le réveil	ʁevɛj	budík, probuzení	NOM		0	2460	
+2407	l'intelligence (f.)	ɛ̃teliʒɑ̃s	inteligence	NOM		0	2461	
+2408	le liquide	likid	tekutina; tekutý; hotovost	NOM+ADJ		0	2462	
+2409	le veuf	vœf	vdovec	NOM+ADJ		0	2463	
+2410	transférer	tʁɑ̃sfeʁe	převést	VER		0	2464	
+2411	le bisou	bizu	pusinka (hovor.)	NOM		0	2465	
+2412	personnellement	pɛʁsɔnɛlmɑ̃	osobně	ADV		0	2466	
+2413	dégoûter	deɡute	znechutit	VER		0	2467	
+2414	loger	lɔʒe	ubytovat, bydlet	VER		0	2468	
+2415	le défaut	defo	vada, nedostatek	NOM		0	2469	
+2416	la messe	mɛs	mše	NOM		0	2470	
+2417	ivre	ivʁ	opilý	ADJ		0	2471	
+2418	la bougie	buʒi	svíčka	NOM		0	2472	
+2419	l'ouverture (f.)	uvɛʁtyʁ	otevření, otvor, předehra	NOM		0	2473	
+2420	suffisamment	syfizamɑ̃	dostatečně	ADV		0	2474	
+2421	la cage	kaʒ	klec	NOM		0	2475	
+2422	réellement	ʁeɛlmɑ̃	skutečně	ADV		0	2476	
+2423	consacrer	kɔ̃sakʁe	věnovat, zasvětit	VER		0	2477	
+2424	l'invitation (f.)	ɛ̃vitasjɔ̃	pozvání	NOM		0	2478	
+2425	le parking	paʁkiŋ	parkoviště	NOM	anglicismus	0	2479	
+2426	opposer	ɔpoze	postavit proti; s'opposer = bránit se	VER		0	2480	
+2427	final	final	konečný; finále	NOM+ADJ		0	2481	
+2428	l'araignée (f.)	aʁeɲe	pavouk	NOM		0	2482	
+2429	l'éternité (f.)	etɛʁnite	věčnost	NOM		0	2483	
+2430	la communication	kɔmynikasjɔ̃	komunikace, spojení	NOM		0	2484	
+2431	le métro	metʁo	metro	NOM		0	2485	
+2432	mental	mɑ̃tal	duševní	ADJ		0	2486	
+2433	central	sɑ̃tʁal	centrální; ústředna	NOM+ADJ		0	2487	
+2434	la culotte	kylɔt	kalhotky	NOM		0	2488	
+2435	le dessous	dəsu	spodek, spodní strana	NOM		0	2489	
+2436	local	lɔkal	místní; prostor	NOM+ADJ		0	2490	
+2437	le bâton	bɑtɔ̃	hůl, tyč	NOM		0	2491	
+2438	pourri	puʁi	shnilý, zkažený	NOM+ADJ		0	2492	
+2439	le tireur	tiʁœʁ	střelec	NOM		0	2493	
+2440	l'appart (m.)	apaʁt	byt (hovor.)	NOM		0	2494	
+2441	la branche	bʁɑ̃ʃ	větev, obor	NOM		0	2495	
+2442	la coïncidence	kɔɛ̃sidɑ̃s	shoda okolností	NOM		0	2496	
+2443	éclairer	eklɛʁe	osvětlit	VER		0	2497	
+2444	la toile	twal	plátno, síť	NOM		0	2498	
+2445	la ruine	ʁɥin	ruina	NOM		0	2499	
+2446	la cravate	kʁavat	kravata	NOM		0	2500	
+2447	le portefeuille	pɔʁtəfœj	peněženka	NOM		0	2501	
+2448	appliquer	aplike	použít, aplikovat	VER		0	2502	
+2449	elle-même	ɛlmɛm	ona sama	PRO:per		0	2503	
+2450	dresser	dʁese	postavit, vztyčit, vycvičit	VER		0	2504	
+2451	redevenir	ʁədəvniʁ	znovu se stát	VER		0	2505	
+2452	la bonté	bɔ̃te	dobrota	NOM		0	2506	
+2453	l'angoisse (f.)	ɑ̃ɡwas	úzkost	NOM		0	2507	
+2454	le casier	kazje	skříňka, přihrádka; casier judiciaire = rejstřík trestů	NOM		0	2508	
+2455	démissionner	demisjɔne	rezignovat, dát výpověď	VER		0	2509	
+2456	envier	ɑ̃vje	závidět	VER		0	2510	
+2457	la bible	bibl	bible	NOM		0	2511	
+2458	la prime	pʁim	prémie, příplatek; první	NOM+ADJ		0	2512	
+2459	la pension	pɑ̃sjɔ̃	penze, pension	NOM		0	2513	
+2460	la plaisanterie	plɛzɑ̃tʁi	žert	NOM		0	2514	
+2461	la vertu	vɛʁty	ctnost	NOM		0	2515	
+2462	le pasteur	pastœʁ	pastor	NOM		0	2516	
+2463	le stylo	stilo	pero	NOM		0	2517	
+2464	le candidat	kɑ̃dida	kandidát	NOM		0	2518	
+2465	choper	ʃɔpe	hovor. chytit, nachytat	VER		0	2519	
+2466	capturer	kaptyʁe	zajmout	VER		0	2520	
+2467	l'apparence (f.)	apaʁɑ̃s	vzhled, zdání	NOM		0	2521	
+2468	le bol	bɔl	miska; hovor. štěstí	NOM		0	2522	
+2469	évacuer	evakɥe	evakuovat, vyprázdnit	VER		0	2523	
+2470	le dehors	dəɔʁ	venek	NOM		0	2524	
+2471	la technologie	tɛknɔlɔʒi	technologie	NOM		0	2525	
+2472	suffisant	syfizɑ̃	dostatečný; domýšlivý	ADJ		0	2526	
+2473	la saleté	salte	špína	NOM		0	2527	
+2474	un(e) guide	ɡid	průvodce	NOM	rod-odhad	0	2528	
+2475	le milliard	miljaʁ	miliarda	NOM		0	2529	
+2476	le poing	pwɛ̃	pěst	NOM		0	2530	
+2477	citer	site	citovat	VER		0	2531	
+2478	salir	saliʁ	zašpinit	VER		0	2532	
+2479	soumettre	sumɛtʁ	podrobit, předložit	VER		0	2533	
+2480	célébrer	selebʁe	slavit, oslavit	VER		0	2534	
+2481	l'exécution (f.)	ɛɡzekysjɔ̃	provedení, poprava	NOM		0	2535	
+2482	le gang	ɡɑ̃ɡ	gang	NOM		0	2536	
+2483	le ministère	ministɛʁ	ministerstvo	NOM		0	2537	
+2484	la réception	ʁesɛpsjɔ̃	recepce, přijetí	NOM		0	2538	
+2485	injuste	ɛ̃ʒyst	nespravedlivý	ADJ		0	2539	
+2486	le sommet	sɔmɛ	vrchol, summit	NOM		0	2540	
+2487	préoccuper	pʁeɔkype	znepokojovat	VER		0	2541	
+2488	la trouille	tʁuj	hovor. strach, bázeň	NOM		0	2542	
+2489	ralentir	ʁalɑ̃tiʁ	zpomalit	VER		0	2543	
+2490	le tube	tyb	trubice, hit	NOM		0	2544	
+2491	reçu	ʁəsy	přijatý; účtenka	NOM+ADJ		0	2545	
+2492	envahir	ɑ̃vaiʁ	obsadit, napadnout	VER		0	2546	
+2493	le miel	mjɛl	med	NOM		0	2547	
+2494	racheter	ʁaʃte	odkoupit, vykoupit	VER		0	2548	
+2495	fondre	fɔ̃dʁ	tát, rozpustit	VER		0	2549	
+2496	le thème	tɛm	téma	NOM		0	2550	
+2497	l'épisode (m.)	epizɔd	epizoda, díl	NOM		0	2551	
+2498	la capacité	kapasite	schopnost, kapacita	NOM		0	2552	
+2499	éveiller	evɛje	probudit	VER		0	2553	
+2500	le bloc	blɔk	blok	NOM		0	2554	
+2501	mater	mate	hovor. zírat, špehovat; zkrotit	VER		0	2555	
+2502	positif / positive	pozitif / pozitiv	pozitivní	NOM+ADJ		0	2556	
+2503	le diplôme	diplom	diplom	NOM		0	2557	
+2504	la sensation	sɑ̃sasjɔ̃	pocit, senzace	NOM		0	2558	
+2505	absolu	apsɔly	absolutní	ADJ		0	2559	
+2506	l'humour (m.)	ymuʁ	humor	NOM		0	2560	
+2507	un(e) psy	psi	psycholog, psychiatr (hovor.)	NOM		0	2561	
+2508	la cendre	sɑ̃dʁ	popel	NOM		0	2562	
+2509	le compliment	kɔ̃plimɑ̃	kompliment	NOM		0	2563	
+2510	le loyer	lwaje	nájem	NOM		0	2564	
+2511	entièrement	ɑ̃tjɛʁmɑ̃	zcela	ADV		0	2565	
+2512	le plateau	plato	podnos, plošina, plató	NOM		0	2566	
+2513	le site	sit	místo, web	NOM		0	2567	
+2514	l'élection (f.)	elɛksjɔ̃	volba	NOM		0	2568	
+2515	douloureux / douloureuse	dulusø / dulusøz	bolestivý	ADJ		0	2569	
+2516	le cigare	siɡaʁ	doutník	NOM		0	2570	
+2517	l'orage (m.)	ɔʁaʒ	bouřka	NOM		0	2571	
+2518	or	ɔʁ	avšak, a tak	CON		0	2572	
+2519	la tire	tiʁ	hovor. auto; vol à la tire = kapesní krádež	NOM		0	2573	
+2520	le canal	kanal	kanál	NOM		0	2574	
+2521	scientifique	sjɑ̃tifik	vědecký; vědec	NOM+ADJ		0	2575	
+2522	le réalisateur	ʁealizatœʁ	režisér	NOM		0	2576	
+2523	la veille	vɛj	předvečer, den předtím	NOM		0	2577	
+2524	la vodka	vɔdka	vodka	NOM		0	2578	
+2525	la noce	nɔs	svatba (hostina)	NOM		0	2579	
+2526	le câble	kɑbl	kabel	NOM		0	2580	
+2527	le linge	lɛ̃ʒ	prádlo	NOM		0	2581	
+2528	guère	ɡɛʁ	sotva, téměř ne	ADV		0	2582	
+2529	un(e) peintre	pɛ̃tʁ	malíř	NOM		0	2583	
+2530	la matière	matjɛʁ	látka, hmota, předmět	NOM		0	2584	
+2531	le rocher	ʁɔʃe	skála	NOM		0	2585	
+2532	l'économie (f.)	ekɔnɔmi	ekonomika, úspora	NOM		0	2586	
+2533	l'atelier (m.)	atəlje	dílna, ateliér	NOM		0	2587	
+2534	l'instinct (m.)	ɛ̃stɛ̃	instinkt	NOM		0	2588	
+2535	le major	maʒɔʁ	major, nejlepší absolvent	NOM		0	2589	
+2536	la peste	pɛst	mor; hovor. protivný člověk	NOM		0	2590	
+2537	la collection	kɔlɛksjɔ̃	sbírka, kolekce	NOM		0	2591	
+2538	l'automne (m.)	ɔtɔn	podzim	NOM		0	2592	
+2539	pencher	pɑ̃ʃe	naklonit	VER		0	2593	
+2540	la personnalité	pɛʁsɔnalite	osobnost	NOM		0	2594	
+2541	féminin	feminɛ̃	ženský	ADJ		0	2595	
+2542	massacrer	masakʁe	povraždit; zpackat	VER		0	2596	
+2543	la douceur	dusœʁ	jemnost, sladkost	NOM		0	2597	
+2544	l'échantillon (m.)	eʃɑ̃tijɔ̃	vzorek	NOM		0	2598	
+2545	recommander	ʁəkɔmɑ̃de	doporučit	VER		0	2599	
+2546	défoncer	defɔ̃se	rozbít, vyrazit; se défoncer = hovor. sjet se drogou nebo makat naplno	VER		0	2600	
+2547	rond	ʁɔ̃	kulatý; kruh	NOM+ADJ		0	2601	
+2548	le vendeur	vɑ̃dœʁ	prodavač	NOM		0	2602	
+2549	le couvent	kuvɑ̃	klášter	NOM		0	2603	
+2550	ôter	ote	odstranit, sundat	VER		0	2604	
+2551	légal	leɡal	legální	ADJ		0	2605	
+2552	la came	kam	hovor. droga; vačka (strojní)	NOM		0	2606	
+2553	le guerrier	ɡɛʁje	válečník; bojovný	NOM+ADJ		0	2607	
+2554	splendide	splɑ̃did	nádherný	ADJ		0	2608	
+2555	la masse	mas	masa, hmota	NOM		0	2609	
+2556	le dialogue	djalɔɡ	dialog	NOM		0	2610	
+2557	le missile	misil	střela	NOM		0	2611	
+2558	dater	date	datovat	VER		0	2612	
+2559	le marquis	maʁki	markýz	NOM		0	2613	
+2560	un(e) spécialiste	spesjalist	specialista	NOM		0	2614	
+2561	exceptionnel / exceptionnelle	ɛksɛpsjɔnɛl	výjimečný	ADJ		0	2615	
+2562	la baleine	balɛn	velryba	NOM		0	2616	
+2563	l'habitant (m.)	abitɑ̃	obyvatel	NOM		0	2617	
+2564	le langage	lɑ̃ɡaʒ	jazyk, řeč	NOM		0	2618	
+2565	le savon	savɔ̃	mýdlo	NOM		0	2619	
+2566	le do	do	do (nota)	NOM		0	2620	
+2567	international	ɛ̃tɛʁnasjɔnal	mezinárodní	ADJ		0	2621	
+2568	la brigade	bʁiɡad	brigáda, oddíl	NOM		0	2622	
+2569	le poumon	pumɔ̃	plíce	NOM		0	2623	
+2570	la tente	tɑ̃t	stan	NOM		0	2624	
+2571	un(e) terroriste	tɛʁɔʁist	terorista	NOM+ADJ		0	2625	
+2572	la villa	vila	vila	NOM		0	2626	
+2573	l'adjudant (m.)	adʒydɑ̃	pobočník, praporčík	NOM		0	2627	
+2574	le séjour	seʒuʁ	pobyt; obývák	NOM		0	2628	
+2575	le tournage	tuʁnaʒ	natáčení	NOM		0	2629	
+2576	le ski	ski	lyže, lyžování	NOM		0	2630	
+2577	le motif	mɔtif	motiv, důvod	NOM		0	2631	
+2578	le beau-père	bopɛʁ	tchán, otčím	NOM		0	2632	
+2579	la dispute	dispyt	hádka	NOM		0	2633	
+2580	gonfler	ɡɔ̃fle	nafouknout	VER		0	2634	
+2581	pêcher	pɛʃe	lovit ryby; broskvoň	VER		0	2635	
+2582	l'issue (f.)	isy	východ, výsledek	NOM		0	2636	
+2583	investir	ɛ̃vɛstiʁ	investovat	VER		0	2637	
+2584	pâle	pɑl	bledý	ADJ		0	2638	
+2585	accoucher	akuʃe	porodit	VER		0	2639	
+2586	séduire	sedɥiʁ	svést, okouzlit	VER		0	2640	
+2587	le basket	baskɛt	basketbal	NOM		0	2641	
+2588	la pâte	pɑt	těsto, pasta	NOM		0	2642	
+2589	la catastrophe	katastʁɔf	katastrofa	NOM		0	2643	
+2590	la jungle	ʒɔ̃ɡl	džungle	NOM		0	2644	
+2591	las / lasse	la / las	unavený, zmožený	ADJ		0	2645	
+2592	le cachet	kaʃɛ	razítko, honorář, tableta	NOM		0	2646	
+2593	merder	mɛʁde	hovor. zvorat, zpackat	VER	vulgaire	1	2647	
+2594	la chaussette	ʃosɛt	ponožka	NOM		0	2648	
+2595	l'hommage (m.)	ɔmaʒ	pocta	NOM		0	2649	
+2596	bavarder	bavaʁde	povídat si, tlachat	VER		0	2650	
+2597	le serviteur	sɛʁvitœʁ	sluha	NOM		0	2651	
+2598	envisager	ɑ̃vizaʒe	zvažovat, uvažovat o	VER		0	2652	
+2599	lent	lɑ̃	pomalý	ADJ		0	2653	
+2600	moral	mɔʁal	morální; morálka	NOM+ADJ		0	2654	
+2601	la pipe	pip	dýmka	NOM		0	2655	
+2602	timide	timid	plachý	ADJ		0	2656	
+2603	la flotte	flɔt	loďstvo; hovor. voda	NOM		0	2657	
+2604	les ténèbres	tenɛbʁ	tma, temnota (mn. č.)	NOM	pluriel-tantum	0	2658	
+2605	la vitre	vitʁ	okenní tabule	NOM		0	2659	
+2606	troubler	tʁuble	rozrušit, zakalit, rušit	VER		0	2660	
+2607	la disparition	dispaʁisjɔ̃	zmizení	NOM		0	2661	
+2608	la médaille	medaj	medaile	NOM		0	2662	
+2609	reproduire	ʁəpʁɔdɥiʁ	reprodukovat	VER		0	2664	
+2610	le toast	tost	topinka; přípitek	NOM		0	2665	
+2611	l'orange (f.)	ɔʁɑ̃ʒ	pomeranč; oranžový	NOM+ADJ		0	2666	
+2612	la tonne	tɔn	tuna	NOM		0	2667	
+2613	réchauffer	ʁeʃofe	ohřát	VER		0	2668	
+2614	mince	mɛ̃s	tenký, štíhlý	ADJ		0	2669	
+2615	boucher	buʃe	ucpat; řezník	VER		0	2670	
+2616	sympathique	sɛ̃patik	sympatický	ADJ		0	2671	
+2617	la panique	panik	panika	NOM		0	2672	
+2618	invisible	ɛ̃vizibl	neviditelný	ADJ		0	2673	
+2619	tricher	tʁiʃe	podvádět	VER		0	2674	
+2620	la procédure	pʁɔsedyʁ	postup, řízení	NOM		0	2675	
+2621	confondre	kɔ̃fɔ̃dʁ	zaměnit, zmást	VER		0	2676	
+2622	excitant	ɛksitɑ̃	vzrušující	ADJ		0	2677	
+2623	le remède	ʁəmɛd	lék, prostředek	NOM		0	2678	
+2624	marrer	maʁe	(se marrer) hovor. bavit se, smát se	VER		0	2679	
+2625	l'agneau (m.)	aɲo	jehně	NOM		0	2680	
+2626	le témoignage	temwaɲaʒ	svědectví	NOM		0	2681	
+2627	la cité	site	město, sídliště	NOM		0	2682	
+2628	la pose	poz	pózování, instalace, položení	NOM		0	2683	
+2629	par-dessus	paʁdəsy	přes, nad	PRE		0	2684	
+2630	affecter	afɛkte	ovlivnit, přidělit, předstírat	VER		0	2685	
+2631	confesser	kɔ̃fese	přiznat; vyzpovídat	VER		0	2686	
+2632	négatif / négative	neɡatif / neɡativ	negativní	NOM+ADJ		0	2688	
+2633	humilier	ymilje	ponížit	VER		0	2689	
+2634	le carton	kaʁtɔ̃	karton, krabice	NOM		0	2690	
+2635	le septembre	sɛptɑ̃bʁ	září	NOM		0	2691	
+2636	distraire	distʁɛʁ	rozptýlit, pobavit	VER		0	2692	
+2637	le tabac	taba	tabák; trafika	NOM		0	2693	
+2638	fonder	fɔ̃de	založit	VER		0	2694	
+2639	l'exception (f.)	ɛksɛpsjɔ̃	výjimka	NOM		0	2695	
+2640	la rage	ʁaʒ	vztek; vzteklina	NOM		0	2696	
+2641	dégoûtant	deɡutɑ̃	odporný	NOM+ADJ		0	2697	
+2642	impressionnant	ɛ̃pʁesjɔnɑ̃	působivý	ADJ		0	2698	
+2643	le chevalier	ʃəvalje	rytíř	NOM		0	2699	
+2644	fragile	fʁaʒil	křehký	ADJ		0	2700	
+2645	le cuisinier	kɥizinje	kuchař	NOM		0	2701	
+2646	la saucisse	sosis	klobása, párek	NOM		0	2702	
+2647	tremper	tʁɑ̃pe	namočit, smočit	VER		0	2703	
+2648	la grève	ɡʁɛv	stávka; břeh	NOM		0	2704	
+2649	la tendresse	tɑ̃dʁɛs	něha	NOM		0	2705	
+2650	le trait	tʁɛ	čára, rys; trait d'union = spojovník	NOM+ADJ		0	2706	
+2651	ravissant	ʁavisɑ̃	okouzlující	ADJ		0	2707	
+2652	abîmer	abime	poškodit	VER		0	2708	
+2653	applaudir	aplodiʁ	tleskat	VER		0	2709	
+2654	un(e) photographe	fɔtɔɡʁaf	fotograf	NOM		0	2710	
+2655	l'are (m.)	aʁ	ar (jednotka plochy)	NOM		0	2711	
+2656	la lecture	lɛktyʁ	čtení	NOM		0	2712	
+2657	offenser	ɔfɑ̃se	urazit	VER		0	2713	
+2658	accélérer	akseleʁe	zrychlit	VER		0	2714	
+2659	intime	ɛ̃tim	intimní	ADJ		0	2715	
+2660	percer	pɛʁse	prorazit, provrtat	VER		0	2717	
+2661	le congrès	kɔ̃ɡʁɛ	kongres	NOM		0	2718	
+2662	l'étape (f.)	etap	etapa	NOM		0	2719	
+2663	l'électricité (f.)	elɛktʁisite	elektřina	NOM		0	2720	
+2664	déborder	debɔʁde	přetéct	VER		0	2721	
+2665	vachement	vaʃmɑ̃	hovor. hodně, strašně	ADV		0	2722	
+2666	la difficulté	difikylte	obtíž	NOM		0	2723	
+2667	le curé	kyʁe	farář	NOM		0	2725	
+2668	féliciter	felisite	blahopřát	VER		0	2726	
+2669	le panier	panje	košík	NOM		0	2727	
+2670	le pouce	pus	palec	NOM		0	2728	
+2671	caresser	kaʁese	hladit	VER		0	2729	
+2672	la galerie	ɡalʁi	galerie	NOM		0	2730	
+2673	le temple	tɑ̃pl	chrám	NOM		0	2731	
+2674	le tissu	tisy	látka, tkáň	NOM		0	2732	
+2675	braquer	bʁake	namířit; přepadnout	VER		0	2733	
+2676	la population	pɔpylasjɔ̃	populace	NOM		0	2734	
+2677	la température	tɑ̃peʁatyʁ	teplota	NOM		0	2735	
+2678	dominer	dɔmine	dominovat	VER		0	2736	
+2679	familial	familjal	rodinný	ADJ		0	2737	
+2680	habituel / habituelle	abitɥɛl	obvyklý	ADJ		0	2738	
+2681	l'allumette (f.)	alymɛt	zápalka	NOM		0	2739	
+2682	afin de	afɛ̃ də	aby, za účelem	PRE		0	2740	
+2683	le pouls	pu	tep, puls	NOM		0	2741	
+2684	le business	biznɛs	byznys	NOM		0	2743	
+2685	le luxe	lyks	luxus	NOM		0	2744	
+2686	affirmer	afiʁme	tvrdit, potvrdit	VER		0	2745	
+2687	baser	baze	založit, opřít	VER		0	2746	
+2688	mentionner	mɑ̃sjɔne	zmínit	VER		0	2747	
+2689	discret / discrète	diskʁɛ / diskʁɛt	nenápadný, diskrétní	ADJ		0	2748	
+2690	le muscle	myskl	sval	NOM		0	2749	
+2691	la tragédie	tʁaʒedi	tragédie	NOM		0	2750	
+2692	luire	lɥiʁ	zářit, lesknout se	VER		0	2751	
+2693	classique	klasik	klasický; klasika	NOM+ADJ		0	2752	
+2694	minable	minabl	ubohý, mizerný	NOM+ADJ		0	2753	
+2695	enchanter	ɑ̃ʃɑ̃te	okouzlit	VER		0	2754	
+2696	maîtriser	mɛtʁize	zvládnout, ovládnout	VER		0	2755	
+2697	le chirurgien	ʃiʁyʁʒjɛ̃	chirurg	NOM		0	2756	
+2698	vexer	vɛkse	urazit, dopálit	VER		0	2757	
+2699	justifier	ʒystifje	ospravedlnit	VER		0	2758	
+2700	botter	bɔte	kopnout; hovor. vyhovovat	VER		0	2759	
+2701	le département	depaʁtəmɑ̃	departement, oddělení	NOM		0	2760	
+2702	le soupçon	supsɔ̃	podezření	NOM		0	2761	
+2703	religieux / religieuse	ʁəliʒjø / ʁəliʒjøz	náboženský; řeholník	NOM+ADJ		0	2762	
+2704	nucléaire	nykleɛʁ	jaderný	ADJ		0	2763	
+2705	parcourir	paʁkuʁiʁ	projít, procestovat	VER		0	2764	
+2706	le filet	filɛ	síť, filet	NOM		0	2765	
+2707	le four	fuʁ	trouba, pec	NOM		0	2766	
+2708	boiter	bwate	kulhat	VER		0	2767	
+2709	enculer	ɑ̃kyle	vulg. mít anální styk; hrubá nadávka	VER	vulgaire	1	2768	
+2710	le casque	kask	helma, přilba	NOM		0	2769	
+2711	traduire	tʁadɥiʁ	přeložit	VER		0	2770	
+2712	analyser	analize	analyzovat	VER		0	2771	
+2713	un(e) dentiste	dɑ̃tist	zubař	NOM		0	2772	
+2714	approuver	apʁuve	schválit	VER		0	2773	
+2715	l'individu (m.)	ɛ̃dividy	jedinec	NOM		0	2774	
+2716	la cabane	kaban	bouda, chatrč	NOM		0	2775	
+2717	le pipi	pipi	hovor. čůrání	NOM		0	2776	
+2718	l'éléphant (m.)	elefɑ̃	slon	NOM		0	2777	
+2719	fabuleux / fabuleuse	fabylø / fabyløz	báječný	ADJ		0	2778	
+2720	la promenade	pʁɔmnad	procházka	NOM		0	2779	
+2721	le viol	vjɔl	znásilnění	NOM		0	2780	
+2722	la fée	fe	víla	NOM		0	2781	
+2723	le go	ɡo	go (desková hra); tout de go = rovnou	NOM		0	2782	
+2724	le marchand	maʁʃɑ̃	obchodník	NOM+ADJ		0	2783	
+2725	le gage	ɡaʒ	záloha, zástava, důkaz	NOM		0	2784	
+2726	doubler	duble	zdvojnásobit, předjet, dabovat	VER		0	2785	
+2727	la plume	plym	pero (ptačí), brk	NOM		0	2786	
+2728	la reconnaissance	ʁəkɔnɛsɑ̃s	vděčnost, uznání	NOM		0	2787	
+2729	suprême	sypʁɛm	nejvyšší	ADJ		0	2788	
+2730	encourager	ɑ̃kuʁaʒe	povzbudit	VER		0	2789	
+2731	ressortir	ʁəsɔʁtiʁ	znovu vyjít, vyniknout	VER		0	2790	
+2732	kidnapper	kidnape	unést	VER		0	2791	
+2733	la marchandise	maʁʃɑ̃diz	zboží	NOM		0	2792	
+2734	le mouton	mutɔ̃	ovce, skopové	NOM		0	2793	
+2735	circuler	siʁkyle	kolovat, jezdit	VER		0	2794	
+2736	le tigre	tiɡʁ	tygr	NOM		0	2795	
+2737	adopter	adɔpte	adoptovat, přijmout	VER		0	2796	
+2738	la terreur	tɛʁœʁ	teror, hrůza	NOM		0	2797	
+2739	le légume	leɡym	zelenina	NOM		0	2798	
+2740	conscient	kɔ̃sjɑ̃	vědomý	ADJ		0	2799	
+2741	le beurre	bœʁ	máslo	NOM		0	2800	
+2742	l'impôt (m.)	ɛ̃po	daň	NOM		0	2801	
+2743	le stade	stad	stadion, stadium	NOM		0	2802	
+2744	claquer	klake	prásknout; hovor. utratit	VER		0	2803	
+2745	la boue	bu	bláto	NOM		0	2805	
+2746	le fonds	fɔ̃	fond, kapitál	NOM		0	2806	
+2747	conserver	kɔ̃sɛʁve	uchovat, zachovat	VER		0	2807	
+2748	l'envers (m.)	ɑ̃vɛʁ	rub, opačná strana	NOM		0	2808	
+2749	la plainte	plɛ̃t	stížnost, nářek	NOM		0	2809	
+2750	la répétition	ʁepetisjɔ̃	opakování, zkouška	NOM		0	2810	
+2751	jusque	ʒyskə	až do, až k	PRE		0	2811	
+2752	mépriser	mepʁize	pohrdat	VER		0	2812	
+2753	le commissariat	kɔmisaʁja	policejní stanice	NOM		0	2813	
+2754	le pigeon	piʒɔ̃	holub; hovor. naivka	NOM		0	2814	
+2755	tandis que	tɑ̃di kə	zatímco	CON		0	2815	
+2756	le vote	vɔt	hlasování	NOM		0	2816	
+2757	le micro	mikʁo	mikrofon (hovor.)	NOM		0	2817	
+2758	la plaie	plɛ	rána	NOM		0	2818	
+2759	connu	kɔny	známý	ADJ		0	2819	
+2760	la disposition	dispozisjɔ̃	uspořádání, dispozice	NOM		0	2820	
+2761	le symbole	sɛ̃bɔl	symbol	NOM		0	2821	
+2762	absent	apsɑ̃	nepřítomný	ADJ		0	2822	
+2763	technique	tɛknik	technický; technika	NOM+ADJ		0	2823	
+2764	conquérir	kɔ̃keʁiʁ	dobýt	VER		0	2824	
+2765	déguiser	deɡize	převléct, zamaskovat	VER		0	2825	
+2766	certes	sɛʁt	jistě, sice	ADV		0	2826	
+2767	le drame	dʁam	drama	NOM		0	2827	
+2768	actuel / actuelle	aktɥɛl	současný	ADJ		0	2828	
+2769	le car	kaʁ	dálkový autobus	NOM		0	2829	
+2770	la promotion	pʁɔmosjɔ̃	povýšení, akce, ročník	NOM		0	2830	
+2771	l'enregistrement (m.)	ɑ̃ʁəʒistʁəmɑ̃	nahrávka, registrace	NOM		0	2831	
+2772	le maximum	maksimɔm	maximum	NOM+ADJ		0	2832	
+2773	particulièrement	paʁtikyljɛʁmɑ̃	obzvláště	ADV		0	2833	
+2774	le saut	so	skok	NOM		0	2834	
+2775	faucher	foʃe	kosit; hovor. šlohnout	VER		0	2835	
+2776	foirer	fwaʁe	hovor. zpackat se, selhat	VER		0	2836	
+2777	l'autoroute (f.)	otoʁut	dálnice	NOM		0	2837	
+2778	le nazi	nazi	nacista; nacistický	NOM+ADJ		0	2838	
+2779	nuire	nɥiʁ	škodit	VER		0	2839	
+2780	le laboratoire	labɔʁatwaʁ	laboratoř	NOM		0	2840	
+2781	la faiblesse	fɛblɛs	slabost	NOM		0	2842	
+2782	l'écart (m.)	ekaʁ	odchylka, rozdíl	NOM		0	2843	
+2783	imiter	imite	napodobit	VER		0	2844	
+2784	extrêmement	ɛkstʁɛmmɑ̃	extrémně	ADV		0	2845	
+2785	effrayant	efʁɛjɑ̃	děsivý	ADJ		0	2846	
+2786	l'orchestre (m.)	ɔʁkɛstʁ	orchestr	NOM		0	2847	
+2787	pratiquement	pʁatikmɑ̃	prakticky	ADV		0	2848	
+2788	la munition	mynisjɔ̃	munice	NOM		0	2849	
+2789	le tiroir	tiʁwaʁ	zásuvka	NOM		0	2850	
+2790	agiter	aʒite	třást, mávat	VER		0	2852	
+2791	larguer	laʁɡe	odhodit, vypustit; hovor. dát kopačky	VER		0	2853	
+2792	préserver	pʁezɛʁve	chránit, uchovat	VER		0	2854	
+2793	la dignité	diɲite	důstojnost	NOM		0	2855	
+2794	le machin	maʃɛ̃	hovor. věc, dingsbums	NOM		0	2856	
+2795	l'attentat (m.)	atɑ̃ta	atentát	NOM		0	2857	
+2796	l'accent (m.)	aksɑ̃	přízvuk, akcent	NOM		0	2858	
+2797	la cervelle	sɛʁvɛl	mozek (jako pokrm), rozum	NOM		0	2859	
+2798	la combinaison	kɔ̃binɛzɔ̃	kombinace, kombinéza	NOM		0	2860	
+2799	efficace	efikas	účinný	ADJ		0	2861	
+2800	la crainte	kʁɛ̃t	obava	NOM		0	2862	
+2801	exercer	ɛɡzɛʁse	vykonávat, cvičit	VER		0	2863	
+2802	le coca	koka	kola (hovor.)	NOM		0	2864	
+2803	déterminer	detɛʁmine	určit	VER		0	2866	
+2804	la bouffe	buf	hovor. žrádlo, jídlo	NOM+ADJ		0	2867	
+2805	bander	bɑ̃de	napnout; obvázat; vulg. mít erekci	VER	vulgaire	1	2868	
+2806	volontaire	vɔlɔ̃tɛʁ	dobrovolný; dobrovolník	NOM+ADJ		0	2869	
+2807	l'aura (f.)	ɔʁa	aura	NOM		0	2870	
+2808	la patate	patat	brambor; hovor. blbec	NOM		0	2872	
+2809	délivrer	delivʁe	osvobodit, vydat	VER		0	2873	
+2810	original	ɔʁiʒinal	původní; originál	NOM+ADJ		0	2874	
+2811	le bouclier	buklije	štít	NOM		0	2875	
+2812	le change	ʃɑ̃ʒ	směna (měny), kurz	NOM		0	2876	
+2813	la patrouille	patʁuj	hlídka	NOM		0	2877	
+2814	l'usage (m.)	yzaʒ	použití, zvyk	NOM		0	2878	
+2815	l'auberge (f.)	obɛʁʒ	hostinec	NOM		0	2879	
+2816	le profil	pʁɔfil	profil	NOM		0	2880	
+2817	consoler	kɔ̃sɔle	utěšit	VER		0	2881	
+2818	figurer	fiɡyʁe	figurovat	VER		0	2882	
+2819	un(e) complice	kɔ̃plis	komplic; spoluúčastný	NOM+ADJ		0	2883	
+2820	le réseau	ʁezo	síť	NOM		0	2884	
+2821	logique	lɔʒik	logický; logika	NOM+ADJ		0	2885	
+2822	le chariot	ʃaʁjo	vozík	NOM		0	2886	
+2823	la formation	fɔʁmasjɔ̃	vzdělání, formace	NOM		0	2887	
+2824	la marge	maʁʒ	okraj, rezerva	NOM		0	2888	
+2825	plier	plije	složit, ohnout	VER		0	2889	
+2826	mélanger	melɑ̃ʒe	smíchat	VER		0	2890	
+2827	le métal	metal	kov	NOM		0	2891	
+2828	un(e) touriste	tuʁist	turista	NOM		0	2892	
+2829	détourner	detuʁne	odklonit, zneužít, unést	VER		0	2893	
+2830	l'aiguille (f.)	eɡɥij	jehla, ručička	NOM		0	2894	
+2831	l'obscurité (f.)	ɔpskyʁite	tma	NOM		0	2895	
+2832	poignarder	pwaɲaʁde	bodnout nožem	VER		0	2896	
+2833	le grain	ɡʁɛ̃	zrno	NOM		0	2897	
+2834	le trône	tʁon	trůn	NOM		0	2898	
+2835	gras / grasse	ɡʁa / ɡʁas	tučný	ADJ		0	2899	
+2836	la destruction	dɛstʁyksjɔ̃	zničení	NOM		0	2900	
+2837	le bienvenu	bjɛ̃vəny	vítaný; vítaný host	NOM+ADJ		0	2901	
+2838	le tsar	dzaʁ	car	NOM		0	2902	
+2839	flipper	flipe	hovor. mít strach; flipr	VER		0	2903	
+2840	le profit	pʁɔfi	zisk	NOM		0	2904	
+2841	l'éclat (m.)	ekla	záblesk, třpyt, střep	NOM		0	2905	
+2842	se fier	sə fje	důvěřovat, spolehnout se (na)	VER		0	2906	
+2843	le coiffeur	kwafœʁ	kadeřník	NOM		0	2907	
+2844	le cuir	kɥiʁ	kůže (materiál)	NOM		0	2908	
+2845	le manche	mɑ̃ʃ	rukojeť, násada	NOM		0	2909	
+2846	le syndicat	sɛ̃dika	odbory, syndikát	NOM		0	2910	
+2847	la batterie	batʁi	baterie, bicí	NOM		0	2911	
+2848	muet / muette	mɥɛ / mɥɛt	němý	NOM+ADJ		0	2912	
+2849	le dégât	deɡa	škoda	NOM		0	2913	
+2850	la lame	lam	čepel	NOM		0	2914	
+2851	le prostitué	pʁɔstitɥe	prostitut	NOM		0	2915	
+2852	sien / sienne	sjɛ̃ / sjɛn	jeho, její (zájmeno; le sien = ten jeho, ta její)	PRO:pos		0	2916	
+2853	griller	ɡʁije	opékat, grilovat	VER		0	2917	
+2854	l'âne (m.)	ɑn	osel	NOM		0	2918	
+2855	l'objection (f.)	ɔbʒɛksjɔ̃	námitka	NOM		0	2919	
+2856	l'outil (m.)	uti	nástroj	NOM		0	2920	
+2857	la malédiction	malediksjɔ̃	kletba	NOM		0	2921	
+2858	le golf	ɡɔlf	golf	NOM		0	2922	
+2859	auparavant	oparavɑ̃	předtím	ADV		0	2923	
+2860	isoler	izɔle	izolovat	VER		0	2924	
+2861	lécher	leʃe	lízat	VER		0	2925	
+2862	l'échelle (f.)	eʃɛl	žebřík, měřítko	NOM		0	2926	
+2863	légitime	leʒitim	oprávněný	ADJ		0	2927	
+2864	la chèvre	ʃɛvʁ	koza	NOM		0	2928	
+2865	arroser	aʁoze	zalévat, polít	VER		0	2929	
+2866	composer	kɔ̃poze	skládat, vytočit	VER		0	2930	
+2867	distribuer	distʁibɥe	rozdat, rozdělit	VER		0	2931	
+2868	rarement	ʁaʁmɑ̃	zřídka	ADV		0	2932	
+2869	fourrer	fuʁe	hovor. strčit, nacpat	VER		0	2933	
+2870	le prétexte	pʁetɛkst	záminka	NOM		0	2934	
+2871	la brute	bʁyt	surovec	NOM		0	2935	
+2872	l'oxygène (m.)	ɔksiʒɛn	kyslík	NOM		0	2936	
+2873	l'audience (f.)	odjɑ̃s	slyšení, publikum	NOM		0	2937	
+2874	le tonton	tɔ̃tɔ̃	strýček (hovor.)	NOM		0	2938	
+2875	le trafic	tʁafik	provoz, obchod (nelegální)	NOM		0	2939	
+2876	la curiosité	kyʁjozite	zvědavost	NOM		0	2940	
+2877	le quai	ke	nábřeží, nástupiště	NOM		0	2941	
+2878	suspendre	syspɑ̃dʁ	pověsit, pozastavit	VER		0	2942	
+2879	écrouler	ekʁule	(s'écrouler) zřítit se	VER		0	2943	
+2880	le dragon	dʁaɡɔ̃	drak	NOM		0	2944	
+2881	traquer	tʁake	pronásledovat, štvát	VER		0	2945	
+2882	le cran	kʁɑ̃	vroubek; hovor. odvaha	NOM		0	2946	
+2883	l'hélicoptère (m.)	elikɔptɛʁ	vrtulník	NOM		0	2947	
+2884	l'influence (f.)	ɛ̃flyɑ̃s	vliv	NOM		0	2948	
+2885	marin	maʁɛ̃	námořní; námořník	NOM+ADJ		0	2949	
+2886	le rein	ʁɛ̃	ledvina	NOM		0	2950	
+2887	la touche	tuʃ	klávesa, dotek	NOM		0	2951	
+2888	engueuler	ɑ̃ɡœle	hovor. vynadat, seřvat	VER		0	2952	
+2889	le commentaire	kɔmɑ̃tɛʁ	komentář	NOM		0	2953	
+2890	critique	kʁitik	kritický; kritika	NOM+ADJ		0	2954	
+2891	le football	futbol	fotbal	NOM		0	2955	
+2892	fédéral	fedeʁal	federální	NOM+ADJ		0	2956	
+2893	géant	ʒeɑ̃	obrovský; obr	NOM+ADJ		0	2957	
+2894	etc	ɛtsetea	atd., a tak dále	ADV		0	2958	
+2895	la conclusion	kɔ̃klyzjɔ̃	závěr	NOM		0	2959	
+2896	le nain	nɛ̃	trpaslík; malý	NOM+ADJ		0	2960	
+2897	l'acier (m.)	asje	ocel	NOM		0	2961	
+2898	pratiquer	pʁatike	provozovat, praktikovat	VER		0	2962	
+2899	la guitare	ɡitaʁ	kytara	NOM		0	2963	
+2900	l'ambassadeur (m.)	ɑ̃basadœʁ	velvyslanec	NOM		0	2964	
+2901	l'atmosphère (f.)	atmɔsfɛʁ	atmosféra	NOM		0	2965	
+2902	le pognon	pɔɲɔ̃	hovor. prachy	NOM		0	2966	
+2903	cueillir	kœjiʁ	trhat, sbírat	VER		0	2967	
+2904	le pétrole	petʁɔl	ropa	NOM		0	2968	
+2905	l'accueil (m.)	akœj	přivítání, recepce	NOM		0	2969	
+2906	le clou	klu	hřebík	NOM		0	2970	
+2907	la revanche	ʁəvɑ̃ʃ	odveta	NOM		0	2971	
+2908	bouleverser	bulvɛʁse	rozrušit, převrátit	VER		0	2972	
+2909	mondial	mɔ̃djal	světový	ADJ		0	2973	
+2910	le conflit	kɔ̃fli	konflikt	NOM		0	2974	
+2911	l'insecte (m.)	ɛ̃sɛkt	hmyz	NOM		0	2975	
+2912	confortable	kɔ̃fɔʁtabl	pohodlný	ADJ		0	2976	
+2913	le regret	ʁəɡʁɛ	lítost	NOM		0	2977	
+2914	le magicien	maʒisjɛ̃	kouzelník	NOM		0	2978	
+2915	pénible	penibl	otravný, namáhavý	ADJ		0	2979	
+2916	la charité	ʃaʁite	dobročinnost	NOM		0	2980	
+2917	l'accusé (m.)	akyze	obviněný	NOM+ADJ		0	2981	
+2918	le jumeau	ʒymo	dvojče	NOM+ADJ		0	2982	
+2919	délirer	deliʁe	blouznit	VER		0	2983	
+2920	aérien / aérienne	aeʁjɛ̃ / aeʁjɛn	vzdušný, letecký	ADJ		0	2984	
+2921	le massacre	masakʁ	masakr	NOM		0	2985	
+2922	emménager	ɑ̃menaʒe	nastěhovat se	VER		0	2986	
+2923	la loge	lɔʒ	lóže, šatna	NOM		0	2987	
+2924	l'organe (m.)	ɔʁɡan	orgán	NOM		0	2988	
+2925	la livraison	livʁɛzɔ̃	dodávka	NOM		0	2989	
+2926	associer	asɔsje	spojit, přidružit	VER		0	2990	
+2927	le gendarme	ʒɑ̃daʁm	četník	NOM		0	2991	
+2928	la jalousie	ʒaluzi	žárlivost	NOM		0	2992	
+2929	provenir	pʁɔvniʁ	pocházet	VER		0	2993	
+2930	le bâtard	bɑtaʁ	levoboček; hovor. bastard (nadávka)	NOM+ADJ		1	2994	
+2931	le violon	vjɔlɔ̃	housle	NOM		0	2995	
+2932	l'écriture (f.)	ekʁityʁ	písmo, psaní	NOM		0	2996	
+2933	le désordre	dezɔʁdʁ	nepořádek	NOM		0	2998	
+2934	la thérapie	teʁapi	terapie	NOM		0	2999	
+2935	arabe	aʁab	arabský; arabština; Arab	NOM+ADJ		0	3000	
+2936	la casse	kas	rozbití, škody; autovrakoviště	NOM		0	3001	
+2937	la poignée	pwaɲe	rukojeť, klika; hrst; poignée de main = stisk ruky	NOM		0	3002	
+2938	sincèrement	sɛ̃sɛʁmɑ̃	upřímně	ADV		0	3003	
+2939	user	yze	opotřebovat, spotřebovat; user de = používat	VER		0	3004	
+2940	la fierté	fjɛʁte	hrdost	NOM		0	3005	
+2941	la sagesse	saʒɛs	moudrost	NOM		0	3006	
+2942	effectivement	efɛktivmɑ̃	skutečně, vskutku	ADV		0	3007	
+2943	choquer	ʃɔke	šokovat	VER		0	3008	
+2944	la brique	bʁik	cihla	NOM		0	3009	
+2945	la déesse	deɛs	bohyně	NOM		0	3010	
+2946	la mairie	mɛʁi	radnice	NOM		0	3011	
+2947	la vedette	vədɛt	hvězda, celebrita; motorový člun	NOM		0	3012	
+2948	surpris	syʁpʁi	překvapený	ADJ		0	3013	
+2949	la vallée	vale	údolí	NOM		0	3014	
+2950	le cadre	kɑdʁ	rám, rámec; kádr, manažer	NOM		0	3015	
+2951	aussitôt	ositɔ	ihned	ADV		0	3016	
+2952	le délit	deli	přestupek, trestný čin	NOM		0	3017	
+2953	un(e) psychiatre	psikjatʁ	psychiatr	NOM		0	3018	
+2954	le petit-déjeuner	pətideʒøne	snídaně	NOM		0	3019	
+2955	le sous-sol	susɔl	suterén	NOM		0	3020	
+2956	défier	defje	vyzvat, vzdorovat	VER		0	3021	
+2957	le bouquin	bukɛ̃	kniha (hovor.)	NOM	familier	0	3022	
+2958	célibataire	selibatɛʁ	svobodný, nezadaný; svobodný člověk	NOM+ADJ		0	3023	
+2959	communiste	kɔmynist	komunistický; komunista	NOM+ADJ		0	3025	
+2960	supprimer	syspʁime	odstranit, zrušit	VER		0	3026	
+2961	alerte	alɛʁt	poplach, výstraha; čilý, ostražitý	NOM+ADJ		0	3027	
+2962	le boss	bɔs	šéf (hovor.)	NOM		0	3028	
+2963	le bracelet	bʁaslɛ	náramek	NOM		0	3029	
+2964	adapter	adapte	přizpůsobit	VER		0	3030	
+2965	le plastique	plastik	plast; plastový	NOM+ADJ		0	3031	
+2966	le pneu	pnø	pneumatika	NOM		0	3032	
+2967	endormi	ɑ̃dɔʁmi	spící, ospalý	ADJ		0	3033	
+2968	le pull	pyl	svetr	NOM		0	3034	
+2969	le satellite	satelit	satelit	NOM		0	3035	
+2970	l'administration (f.)	administʁasjɔ̃	správa, administrativa	NOM		0	3036	
+2971	le barrage	baʁaʒ	přehrada, zátaras	NOM		0	3037	
+2972	le dessert	desɛʁ	dezert	NOM		0	3038	
+2973	le juin	ʒɥɛ̃	červen	NOM		0	3039	
+2974	agresser	aɡʁese	napadnout	VER		0	3041	
+2975	la tristesse	tʁistɛs	smutek	NOM		0	3042	
+2976	la portée	pɔʁte	dosah; vrh (mláďat); notová osnova	NOM		0	3043	
+2977	la planche	plɑ̃ʃ	prkno, deska	NOM		0	3044	
+2978	la capitale	kapital	hlavní město; velké písmeno	NOM		0	3045	
+2979	la demeure	dəmœʁ	obydlí, sídlo; à demeure = trvale	NOM		0	3046	
+2980	le record	ʁəkɔʁ	rekord	NOM		0	3047	
+2981	l'intervention (f.)	ɛ̃tɛʁvɑ̃sjɔ̃	zásah, intervence	NOM		0	3048	
+2982	la conviction	kɔ̃viksjɔ̃	přesvědčení	NOM		0	3049	
+2983	la pointe	pwɛ̃t	špička, hrot	NOM		0	3050	
+2984	fiancer	fjɑ̃se	zasnoubit; se fiancer = zasnoubit se	VER		0	3051	
+2985	le conte	kɔ̃t	pohádka, vyprávění	NOM		0	3052	
+2986	le musicien	myzisjɛ̃	hudebník; hudební	NOM+ADJ		0	3053	
+2987	la profondeur	pʁɔfɔ̃dœʁ	hloubka	NOM		0	3054	
+2988	la publicité	pyblisite	reklama	NOM		0	3055	
+2989	l'angle (m.)	ɑ̃ɡl	úhel, roh	NOM		0	3056	
+2990	tailler	taje	řezat, ostříhat, tesat	VER		0	3057	
+2991	le lot	lo	podíl, los, várka	NOM		0	3058	
+2992	entretenir	ɑ̃tʁətəniʁ	udržovat, pečovat	VER		0	3059	
+2993	la lance	lɑ̃s	kopí, hadice	NOM		0	3060	
+2994	tranquillement	tʁɑ̃kilmɑ̃	klidně	ADV		0	3061	
+2995	catholique	katɔlik	katolický; katolík	NOM+ADJ		0	3062	
+2996	la fillette	fijɛt	holčička	NOM		0	3063	
+2997	effondrer	efɔ̃dʁe	s'effondrer = zhroutit se	VER		0	3064	
+2998	le carnet	kaʁnɛ	zápisník, sešitek	NOM		0	3066	
+2999	l'enveloppe (f.)	ɑ̃vlɔp	obálka	NOM		0	3067	
+3000	japonais	ʒapɔnɛ	japonský; japonština; Japonec	NOM+ADJ		0	3068	

@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../services/study_session.dart';
 import '../study_controller.dart';
@@ -14,6 +14,7 @@ import '../widgets/pill_button.dart';
 import '../widgets/rounded_progress_bar.dart';
 import '../widgets/swipe_hint.dart';
 import '../widgets/tone_button.dart';
+import '../widgets/backup_reminder.dart';
 
 /// Obrazovka mezi fázemi (po opakování, po pětici, po dávce): shrnutí a volba, jak dál.
 class InterludeView extends StatelessWidget {
@@ -74,9 +75,7 @@ class InterludeView extends StatelessWidget {
           tiles.add(_Tile(s.reviewedInBlock, 'zopakováno', kReviewColor));
         }
         if (s.skippedInBlock > 0) {
-          tiles.add(
-            _Tile(s.skippedInBlock, 'přeskočeno', kToneAmber.accent),
-          );
+          tiles.add(_Tile(s.skippedInBlock, 'přeskočeno', kToneAmber.accent));
         }
         primaryLabel = 'Pokračovat';
         primary = c.nextBlock;
@@ -213,6 +212,8 @@ class InterludeView extends StatelessWidget {
                   ),
                 ),
               ),
+            if (backupAvailable && c.interlude != InterludeKind.groupDone)
+              BackupReminder(c: c),
             if (backupAvailable && c.interlude != InterludeKind.groupDone)
               SizedBox(
                 height: 40,

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../services/settings_store.dart';
 import '../services/study_session.dart';
@@ -43,7 +43,7 @@ class HomeView extends StatelessWidget {
         due > 0
             ? '$due k opakování'
             : (learned > 0
-                ? 'Nic není splatné, procvičit předčasně'
+                ? 'Fronta je prázdná, procvičit předčasně'
                 : 'Zatím není co opakovat');
     final learnSubtitle =
         learnEnabled
@@ -165,6 +165,7 @@ class HomeView extends StatelessWidget {
                         week: c.lastDays(7),
                         previousWeek: c.lastDays(7, endOffset: 7),
                         goal: c.dailyGoal,
+                        newGoal: c.newWordsGoal,
                       ),
                     ],
                   ),

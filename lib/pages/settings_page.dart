@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../study_controller.dart';
 import '../theme.dart';
@@ -141,6 +141,36 @@ class SettingsPage extends StatelessWidget {
                     Text(
                       'Do cíle se počítají zopakovaná i naučená slova. '
                       'Den se do série započítá už od 5 karet; ve 4:00 ráno začíná nový den.',
+                      style: TextStyle(fontSize: 12.5, color: kMuted),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              _Section(
+                title: 'Cíl nových slov',
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${c.newWordsGoal} nových slov denně',
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Slider(
+                      value: c.newWordsGoal.toDouble(),
+                      min: 1,
+                      max: 50,
+                      divisions: 49,
+                      label: '${c.newWordsGoal}',
+                      onChanged: (v) => c.setNewWordsGoal(v.round()),
+                    ),
+                    Text(
+                      'Počítá se slovo, které dokončíš (3 správně v řadě). '
+                      'Cíl neovlivňuje sérii, jen graf: dny s dosaženým cílem '
+                      'mají sloupec naučených slov plný, ostatní jen obrys.',
                       style: TextStyle(fontSize: 12.5, color: kMuted),
                     ),
                   ],

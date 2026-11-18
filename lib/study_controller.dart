@@ -127,6 +127,10 @@ class StudyController extends ChangeNotifier {
       cards: store.cards,
       prioritized: store.prioritized,
       onCardDone: store.recordDone,
+      newWordsGoal: () => settings.newWordsGoal,
+      learnedToday:
+          () =>
+              store.history[Scheduler.studyDayNumber(DateTime.now())]?[1] ?? 0,
     );
   }
 
@@ -173,6 +177,7 @@ class StudyController extends ChangeNotifier {
   // --- motivace ---
   int get doneToday => store.doneToday;
   int get dailyGoal => settings.dailyGoal;
+  int get newWordsGoal => settings.newWordsGoal;
   int get streak => Motivation.streakNow(store, DateTime.now());
   int get bestStreak => store.bestStreak;
   Set<int> get badges => store.badges;
@@ -417,6 +422,12 @@ class StudyController extends ChangeNotifier {
 
   void setDailyGoal(int v) {
     settings.dailyGoal = v;
+    SettingsStore.save(settings);
+    notifyListeners();
+  }
+
+  void setNewWordsGoal(int v) {
+    settings.newWordsGoal = v.clamp(1, 50);
     SettingsStore.save(settings);
     notifyListeners();
   }

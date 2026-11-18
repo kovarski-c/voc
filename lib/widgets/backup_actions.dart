@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../services/backup_service.dart';
 import '../services/file_io.dart';
 import '../study_controller.dart';
 import '../theme.dart';
 import 'tone_button.dart';
+import 'backup_reminder.dart';
 
 /// Záloha je jen ve webové verzi (na mobilu se ukládá do souborů aplikace).
 bool get backupAvailable => fileIoSupported;
@@ -16,6 +17,7 @@ Future<void> exportBackup(BuildContext context, StudyController c) async {
     await c.flush(); // ať záloha obsahuje i poslední odpověď
     final text = await BackupService.export();
     await saveTextFile(BackupService.fileName(), text);
+    await BackupReminderState.markDone();
     messenger?.showSnackBar(
       const SnackBar(content: Text('Záloha je připravená.')),
     );
@@ -71,9 +73,7 @@ Future<void> importBackup(BuildContext context, StudyController c) async {
     await BackupService.restore(backup);
     reloadPage();
   } catch (e) {
-    messenger?.showSnackBar(
-      SnackBar(content: Text('Import se nepodařil: $e')),
-    );
+    messenger?.showSnackBar(SnackBar(content: Text('Import se nepodařil: $e')));
   }
 }
 

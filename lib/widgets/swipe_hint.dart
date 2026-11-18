@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart' show ValueListenable;
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../theme.dart';
 
@@ -84,6 +84,7 @@ class _SwipeHintState extends State<SwipeHint>
           final toRight = x > 0;
           final side = toRight ? widget.right : widget.left;
           final width = MediaQuery.of(context).size.width;
+          final height = MediaQuery.of(context).size.height;
           final t = (x.abs() / (width - 50)).clamp(0.0, 1.0).toDouble() * fade;
           final past = x.abs() > kSwipeThreshold;
           final glow = side.tone.solidA;
@@ -92,9 +93,9 @@ class _SwipeHintState extends State<SwipeHint>
               Positioned(
                 top: 0,
                 bottom: 0,
-                left: toRight ? null : -250,
-                right: toRight ? -250 : null,
-                width: 300,
+                left: toRight ? null : -width * 0.5,
+                right: toRight ? -width * 0.5 : null,
+                width: width * 0.7,
                 child: Center(
                   child: Transform.scale(
                     scaleX: 1.5,
@@ -123,9 +124,9 @@ class _SwipeHintState extends State<SwipeHint>
               ),
 
               Positioned(
-                top: 180,
-                left: 20,
-                right: 20,
+                top: height * 0.1,
+                left: 0,
+                right: 0,
                 child: Align(
                   alignment: Alignment.center,
                   child: Opacity(

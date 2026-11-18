@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../study_controller.dart';
 import '../theme.dart';
@@ -295,14 +295,10 @@ class _WordListPageState extends State<WordListPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 if (c.isPrioritized(idx))
-                                  Positioned(
-                                    top: 0,
-                                    right: 3,
-                                    child: Icon(
-                                      Icons.star_rounded,
-                                      size: 22,
-                                      color: kPriorityColor,
-                                    ),
+                                  Icon(
+                                    Icons.star_rounded,
+                                    size: 22,
+                                    color: kPriorityColor,
                                   ),
                                 SizedBox(width: 6),
                                 Container(

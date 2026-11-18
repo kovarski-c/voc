@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Text na kartě s možností více tvarů ("le / la / l' / les").
 /// - Tvary oddělené " / " se zalamují jako celek (zalomení jen mezi tvary).

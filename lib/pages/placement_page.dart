@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../services/levels.dart';
 import '../services/placement.dart';
@@ -19,10 +19,14 @@ class PlacementPage extends StatefulWidget {
   final StudyController controller;
   final bool firstRun;
 
+  /// Jen při prvním spuštění: šipka zpět na úvodu vrátí na výběr jazyka.
+  final VoidCallback? onBackToLanguage;
+
   const PlacementPage({
     super.key,
     required this.controller,
     required this.firstRun,
+    this.onBackToLanguage,
   });
 
   @override
@@ -32,6 +36,7 @@ class PlacementPage extends StatefulWidget {
 class _PlacementPageState extends State<PlacementPage> {
   _Stage _stage = _Stage.welcome;
   PlacementTest? _test;
+  bool _leavingToLanguage = false;
 
   StudyController get c => widget.controller;
 
@@ -106,14 +111,25 @@ class _PlacementPageState extends State<PlacementPage> {
     });
   }
 
+  /// Ve zkoušení vrátí na předchozí slovo; jinak z kroku na úvod.
+  bool _undoWord() {
+    final t = _test;
+    if (_stage == _Stage.test && t != null && t.canUndo) {
+      setState(t.undo);
+      return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: _stage == _Stage.welcome,
       onPopInvokedWithResult: (didPop, _) {
         if (didPop) {
-          if (widget.firstRun) c.skipPlacement(); // zavření = od nuly
-        } else {
+          // zavření = od nuly (ne při návratu na výběr jazyka)
+          if (widget.firstRun && !_leavingToLanguage) c.skipPlacement();
+        } else if (!_undoWord()) {
           setState(() => _stage = _Stage.welcome);
         }
       },
@@ -142,7 +158,10 @@ class _PlacementPageState extends State<PlacementPage> {
   /// Šipka zpět: z dalších kroků vrací na úvod, z úvodu zavře stránku.
   /// Při prvním spuštění (není kam se vrátit) se na úvodu nezobrazuje.
   Widget _topBar() {
-    final show = _stage != _Stage.welcome || !widget.firstRun;
+    final show =
+        _stage != _Stage.welcome ||
+        !widget.firstRun ||
+        widget.onBackToLanguage != null;
     return SizedBox(
       height: 52,
       child: Align(
@@ -153,7 +172,18 @@ class _PlacementPageState extends State<PlacementPage> {
                   padding: const EdgeInsets.only(left: 8),
                   child: IconButton(
                     tooltip: 'Zpět',
-                    onPressed: () => Navigator.of(context).maybePop(),
+                    onPressed: () {
+                      if (_undoWord()) return;
+                      if (widget.firstRun &&
+                          _stage == _Stage.welcome &&
+                          widget.onBackToLanguage != null) {
+                        _leavingToLanguage = true;
+                        Navigator.of(context).pop();
+                        widget.onBackToLanguage!();
+                        return;
+                      }
+                      Navigator.of(context).maybePop();
+                    },
                     icon: Icon(Icons.arrow_back_rounded, color: kInk),
                     style: IconButton.styleFrom(
                       backgroundColor: Colors.white,

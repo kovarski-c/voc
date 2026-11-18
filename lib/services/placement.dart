@@ -23,6 +23,32 @@ class _Ans {
   const _Ans(this.rank, this.score, this.kind);
 }
 
+class _Snap {
+  final List<_Ans> answers;
+  final Set<int> used;
+  final List<_Q> queue;
+  final int current;
+  final _Kind curKind;
+  final int level;
+  final double lvScore;
+  final int lvAsked;
+  final int fails;
+  final int lastPassed;
+
+  const _Snap({
+    required this.answers,
+    required this.used,
+    required this.queue,
+    required this.current,
+    required this.curKind,
+    required this.level,
+    required this.lvScore,
+    required this.lvAsked,
+    required this.fails,
+    required this.lastPassed,
+  });
+}
+
 class _Q {
   final int rank;
   final _Kind kind;
@@ -77,6 +103,34 @@ class PlacementTest {
   int _lastPassed = -1;
   _Result? _result;
 
+  // Stav před každou odpovědí, pro krok zpět na předchozí slovo.
+  final List<_Snap> _history = [];
+
+  bool get canUndo => _history.isNotEmpty;
+
+  /// Vrátí test o jedno slovo zpět (odpověď se smaže, slovo se ukáže znovu).
+  void undo() {
+    if (_history.isEmpty) return;
+    final h = _history.removeLast();
+    _answers
+      ..clear()
+      ..addAll(h.answers);
+    _used
+      ..clear()
+      ..addAll(h.used);
+    _queue
+      ..clear()
+      ..addAll(h.queue);
+    _current = h.current;
+    _curKind = h.curKind;
+    _level = h.level;
+    _lvScore = h.lvScore;
+    _lvAsked = h.lvAsked;
+    _fails = h.fails;
+    _lastPassed = h.lastPassed;
+    _result = null;
+  }
+
   /// Počet úrovní hrubého odhadu: asi log2(total / 300), 3 až 6.
   static int _levelsFor(int total) {
     if (total <= 0) return 3;
@@ -117,6 +171,20 @@ class PlacementTest {
   void answer(Reply reply) {
     final cur = _current;
     if (cur == null) return;
+    _history.add(
+      _Snap(
+        answers: List.of(_answers),
+        used: Set.of(_used),
+        queue: List.of(_queue),
+        current: cur,
+        curKind: _curKind,
+        level: _level,
+        lvScore: _lvScore,
+        lvAsked: _lvAsked,
+        fails: _fails,
+        lastPassed: _lastPassed,
+      ),
+    );
     final s = reply == Reply.known ? 1.0 : (reply == Reply.unsure ? 0.5 : 0.0);
     _answers.add(_Ans(cur, s, _curKind));
     _result = null;

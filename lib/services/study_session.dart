@@ -20,6 +20,7 @@ class SessionSnapshot {
   final InterludeKind? interlude;
   final List<int> intro;
   final List<int> queue;
+  final Set<int> midNew;
   final int newCursor;
   final int phaseDone,
       phaseTotal,
@@ -41,6 +42,7 @@ class SessionSnapshot {
     required this.interlude,
     required this.intro,
     required this.queue,
+    required this.midNew,
     required this.newCursor,
     required this.phaseDone,
     required this.phaseTotal,
@@ -66,6 +68,8 @@ class StudySession {
     Set<int>? prioritized,
     DateTime Function()? clock,
     this.onCardDone,
+    this.newWordsGoal,
+    this.learnedToday,
   }) : prioritized = prioritized ?? <int>{},
        _clock = clock ?? DateTime.now;
 
@@ -87,6 +91,10 @@ class StudySession {
 
   /// Karta definitivně opustila frontu: true = nově naučena, false = zopakována.
   final void Function(bool learned)? onCardDone;
+
+  /// Cíl nových slov za den a kolik jich je dnes hotových (pro vkládání mezi opakování).
+  final int Function()? newWordsGoal;
+  final int Function()? learnedToday;
   final math.Random _rng = math.Random();
 
   StudyMode mode = StudyMode.both;
@@ -95,6 +103,8 @@ class StudySession {
 
   final List<int> _intro = []; // karty, které se nejdřív jen představí
   final List<int> _queue = []; // fronta zkoušení
+  // Nová slova vložená doprostřed opakování; dokud nejsou představená, nemají postup.
+  final Set<int> _midNew = {};
   int _newCursor = 0;
 
   int serial = 0; // zvyšuje se při každé změně karty nahoře (pro klíče widgetů)
@@ -128,8 +138,13 @@ class StudySession {
           ? _intro.first
           : (_queue.isNotEmpty ? _queue.first : null);
   int? get next =>
-      _intro.isNotEmpty ? null : (_queue.length > 1 ? _queue[1] : null);
-  bool get isIntro => _intro.isNotEmpty;
+      (_intro.isNotEmpty || _frontIsMidNew)
+          ? null
+          : (_queue.length > 1 && !_midNew.contains(_queue[1])
+              ? _queue[1]
+              : null);
+  bool get _frontIsMidNew => _queue.isNotEmpty && _midNew.contains(_queue.first);
+  bool get isIntro => _intro.isNotEmpty || _frontIsMidNew;
 
   int get dueCount {
     final now = _clock().millisecondsSinceEpoch;
@@ -172,6 +187,7 @@ class StudySession {
       interlude: interlude,
       intro: List.of(_intro),
       queue: List.of(_queue),
+      midNew: Set.of(_midNew),
       newCursor: _newCursor,
       phaseDone: phaseDone,
       phaseTotal: phaseTotal,
@@ -198,6 +214,9 @@ class StudySession {
     _queue
       ..clear()
       ..addAll(s.queue);
+    _midNew
+      ..clear()
+      ..addAll(s.midNew);
     _newCursor = s.newCursor;
     phaseDone = s.phaseDone;
     phaseTotal = s.phaseTotal;
@@ -262,12 +281,14 @@ class StudySession {
             .toList()
           ..sort((a, b) => a.value.dueMs.compareTo(b.value.dueMs));
     _intro.clear();
+    _midNew.clear();
     _queue
       ..clear()
       ..addAll(due.take(early ? earlyBatch : reviewBatch).map((e) => e.key));
     // Výběr dávky jde podle termínu, ale uvnitř dávky se slova promíchají,
     // aby nešla podle frekvence.
     _queue.shuffle(_rng);
+    if (!early && mode == StudyMode.both) _weaveNewWords();
     if (_queue.isEmpty) {
       _finishReviews();
       return;
@@ -280,6 +301,7 @@ class StudySession {
   }
 
   void startLearning() {
+    _midNew.clear();
     _newCursor =
         0; // kurzor se počítá znovu z úložiště (neuložené karty se vrátí)
     final learning =
@@ -342,10 +364,42 @@ class StudySession {
     serial++;
   }
 
+  /// V kombinované relaci vloží chybějící nová slova (do cíle nových slov)
+  /// rovnoměrně mezi splatná opakování. Slovo se představí uprostřed fronty
+  /// a jeho další kola přijdou s odstupem v kartách (viz ackIntro, answer).
+  void _weaveNewWords() {
+    final goal = newWordsGoal?.call() ?? 0;
+    final missing = goal - (learnedToday?.call() ?? 0);
+    var want = math.min(missing, newPerBlock - newInBlock);
+    if (want <= 0 || _queue.isEmpty) return;
+    final picked = <int>[];
+    // Nejdřív nová slova označená "učit přednostně", pak další v pořadí.
+    for (final k in order) {
+      if (picked.length >= want) break;
+      if (prioritized.contains(k) && !cards.containsKey(k)) picked.add(k);
+    }
+    for (final k in order) {
+      if (picked.length >= want) break;
+      if (!cards.containsKey(k) && !picked.contains(k)) picked.add(k);
+    }
+    if (picked.isEmpty) return;
+    final n = _queue.length;
+    final k = picked.length;
+    // Od konce, ať se dřívější vložení neposouvají.
+    for (var j = k - 1; j >= 0; j--) {
+      final pos = math.max(1, ((j + 1) * n / (k + 1)).round());
+      _queue.insert(math.min(pos, _queue.length), picked[j]);
+      _midNew.add(picked[j]);
+    }
+    newInBlock += k;
+    phaseTotal += k;
+  }
+
   void finish() {
     phase = Phase.idle;
     interlude = null;
     _intro.clear();
+    _midNew.clear();
     _queue.clear();
     _newCursor = 0;
     serial++;
@@ -355,6 +409,19 @@ class StudySession {
 
   /// Konec představení nové karty: karta se zapíše do úložiště jako "učení".
   void ackIntro() {
+    if (_intro.isEmpty && _frontIsMidNew) {
+      final i = _queue.removeAt(0);
+      _midNew.remove(i);
+      prioritized.remove(i);
+      cards.putIfAbsent(
+        i,
+        () => CardProgress.learning(_clock().millisecondsSinceEpoch),
+      );
+      // První ověření po 3-5 kartách; další kola řeší answer().
+      _insert(i, 3 + _rng.nextInt(3));
+      serial++;
+      return;
+    }
     if (_intro.isEmpty) return;
     final i = _intro.removeAt(0);
     prioritized.remove(i);
@@ -369,6 +436,24 @@ class StudySession {
   /// "Už umím": karta se při představení přeskočí a rovnou jde do opakování
   /// (první ověření za Scheduler.skipStabilityDays dní). Do limitu nových slov se nepočítá.
   void skipIntro() {
+    if (_intro.isEmpty && _frontIsMidNew) {
+      final i = _queue.removeAt(0);
+      _midNew.remove(i);
+      prioritized.remove(i);
+      final now = _clock();
+      cards[i] = CardProgress(
+        stage: CardStage.review,
+        stability: Scheduler.skipStabilityDays,
+        lastReviewMs: now.millisecondsSinceEpoch,
+        dueMs: Scheduler.dueFor(now, Scheduler.skipStabilityDays),
+      );
+      if (newInBlock > 0) newInBlock--;
+      skippedInBlock++;
+      phaseTotal = math.max(0, phaseTotal - 1);
+      serial++;
+      if (_queue.isEmpty) _finishReviews();
+      return;
+    }
     if (_intro.isEmpty) return;
     final i = _intro.removeAt(0);
     prioritized.remove(i);
@@ -393,7 +478,7 @@ class StudySession {
   }
 
   void answer(bool known) {
-    if (_intro.isNotEmpty || _queue.isEmpty) return;
+    if (_intro.isNotEmpty || _queue.isEmpty || _frontIsMidNew) return;
     final c = _queue.removeAt(0);
     final p = cards[c];
     if (p == null) return;

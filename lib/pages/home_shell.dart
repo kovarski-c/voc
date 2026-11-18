@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../services/study_session.dart';
 import '../study_controller.dart';
@@ -15,11 +15,13 @@ import 'word_list_page.dart';
 class HomeShell extends StatefulWidget {
   final StudyController controller;
   final VoidCallback onChangeCourse;
+  final VoidCallback? onBackToLanguage;
 
   const HomeShell({
     super.key,
     required this.controller,
     required this.onChangeCourse,
+    this.onBackToLanguage,
   });
 
   @override
@@ -47,7 +49,12 @@ class _HomeShellState extends State<HomeShell> {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         fullscreenDialog: true,
-        builder: (_) => PlacementPage(controller: c, firstRun: true),
+        builder:
+            (_) => PlacementPage(
+              controller: c,
+              firstRun: true,
+              onBackToLanguage: widget.onBackToLanguage,
+            ),
       ),
     );
   }

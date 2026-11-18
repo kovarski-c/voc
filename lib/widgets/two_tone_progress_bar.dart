@@ -1,5 +1,5 @@
 import 'dart:math' as math;
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import '../theme.dart';
 
 /// Dvoubarevný pruh: světlá část = naučeno, sytá část = pevně zvládnuto (sytá je podmnožina světlé).
