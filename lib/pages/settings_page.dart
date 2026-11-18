@@ -291,7 +291,7 @@ class SettingsPage extends StatelessWidget {
                     children: [
                       Text(
                         'Postup se ve webové verzi ukládá jen v tomto prohlížeči. '
-                        'Stáhni si zálohu, abys o něj nepřišla při smazání dat '
+                        'Stáhni si zálohu, abys o něj nepřišel/a při smazání dat '
                         'stránky nebo při přechodu na jiné zařízení.',
                         style: TextStyle(fontSize: 12.5, color: kMuted),
                       ),
