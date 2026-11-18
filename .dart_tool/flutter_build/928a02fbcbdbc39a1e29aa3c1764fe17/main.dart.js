@@ -95697,7 +95697,7 @@ j.push(B.ch)
 m=""+k
 i=m+" %"
 j.push(new A.iF("Sm\u011br karet p\u0159i opakov\xe1n\xed",A.bu(A.b([A.a7("V automatick\xe9m re\u017eimu se jako prvn\xed uk\xe1\u017ee "+g+" v "+m+" % p\u0159\xedpad\u016f, jinak "+h+".",o,o,o,o,A.af(o,o,$.Q.c,o,o,o,o,o,o,o,o,14,o,o,o,o,o,!0,o,o,o,o,o,o,o,o),o,o),B.c2,A.bP(A.b([A.cs(A.aCz(20,i,1,0,n.ga3e(),l),1),new A.aC(48,o,A.a7(i,o,o,o,o,B.a4t,B.hh,o),o)],f),B.w,B.n,B.r,0),A.a7("P\u0159i u\u010den\xed je po\u0159ad\xed pevn\xe9: prvn\xed zkou\u0161en\xed uk\xe1\u017ee u\u010den\xfd jazyk, druh\xe9 rodn\xfd, dal\u0161\xed podle tohoto pom\u011bru. P\u0159ep\xedna\u010d na domovsk\xe9 str\xe1nce m\xe1 p\u0159ednost.",o,o,o,o,A.af(o,o,$.Q.d,o,o,o,o,o,o,o,o,12.5,o,o,o,o,o,!0,o,o,o,o,o,o,o,o),o,o)],f),B.aa,B.n,B.r),o))
-B.c.N(j,A.b([B.ch,new A.iF("Z\xe1loha postupu",A.bu(A.b([A.a7("Postup se ve webov\xe9 verzi ukl\xe1d\xe1 jen v tomto prohl\xed\u017ee\u010di. St\xe1hni si z\xe1lohu, abys o n\u011bj nep\u0159i\u0161la p\u0159i smaz\xe1n\xed dat str\xe1nky nebo p\u0159i p\u0159echodu na jin\xe9 za\u0159\xedzen\xed.",o,o,o,o,A.af(o,o,$.Q.d,o,o,o,o,o,o,o,o,12.5,o,o,o,o,o,!0,o,o,o,o,o,o,o,o),o,o),B.h8,new A.KR(n,o)],f),B.aa,B.n,B.r),o)],f))
+B.c.N(j,A.b([B.ch,new A.iF("Z\xe1loha postupu",A.bu(A.b([A.a7("Postup se ve webov\xe9 verzi ukl\xe1d\xe1 jen v tomto prohl\xed\u017ee\u010di. St\xe1hni si z\xe1lohu, abys o n\u011bj nep\u0159i\u0161el/a p\u0159i smaz\xe1n\xed dat str\xe1nky nebo p\u0159i p\u0159echodu na jin\xe9 za\u0159\xedzen\xed.",o,o,o,o,A.af(o,o,$.Q.d,o,o,o,o,o,o,o,o,12.5,o,o,o,o,o,!0,o,o,o,o,o,o,o,o),o,o),B.h8,new A.KR(n,o)],f),B.aa,B.n,B.r),o)],f))
 return A.B5(j,o,B.JX)},
 $S:568}
 A.aiZ.prototype={
