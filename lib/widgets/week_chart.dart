@@ -270,7 +270,7 @@ class _WeekChartState extends State<WeekChart> {
   Widget _bubble(DayStat d) {
     final style = TextStyle(
       fontSize: 12.5,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w400,
       color: kInk,
       height: 1.3,
     );
@@ -282,7 +282,7 @@ class _WeekChartState extends State<WeekChart> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.white, width: 1.6),
-        boxShadow: softShadow(0.2),
+        boxShadow: softShadow(0.18),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -385,12 +385,12 @@ class _WeekChartState extends State<WeekChart> {
               height: hTotal,
               fill:
                   reached
-                      ? Color.lerp(light, dark, selected ? 0.4 : 0)!
+                      ? Color.lerp(light, dark, selected ? 0.5 : 0)!
                       : Colors.white,
               border:
                   reached
                       ? null
-                      : Color.lerp(light, dark, selected ? 0.4 : 0.0)!,
+                      : Color.lerp(light, dark, selected ? 0.5 : 0.0)!,
             ),
             // 2. vpředu: jen naučená; plná při splněném cíli, jinak obrys
             if (hLearn > 0)
@@ -401,7 +401,7 @@ class _WeekChartState extends State<WeekChart> {
                         ? Color.lerp(
                           dark,
                           kToneBlue.solidA,
-                          selected ? 0.5 : 0,
+                          selected ? 0.6 : 0,
                         )!
                         : Colors.white,
                 border:
@@ -410,7 +410,7 @@ class _WeekChartState extends State<WeekChart> {
                         : Color.lerp(
                           kToneBlue.solidA,
                           Colors.white,
-                          selected ? 0.1 : 0.30,
+                          selected ? 0.1 : 0.4,
                         )!,
               ),
 
