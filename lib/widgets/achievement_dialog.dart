@@ -31,7 +31,15 @@ class _Style {
   final String title;
   final String subtitle;
   final LevelStep? level; // u úrovně se místo kruhu kreslí štít
-  const _Style(this.icon, this.colors, this.title, this.subtitle, [this.level]);
+  final String? hint; // u úrovně: co s ní můžeš dělat
+  const _Style(
+    this.icon,
+    this.colors,
+    this.title,
+    this.subtitle, [
+    this.level,
+    this.hint,
+  ]);
 }
 
 _Style _styleOf(Achievement a, int total, List<LevelStep> levels) {
@@ -65,6 +73,7 @@ _Style _styleOf(Achievement a, int total, List<LevelStep> levels) {
         'Úroveň ${lv.code}',
         'Tvoje slovní zásoba (${a.value} slov) odpovídá úrovni ${lv.code}!',
         lv,
+        lv.tips.isEmpty ? null : lv.tips.first,
       );
   }
 }
@@ -87,7 +96,8 @@ class _AchievementDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
-        child: Column(
+        child: SingleChildScrollView(
+         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             for (var i = 0; i < list.length; i++) ...[
@@ -101,6 +111,7 @@ class _AchievementDialog extends StatelessWidget {
               onPressed: () => Navigator.of(context).pop(),
             ),
           ],
+        ),
         ),
       ),
     );
@@ -161,6 +172,34 @@ class _Row extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 15, color: kMuted),
         ),
+        if (style.hint != null) ...[
+          const SizedBox(height: 14),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: style.colors.last.withValues(alpha: 0.10),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.lightbulb_rounded,
+                  size: 20,
+                  color: style.colors.last,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    style.hint!,
+                    style: TextStyle(fontSize: 14, height: 1.35, color: kInk),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ],
     );
   }

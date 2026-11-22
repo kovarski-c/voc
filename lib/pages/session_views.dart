@@ -47,12 +47,13 @@ class InterludeView extends StatelessWidget {
           tiles.add(_Tile(s.backlog, 'zbývá', kToneAmber.accent));
           primaryLabel = 'Pokračovat v opakování';
           primary = c.continueReviews;
-        } else if (s.mode == StudyMode.both) {
-          subtitle = 'Můžeš přejít na nová slova.';
+        } else if (s.mode == StudyMode.both &&
+            s.unseenCount + s.learningCount > 0) {
+          subtitle = 'Hotovo! Začít ${StudySession.groupSize} nových slov?';
           primaryLabel = 'Učit nová slova';
           primary = c.startLearning;
         } else {
-          subtitle = 'Na dnes máš opakování hotové.';
+          subtitle = 'Dnes máš opakování hotové.';
         }
       case InterludeKind.groupDone:
         icon = Icons.auto_awesome_rounded;
@@ -198,7 +199,7 @@ class InterludeView extends StatelessWidget {
             const SizedBox(height: 8),
             if (c.canUndo)
               SizedBox(
-                height: 40,
+                height: 46,
                 child: TextButton.icon(
                   onPressed: c.undo,
                   icon: Icon(Icons.undo_rounded, size: 18, color: kMuted),
@@ -231,7 +232,7 @@ class InterludeView extends StatelessWidget {
                 ),
               ),
             SizedBox(
-              height: 40,
+              height: 46,
               child: TextButton(
                 onPressed: c.finish,
                 child: Text(
@@ -292,7 +293,10 @@ const double kIntroButtonsBottom = 24;
 /// Spodní blok má stejnou výšku v učení i v opakování, takže karta sedí pořád na stejném místě.
 class PracticeView extends StatefulWidget {
   final StudyController c;
-  const PracticeView({super.key, required this.c});
+
+  /// Otevře slovo v seznamu (ikonka úprav).
+  final void Function(int key)? onOpenWord;
+  const PracticeView({super.key, required this.c, this.onOpenWord});
 
   @override
   State<PracticeView> createState() => _PracticeViewState();
@@ -316,6 +320,8 @@ class _PracticeViewState extends State<PracticeView> {
     final nxt = c.next;
     final s = c.session;
     final reviewing = c.phase == Phase.reviewing;
+    final firstTry = s.isFirstTry;
+    final showButtons = c.isIntro || firstTry;
     final label =
         reviewing
             ? 'Opakování ${s.phaseDone} / ${s.phaseTotal}'
@@ -334,21 +340,30 @@ class _PracticeViewState extends State<PracticeView> {
               children: [
                 Row(
                   children: [
-                    // Vlevo nápověda k fonetické abecedě, vpravo Zpět.
+                    // Vlevo nápověda k fonetické abecedě, vpravo úpravy a Zpět.
                     SizedBox(
-                      width: 40,
-                      height: 32,
-                      child:
-                          hasIpaHelp(c.course)
-                              ? IconButton(
-                                padding: EdgeInsets.zero,
-                                iconSize: 22,
-                                color: kMuted,
-                                tooltip: 'Fonetická abeceda',
-                                onPressed: () => showIpaHelp(context, c.course),
-                                icon: const Icon(Icons.help_outline_rounded),
-                              )
-                              : null,
+                      width: 80,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: SizedBox(
+                          width: 40,
+                          height: 32,
+                          child:
+                              hasIpaHelp(c.course)
+                                  ? IconButton(
+                                    padding: EdgeInsets.zero,
+                                    iconSize: 22,
+                                    color: kMuted,
+                                    tooltip: 'Fonetická abeceda',
+                                    onPressed:
+                                        () => showIpaHelp(context, c.course),
+                                    icon: const Icon(
+                                      Icons.help_outline_rounded,
+                                    ),
+                                  )
+                                  : null,
+                        ),
+                      ),
                     ),
                     Expanded(
                       child: Text(
@@ -364,6 +379,22 @@ class _PracticeViewState extends State<PracticeView> {
                     SizedBox(
                       width: 40,
                       height: 32,
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        iconSize: 22,
+                        color: kMuted,
+                        disabledColor: kFaint,
+                        tooltip: 'Upravit slovo v seznamu',
+                        onPressed:
+                            top != null && widget.onOpenWord != null
+                                ? () => widget.onOpenWord!(top)
+                                : null,
+                        icon: const Icon(Icons.edit_outlined),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 40,
+                      height: 38,
                       child: IconButton(
                         padding: EdgeInsets.zero,
                         iconSize: 22,
@@ -394,7 +425,7 @@ class _PracticeViewState extends State<PracticeView> {
                 final maxCard = math.max(
                   kCardSize,
                   box.maxHeight -
-                      (c.isIntro
+                      (showButtons
                           ? kIntroButtonHeight + kIntroButtonsBottom + 24
                           : 24),
                 );
@@ -457,7 +488,7 @@ class _PracticeViewState extends State<PracticeView> {
                       child: SwipeHint(
                         drag: _drag,
                         left:
-                            c.isIntro
+                            showButtons
                                 ? SwipeSide(
                                   text: 'Naučit se',
                                   icon: Icons.menu_book_rounded,
@@ -475,7 +506,7 @@ class _PracticeViewState extends State<PracticeView> {
                         ),
                       ),
                     ),
-                    if (c.isIntro)
+                    if (showButtons)
                       Positioned(
                         left: 20,
                         right: 20,
@@ -490,18 +521,24 @@ class _PracticeViewState extends State<PracticeView> {
                                 tone: kToneAmber,
                                 height: kIntroButtonHeight,
                                 fontSize: 15,
-                                onPressed: c.ackIntro,
+                                onPressed:
+                                    firstTry
+                                        ? () => c.answer(false)
+                                        : c.ackIntro,
                               ),
                             ),
                             const SizedBox(width: 12),
                             Expanded(
                               child: ToneButton(
-                                label: 'Už umím',
+                                label: firstTry ? 'Umím' : 'Už umím',
                                 icon: Icons.check_rounded,
                                 tone: kToneGreen,
                                 height: kIntroButtonHeight,
                                 fontSize: 15,
-                                onPressed: c.skipIntro,
+                                onPressed:
+                                    firstTry
+                                        ? () => c.answer(true)
+                                        : c.skipIntro,
                               ),
                             ),
                           ],

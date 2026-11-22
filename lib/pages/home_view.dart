@@ -7,6 +7,7 @@ import '../theme.dart';
 import '../models/level.dart';
 import '../widgets/course_flag.dart';
 import '../widgets/level_shield.dart';
+import '../widgets/tip_card.dart';
 import '../widgets/two_tone_progress_bar.dart';
 import '../widgets/week_chart.dart';
 
@@ -15,6 +16,7 @@ import '../widgets/week_chart.dart';
 class HomeView extends StatelessWidget {
   final StudyController c;
   final void Function(StudyMode mode) onStart;
+  final VoidCallback onOpenSettings;
   final VoidCallback onChangeCourse;
 
   const HomeView({
@@ -22,6 +24,7 @@ class HomeView extends StatelessWidget {
     required this.c,
     required this.onStart,
     required this.onChangeCourse,
+    required this.onOpenSettings,
   });
 
   @override
@@ -66,6 +69,12 @@ class HomeView extends StatelessWidget {
                     children: [
                       _Header(c: c, onTap: onChangeCourse),
                       const SizedBox(height: 18),
+
+                      if (c.settings.showTips) ...[
+                        const SizedBox(height: 12),
+                        TipCard(tip: c.dailyTip),
+                      ],
+                      const SizedBox(height: 12),
                       _ProgressCard(
                         learned: learned,
                         solid: solid,
@@ -73,6 +82,7 @@ class HomeView extends StatelessWidget {
                         percent: percent,
                         reviewedToday: c.reviewedToday,
                         learnedToday: c.learnedToday,
+                        newGoal: c.newWordsGoal,
                         levels: c.levels,
                         level: c.currentLevel,
                       ),
@@ -81,24 +91,27 @@ class HomeView extends StatelessWidget {
                         children: [
                           Expanded(
                             child: _StatPill(
-                              value: due,
-                              label: 'k opakování',
+                              value: c.reviewedToday,
+                              value2: c.dueTotalToday,
+                              label: 'zopakováno',
                               tone: kToneGreen,
                             ),
                           ),
                           const SizedBox(width: 10),
                           Expanded(
                             child: _StatPill(
-                              value: learning,
-                              label: 'v učení',
+                              value: c.learnedToday,
+                              value2: c.newWordsGoal,
+                              label: 'naučeno',
                               tone: kToneAmber,
                             ),
                           ),
                           const SizedBox(width: 10),
                           Expanded(
                             child: _StatPill(
-                              value: unseen,
-                              label: 'nových',
+                              value: learning,
+                              value2: null,
+                              label: 'v učení',
                               tone: kToneBlue,
                             ),
                           ),
@@ -106,21 +119,43 @@ class HomeView extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       Padding(
-                        padding: EdgeInsets.only(left: 4, bottom: 8),
-                        child: Text(
-                          'Která strana karty je první',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: kMuted,
-                          ),
+                        padding: const EdgeInsets.only(left: 4, bottom: 8),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Která strana karty je první',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: kMuted,
+                              ),
+                            ),
+                            InkResponse(
+                              onTap:
+                                  () => _showDirectionHelp(
+                                    context,
+                                    c,
+                                    onOpenSettings,
+                                  ),
+                              radius: 16,
+                              child: Padding(
+                                padding: const EdgeInsets.all(6),
+                                child: Icon(
+                                  Icons.help_outline_rounded,
+                                  size: 18,
+                                  color: kMuted,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       _DirectionPicker(c: c),
                       const SizedBox(height: 20),
                       _ModeCard(
                         title: 'Opakování a učení',
-                        subtitle: '$due k opakování · nová slova po pěticích',
+                        subtitle:
+                            '$due k opakování, pak nová slova po pěticích',
                         icon: Icons.play_arrow_rounded,
                         tone: kToneBlue,
                         emphasized: true,
@@ -320,6 +355,7 @@ class _ProgressCard extends StatelessWidget {
   final int percent;
   final int reviewedToday;
   final int learnedToday;
+  final int newGoal;
   final List<LevelStep> levels;
   final LevelStep? level;
 
@@ -330,6 +366,7 @@ class _ProgressCard extends StatelessWidget {
     required this.percent,
     required this.reviewedToday,
     required this.learnedToday,
+    required this.newGoal,
     required this.levels,
     required this.level,
   });
@@ -339,6 +376,10 @@ class _ProgressCard extends StatelessWidget {
     final darkColor =
         level?.dark ?? Color.lerp(kToneBlue.inkSoft, Colors.white, 0.3)!;
     final lightColor = Color.lerp(darkColor, Colors.white, 0.5)!;
+    // přechod pruhu = barvy štítu aktuální úrovně (light -> dark)
+    final startColor =
+        level?.light ?? Color.lerp(darkColor, Colors.white, 0.3)!;
+    final paleStart = Color.lerp(startColor, Colors.white, 0.5)!;
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
@@ -398,12 +439,15 @@ class _ProgressCard extends StatelessWidget {
             bar: TwoToneProgressBar(
               light: total == 0 ? 0 : learned / total,
               dark: total == 0 ? 0 : solid / total,
-              lightColor: lightColor,
+              lightColor: paleStart,
+              lightColorEnd: lightColor,
               darkColor: darkColor,
+              darkColorEnd: startColor,
               height: 12,
             ),
           ),
           const SizedBox(height: 10),
+          SizedBox(height: 2),
           Row(
             children: [
               _Dot(darkColor),
@@ -415,12 +459,11 @@ class _ProgressCard extends StatelessWidget {
               const SizedBox(width: 14),
               _Dot(lightColor),
               const SizedBox(width: 6),
-              Text('naučeno', style: TextStyle(fontSize: 12, color: kMuted)),
-              const Spacer(),
               Text(
-                'Dnes: $reviewedToday + $learnedToday',
+                'naučeno $learned',
                 style: TextStyle(fontSize: 12, color: kMuted),
               ),
+              const Spacer(),
             ],
           ),
         ],
@@ -443,10 +486,12 @@ class _Dot extends StatelessWidget {
 
 class _StatPill extends StatelessWidget {
   final int value;
+  final int? value2;
   final String label;
   final Tone tone;
   const _StatPill({
     required this.value,
+    required this.value2,
     required this.label,
     required this.tone,
   });
@@ -463,7 +508,7 @@ class _StatPill extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            '$value',
+            value2 == null ? '$value' : '$value / $value2',
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w800,
@@ -479,6 +524,61 @@ class _StatPill extends StatelessWidget {
 }
 
 /// Vlastní přepínač: všechny tři možnosti mají stejnou šířku a text uprostřed.
+/// Vysvětlení režimu "Automaticky" s odkazem do nastavení.
+void _showDirectionHelp(
+  BuildContext context,
+  StudyController c,
+  VoidCallback onOpenSettings,
+) {
+  final pct = (c.settings.nativeFrontProb * 100).round();
+  showModalBottomSheet<void>(
+    context: context,
+    backgroundColor: kBg,
+    useSafeArea: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+    ),
+    builder:
+        (ctx) => SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Automaticky',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                  color: kInk,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'Strana karty se mění podle toho, kde ve slově jsi:\n\n'
+                '• Nové slovo: napoprvé se ukáže ${c.course.backLabel} '
+                '(poznat slovo), podruhé ${c.course.frontLabel} (vybavit si '
+                'slovo).\n'
+                '• Dál a při opakování je to náhodné: ${c.course.frontLabel} '
+                'je první v $pct\u00A0% případů, jinak ${c.course.backLabel}.\n\n'
+                'Pokud chceš, aby se první ukazovala jen jedna strana, vyber ji přímo v přepínači.',
+                style: TextStyle(fontSize: 14.5, color: kMuted, height: 1.4),
+              ),
+              const SizedBox(height: 14),
+              TextButton.icon(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  onOpenSettings();
+                },
+                icon: const Icon(Icons.tune_rounded, size: 18),
+                label: Text('Změnit poměr v nastavení (nyní $pct\u00A0%)'),
+              ),
+            ],
+          ),
+        ),
+  );
+}
+
 class _DirectionPicker extends StatelessWidget {
   final StudyController c;
   const _DirectionPicker({required this.c});

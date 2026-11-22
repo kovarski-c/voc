@@ -35,8 +35,8 @@ class Scheduler {
 
   /// Jistota 0..1 (15 % při 1 dni, 100 % od confidenceFullDays).
   static double confidence(double s) {
-    final c = 0.15 +
-        0.85 * math.log(math.max(s, 1.0)) / math.log(confidenceFullDays);
+    final c =
+        0.15 + 0.85 * math.log(math.max(s, 1.0)) / math.log(confidenceFullDays);
     return math.min(1.0, c);
   }
 
@@ -48,15 +48,21 @@ class Scheduler {
   /// Pořadové číslo studijního dne (pro série a historii).
   static int studyDayNumber(DateTime now) {
     final d = studyDate(now);
-    return DateTime.utc(d.year, d.month, d.day)
-        .difference(DateTime.utc(2020, 1, 1))
-        .inDays;
+    return DateTime.utc(
+      d.year,
+      d.month,
+      d.day,
+    ).difference(DateTime.utc(2020, 1, 1)).inDays;
   }
 
   static int dueAfterDays(DateTime now, int days) {
     final b = studyDate(now);
-    return DateTime(b.year, b.month, b.day + days, dayStartHour)
-        .millisecondsSinceEpoch;
+    return DateTime(
+      b.year,
+      b.month,
+      b.day + days,
+      dayStartHour,
+    ).millisecondsSinceEpoch;
   }
 
   static int dueFor(DateTime now, double stability) =>
@@ -73,8 +79,13 @@ class Scheduler {
     final s = math.min(30.0, math.pow(1.4, skill).toDouble());
     final spread = math.max(1, s.ceil());
     final b = studyDate(now);
-    final due = DateTime(b.year, b.month, b.day + (index % spread), dayStartHour)
-        .millisecondsSinceEpoch;
+    final due =
+        DateTime(
+          b.year,
+          b.month,
+          b.day + (index % spread),
+          dayStartHour,
+        ).millisecondsSinceEpoch;
     return CardProgress(
       stage: CardStage.review,
       stability: s,

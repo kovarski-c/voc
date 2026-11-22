@@ -57,43 +57,54 @@ class _PlacementPageState extends State<PlacementPage> {
   }
 
   Future<void> _apply(int known, {bool withAnswers = true}) async {
-    // Dřívější výběr se přepíše; procvičená slova zůstanou, proto jen informace.
+    // Slova z dřívějšího výběru nad novou úrovní se vrátí mezi nová. Slova,
+    // která má člověk sám procvičená nad novou úrovní, lze ponechat nebo smazat.
     final n = c.placementCardCount;
-    if (n > 0) {
-      final ok = await showDialog<bool>(
+    final above = c.practicedAbove(known);
+    var reset = false;
+    if (n > 0 || above > 0) {
+      final choice = await showDialog<int>(
         context: context,
         builder:
             (ctx) => AlertDialog(
               title: const Text('Upravit úroveň?'),
               content: Text(
-                'Přepíšu $n slov z předchozího výběru. Slova, která jsi sama '
-                'procvičila, zůstanou beze změny.',
+                'Slova z předchozího výběru nad novou úrovní se vrátí mezi '
+                'nová.'
+                '${above > 0 ? ' Nad novou úrovní máš ještě $above slov s vlastním pokrokem. Ponechat je, nebo smazat?' : ''}',
               ),
               actions: [
                 TextButton(
-                  onPressed: () => Navigator.pop(ctx, false),
+                  onPressed: () => Navigator.pop(ctx, 0),
                   child: const Text('Zrušit'),
                 ),
                 TextButton(
-                  onPressed: () => Navigator.pop(ctx, true),
-                  child: const Text('Pokračovat'),
+                  onPressed: () => Navigator.pop(ctx, 1),
+                  child: Text(above > 0 ? 'Ponechat' : 'Pokračovat'),
                 ),
+                if (above > 0)
+                  TextButton(
+                    onPressed: () => Navigator.pop(ctx, 2),
+                    child: const Text('Smazat'),
+                  ),
               ],
             ),
       );
-      if (ok != true || !mounted) return;
+      if (choice == null || choice == 0 || !mounted) return;
+      reset = choice == 2;
     }
     c.applyPlacement(
       known: known,
       answers: withAnswers ? (_test?.planAnswers ?? const []) : const [],
+      resetAbove: reset,
     );
     if (mounted) Navigator.of(context).pop();
   }
 
   /// Začít od nuly: při prvním spuštění se jen zapamatuje volba. Jinak se
-  /// slova z dřívějšího výběru vrátí mezi nová (procvičená zůstanou).
+  /// slova z dřívějšího výběru vrátí mezi nová a o vlastním pokroku se rozhodne v dialogu.
   Future<void> _fromScratch() async {
-    if (widget.firstRun || c.placementCardCount == 0) {
+    if (widget.firstRun || c.cardCount == 0) {
       if (widget.firstRun) c.skipPlacement();
       Navigator.of(context).pop();
       return;
@@ -114,8 +125,13 @@ class _PlacementPageState extends State<PlacementPage> {
   /// Ve zkoušení vrátí na předchozí slovo; jinak z kroku na úvod.
   bool _undoWord() {
     final t = _test;
-    if (_stage == _Stage.test && t != null && t.canUndo) {
-      setState(t.undo);
+    if ((_stage == _Stage.test || _stage == _Stage.result) &&
+        t != null &&
+        t.canUndo) {
+      setState(() {
+        t.undo();
+        _stage = _Stage.test;
+      });
       return true;
     }
     return false;
@@ -405,8 +421,9 @@ class _PlacementPageState extends State<PlacementPage> {
                 label: 'Neznám',
                 icon: Icons.close_rounded,
                 tone: kToneBlue,
-                height: 56,
+                height: 76,
                 fontSize: 15,
+                vertical: true,
                 onPressed: () => _answer(Reply.unknown),
               ),
             ),
@@ -416,8 +433,9 @@ class _PlacementPageState extends State<PlacementPage> {
                 label: 'Tuším',
                 icon: Icons.help_outline_rounded,
                 tone: kToneAmber,
-                height: 56,
+                height: 76,
                 fontSize: 15,
+                vertical: true,
                 onPressed: () => _answer(Reply.unsure),
               ),
             ),
@@ -427,12 +445,30 @@ class _PlacementPageState extends State<PlacementPage> {
                 label: 'Znám',
                 icon: Icons.check_rounded,
                 tone: kToneGreen,
-                height: 56,
+                height: 76,
                 fontSize: 15,
+                vertical: true,
                 onPressed: () => _answer(Reply.known),
               ),
             ),
           ],
+        ),
+        const SizedBox(height: 6),
+        SizedBox(
+          height: 44,
+          child: TextButton.icon(
+            onPressed: t.canUndo ? _undoWord : null,
+            icon: const Icon(Icons.undo_rounded, size: 18),
+            label: const Text('Předchozí slovo'),
+            style: TextButton.styleFrom(
+              foregroundColor: kMuted,
+              disabledForegroundColor: kFaint,
+              textStyle: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
         ),
       ],
     );
@@ -526,13 +562,36 @@ class _PlacementPageState extends State<PlacementPage> {
             fontSize: 16,
             onPressed: _openPicker,
           ),
-        SizedBox(height: 8),
-        SizedBox(
-          height: 50,
-          child: TextButton(
-            onPressed: _startTest,
-            child: Text('Zopakovat test', style: TextStyle(color: kMuted)),
-          ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Expanded(
+              child: SizedBox(
+                height: 50,
+                child: TextButton(
+                  onPressed: t.canUndo ? _undoWord : null,
+                  child: Text(
+                    'Opravit poslední slovo',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: t.canUndo ? kMuted : kFaint),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: SizedBox(
+                height: 50,
+                child: TextButton(
+                  onPressed: _startTest,
+                  child: Text(
+                    'Zopakovat test',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: kMuted),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );

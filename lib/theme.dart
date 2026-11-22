@@ -69,6 +69,8 @@ class AppPalette {
   final Tone toneBlue; // hlavní akce, nová slova
   final Tone toneGreen; // opakování
   final Tone toneAmber; // učení
+  final Color purpleA;
+  final Color purpleB;
 
   const AppPalette({
     required this.bg,
@@ -82,6 +84,8 @@ class AppPalette {
     required this.toneBlue,
     required this.toneGreen,
     required this.toneAmber,
+    required this.purpleA,
+    required this.purpleB,
   });
 }
 
@@ -94,6 +98,8 @@ const AppPalette kClassicPalette = AppPalette(
   faint: Color(0xFFB4BBC7),
   offBg: Color(0xFFEDEFF4),
   offBorder: Color(0xFFD9DDE6),
+  purpleA: Color.fromARGB(255, 106, 77, 235),
+  purpleB: Color(0xFF3B4A99),
   toneBlue: Tone(
     a: Color(0xFFC4D8FF),
     b: Color.fromARGB(255, 230, 231, 251),
@@ -138,6 +144,8 @@ const AppPalette kAutumnPalette = AppPalette(
   faint: Color(0xFFC9B9A8),
   offBg: Color(0xFFF3EADF),
   offBorder: Color(0xFFE4D6C5),
+  purpleA: Color(0xFF8C467A),
+  purpleB: Color(0xFF633257),
   toneBlue: Tone(
     a: Color(0xFFF6D2BE),
     b: Color(0xFFFBE6DA),

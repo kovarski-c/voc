@@ -31,6 +31,8 @@ class HomeShell extends StatefulWidget {
 class _HomeShellState extends State<HomeShell> {
   static const int _home = 0;
   static const int _cards = 1;
+  static const int _words = 2;
+  static const int _settings = 3;
 
   int _tab = _home;
   bool _celebrating = false;
@@ -98,6 +100,12 @@ class _HomeShellState extends State<HomeShell> {
     setState(() => _tab = i);
   }
 
+  /// Ikonka úprav na kartě: otevře slovo v seznamu.
+  void _openWord(int key) {
+    widget.controller.requestOpenWord(key);
+    setState(() => _tab = _words);
+  }
+
   void _start(StudyMode mode) {
     widget.controller.start(mode);
     setState(() => _tab = _cards);
@@ -118,6 +126,7 @@ class _HomeShellState extends State<HomeShell> {
                   c: c,
                   onStart: _start,
                   onChangeCourse: widget.onChangeCourse,
+                  onOpenSettings: () => setState(() => _tab = _settings),
                 ),
           ),
           ListenableBuilder(
@@ -130,7 +139,7 @@ class _HomeShellState extends State<HomeShell> {
                   return SafeArea(child: InterludeView(c: c));
                 case Phase.reviewing:
                 case Phase.learning:
-                  return PracticeView(c: c);
+                  return PracticeView(c: c, onOpenWord: _openWord);
               }
             },
           ),

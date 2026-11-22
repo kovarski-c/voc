@@ -38,7 +38,9 @@ class ProgressStore {
   final Set<int> prioritized = {};
 
   // --- statistiky ---
-  /// číslo studijního dne -> [zopakováno, naučeno]
+  /// číslo studijního dne -> [zopakováno, naučeno, zopakováno po termínu]
+  /// (třetí číslo je podmnožina prvního: opakování karet, které v okamžiku
+  /// odpovědi opravdu měly termín, bez předčasných opakování)
   final Map<int, List<int>> history = {};
   int streak = 0;
   int bestStreak = 0;
@@ -56,16 +58,20 @@ class ProgressStore {
   bool placementDone = false;
 
   List<int> get _todayCounts =>
-      history[Scheduler.studyDayNumber(DateTime.now())] ?? const [0, 0];
+      history[Scheduler.studyDayNumber(DateTime.now())] ?? const [0, 0, 0];
   int get reviewedToday => _todayCounts[0];
+  int get reviewedDueToday => _todayCounts[2];
   int get learnedToday => _todayCounts[1];
   int get doneToday => reviewedToday + learnedToday;
 
   /// Volá se, když karta definitivně opustí frontu (zopakována / naučena).
-  void recordDone(bool learned) {
+  /// [wasDue] = zopakovaná karta měla v okamžiku odpovědi termín (nešlo o
+  /// předčasné opakování); počítá se do jmenovatele "zopakováno X / Y".
+  void recordDone(bool learned, {bool wasDue = false}) {
     final day = Scheduler.studyDayNumber(DateTime.now());
-    final h = history.putIfAbsent(day, () => [0, 0]);
+    final h = history.putIfAbsent(day, () => [0, 0, 0]);
     h[learned ? 1 : 0]++;
+    if (!learned && wasDue) h[2]++;
     scheduleSave();
   }
 
@@ -154,7 +160,8 @@ class ProgressStore {
     final h = (m['h'] as Map<String, dynamic>?) ?? {};
     h.forEach((k, v) {
       final l = List<int>.from(v as List);
-      history[int.parse(k)] = [l[0], l[1]];
+      // starší záznamy bez třetího čísla: všechna opakování braná jako po termínu
+      history[int.parse(k)] = [l[0], l[1], l.length > 2 ? l[2] : l[0]];
     });
     streak = (m['s'] as num?)?.toInt() ?? 0;
     bestStreak = (m['b'] as num?)?.toInt() ?? 0;

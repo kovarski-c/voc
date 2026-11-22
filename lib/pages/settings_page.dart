@@ -1,5 +1,8 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../services/motivation.dart';
+import '../services/reminder.dart';
+import '../services/settings_store.dart';
 import '../study_controller.dart';
 import '../theme.dart';
 import '../widgets/course_flag.dart';
@@ -105,8 +108,8 @@ class SettingsPage extends StatelessWidget {
                             ),
                             SizedBox(height: 2),
                             Text(
-                              'Test nebo ruční výběr. Změní se jen slova, '
-                              'která ještě nemají žádný pokrok.',
+                              'Test, ruční výběr, nebo začít od nuly. Slova nad novou '
+                              'úrovní se vrátí mezi nová.',
                               style: TextStyle(fontSize: 12.5, color: kMuted),
                             ),
                           ],
@@ -178,6 +181,46 @@ class SettingsPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               _Section(
+                title: 'Nová slova',
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _Choice(
+                            label: 'Představit',
+                            selected:
+                                c.settings.newWordMode == NewWordMode.introduce,
+                            onTap:
+                                () => c.setNewWordMode(NewWordMode.introduce),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: _Choice(
+                            label: 'Zkusit vybavit',
+                            selected:
+                                c.settings.newWordMode == NewWordMode.recall,
+                            onTap: () => c.setNewWordMode(NewWordMode.recall),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      c.settings.newWordMode == NewWordMode.introduce
+                          ? 'Nové slovo se nejdřív ukáže i s překladem a pak se zkouší.'
+                          : 'Nové slovo se hned zkouší jako otáčecí kartička. '
+                              'Když ho napoprvé znáš, přeskočí se rovnou do '
+                              'opakování a do cíle nových slov se nepočítá.',
+                      style: TextStyle(fontSize: 12.5, color: kMuted),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              _Section(
                 title: 'Vzhled',
                 child: Row(
                   children: [
@@ -192,6 +235,38 @@ class SettingsPage extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              _Section(
+                title: 'Denní tip',
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const Expanded(
+                          child: Text(
+                            'Zobrazovat denní tip',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        Switch(
+                          value: c.settings.showTips,
+                          onChanged: c.setShowTips,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'Na domovské stránce ukáže tip k učení slov, k aplikaci '
+                      'nebo k tvé úrovni. Když se začnou opakovat, můžeš je skrýt.',
+                      style: TextStyle(fontSize: 12.5, color: kMuted),
+                    ),
                   ],
                 ),
               ),
@@ -213,6 +288,10 @@ class SettingsPage extends StatelessWidget {
                   ],
                 ),
               ),
+              if (Reminder.supported) ...[
+                const SizedBox(height: 16),
+                _ReminderSection(c: c),
+              ],
               if (c.course.hasVulgar) ...[
                 const SizedBox(height: 16),
                 _Section(
@@ -244,7 +323,7 @@ class SettingsPage extends StatelessWidget {
                   children: [
                     Text(
                       'V automatickém režimu se jako první ukáže ${c.course.frontLabel} '
-                      'v $pct % případů, jinak ${c.course.backLabel}.',
+                      'v $pct\u00A0% případů, jinak ${c.course.backLabel}.',
                       style: TextStyle(fontSize: 14, color: kInk),
                     ),
                     const SizedBox(height: 4),
@@ -345,6 +424,114 @@ class _Section extends StatelessWidget {
   }
 }
 
+/// Denní připomínka, aby člověk neztratil sérii (jen Android).
+class _ReminderSection extends StatelessWidget {
+  final StudyController c;
+  const _ReminderSection({required this.c});
+
+  static String _fmt(int m) =>
+      '${(m ~/ 60).toString().padLeft(2, '0')}:${(m % 60).toString().padLeft(2, '0')}';
+
+  Future<void> _toggle(BuildContext context, bool v) async {
+    final ok = await c.setReminderEnabled(v);
+    if (!ok && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Oznámení nejsou povolená. Zapni je v nastavení telefonu.',
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _pickTime(BuildContext context) async {
+    final cur = c.settings.reminderMinutes;
+    final t = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(hour: cur ~/ 60, minute: cur % 60),
+      builder:
+          (ctx, child) => MediaQuery(
+            data: MediaQuery.of(ctx).copyWith(alwaysUse24HourFormat: true),
+            child: child!,
+          ),
+    );
+    if (t != null) c.setReminderTime(t.hour * 60 + t.minute);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final on = c.settings.reminderEnabled;
+    return _Section(
+      title: 'Připomínka série',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Expanded(
+                child: Text(
+                  'Připomenout, když série hrozí',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+              ),
+              Switch(value: on, onChanged: (v) => _toggle(context, v)),
+            ],
+          ),
+          if (on) ...[
+            const SizedBox(height: 8),
+            InkWell(
+              borderRadius: BorderRadius.circular(12),
+              onTap: () => _pickTime(context),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Row(
+                  children: [
+                    const Expanded(
+                      child: Text(
+                        'Čas připomínky',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: kToneBlue.soft(0.7),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        _fmt(c.settings.reminderMinutes),
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: kToneBlue.ink,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+          const SizedBox(height: 6),
+          Text(
+            'Oznámení přijde v nastavený čas jen tehdy, když dnešek ještě není '
+            'do série započítaný (stačí ${Motivation.streakMinCards} karet). '
+            'Po splnění se dnešní připomínka zruší.',
+            style: TextStyle(fontSize: 12.5, color: kMuted),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 /// Dlaždice pro výběr tématu: barvy a název v paletě daného tématu.
 class _ThemeOption extends StatelessWidget {
   final AppThemeId id;
@@ -402,6 +589,51 @@ class _ThemeOption extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _Choice extends StatelessWidget {
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+  const _Choice({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: selected ? kBg : kOffBg,
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: onTap,
+        child: Container(
+          height: 48,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: selected ? kToneBlue.accent : Colors.transparent,
+              width: 2,
+            ),
+          ),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w800,
+                color: selected ? kToneBlue.accent : kMuted,
+              ),
+            ),
+          ),
         ),
       ),
     );

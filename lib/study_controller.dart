@@ -9,8 +9,10 @@ import 'services/levels.dart';
 import 'services/motivation.dart';
 import 'services/placement.dart';
 import 'services/progress_store.dart';
+import 'services/reminder.dart';
 import 'services/scheduler.dart';
 import 'services/settings_store.dart';
+import 'services/tips.dart';
 import 'services/study_session.dart';
 import 'theme.dart' show AppThemeId;
 import 'models/day_stat.dart';
@@ -43,6 +45,10 @@ class StudyController extends ChangeNotifier {
   Map<int, int> _posInOrder = const {}; // klíč -> pozice ve viditelném seznamu
 
   bool showBack = false;
+
+  /// Požadavek otevřít slovo v seznamu (z ikonky úprav na kartě).
+  final ValueNotifier<int?> openWord = ValueNotifier<int?>(null);
+  void requestOpenWord(int key) => openWord.value = key;
   final Map<int, int> _shown =
       {}; // kolikrát už byla karta v této relaci zodpovězena
   final List<Achievement> _pending = [];
@@ -60,6 +66,7 @@ class StudyController extends ChangeNotifier {
       store.placementDone = true;
       store.scheduleSave();
     }
+    await syncReminder();
   }
 
   // --- úvodní výběr úrovně / test ---
@@ -83,10 +90,17 @@ class StudyController extends ChangeNotifier {
   void applyPlacement({
     required int known,
     List<PlacementAnswer> answers = const [],
+    bool resetAbove = false,
   }) {
-    // Slova z dřívějšího výběru, která uživatel sám neprocvičil, se vrátí mezi nová
-    // a plán se sestaví znovu (funguje nahoru i dolů). Procvičená zůstávají.
-    store.cards.removeWhere((_, p) => p.fromPlacement);
+    // Slova z dřívějšího výběru nad novou úrovní se vrátí mezi nová; pod ní
+    // zůstanou, jak jsou (i s postupem). Při [resetAbove] se smaže i všechen
+    // vlastní pokrok nad novou úrovní. Plán se pak doplní (nahoru i dolů).
+    int rankOf(int key) => _posInOrder[key] ?? -1;
+    store.cards.removeWhere((k, p) {
+      final r = rankOf(k);
+      if (resetAbove && r >= known) return true;
+      return p.fromPlacement && (r < 0 || r >= known);
+    });
     final plan = PlacementPlan.build(
       order: _order,
       known: known,
@@ -107,6 +121,15 @@ class StudyController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Počet všech karet s pokrokem (0 = čistý začátek).
+  int get cardCount => store.cards.length;
+
+  /// Kolik slov nad úrovní [known] má vlastní pokrok (neoznačené z testu).
+  int practicedAbove(int known) =>
+      store.cards.entries
+          .where((e) => !e.value.fromPlacement && (_posInOrder[e.key] ?? -1) >= known)
+          .length;
+
   // --- filtr vulgarit a číslování ---
   bool _hidden(int key) =>
       !course.has(key) || (settings.hideVulgar && course.isVulgar(key));
@@ -126,8 +149,9 @@ class StudyController extends ChangeNotifier {
       isHidden: _hidden,
       cards: store.cards,
       prioritized: store.prioritized,
-      onCardDone: store.recordDone,
+      onCardDone: (learned, wasDue) => store.recordDone(learned, wasDue: wasDue),
       newWordsGoal: () => settings.newWordsGoal,
+      recallNew: () => settings.newWordMode == NewWordMode.recall,
       learnedToday:
           () =>
               store.history[Scheduler.studyDayNumber(DateTime.now())]?[1] ?? 0,
@@ -172,6 +196,11 @@ class StudyController extends ChangeNotifier {
           .length;
 
   int get reviewedToday => store.reviewedToday;
+
+  /// Jmenovatel statistiky "zopakováno X / Y": dnešní opakování po termínu
+  /// plus karty, které na opakování ještě čekají. Předčasná opakování ho
+  /// nezvyšují (čitatel [reviewedToday] je ale počítá).
+  int get dueTotalToday => store.reviewedDueToday + session.dueCount;
   int get learnedToday => store.learnedToday;
 
   // --- motivace ---
@@ -339,6 +368,8 @@ class StudyController extends ChangeNotifier {
   // --- akce ---
   void _changed() {
     showBack = false;
+    // Série se dnes právě započítala (nebo se to vzalo zpět): přeplánovat připomínku.
+    if (store.lastActiveDay != _reminderDay) syncReminder();
     store.scheduleSave();
     notifyListeners();
   }
@@ -441,9 +472,86 @@ class StudyController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Ruční změna stavu slova (nové / učím se / umím) z detailu slova.
+  void setWordKind(int key, CardKind kind) {
+    final now = DateTime.now();
+    final ms = now.millisecondsSinceEpoch;
+    switch (kind) {
+      case CardKind.newCard:
+        store.cards.remove(key);
+      case CardKind.learning:
+        store.cards[key] = CardProgress.learning(ms);
+        store.prioritized.remove(key);
+      case CardKind.review:
+        store.cards[key] = CardProgress(
+          stage: CardStage.review,
+          stability: Scheduler.skipStabilityDays,
+          lastReviewMs: ms,
+          dueMs: Scheduler.dueFor(now, Scheduler.skipStabilityDays),
+        );
+        store.prioritized.remove(key);
+    }
+    session.forget(key);
+    _undo.clear();
+    _afterProgress();
+    _changed();
+  }
+
+  void setNewWordMode(NewWordMode m) {
+    settings.newWordMode = m;
+    SettingsStore.save(settings);
+    notifyListeners();
+  }
+
+  void setShowTips(bool v) {
+    settings.showTips = v;
+    SettingsStore.save(settings);
+    notifyListeners();
+  }
+
+  /// Denní tip (stejný celý studijní den): k učení slov, k aplikaci nebo k úrovni.
+  Tip get dailyTip => Tips.forDay(
+    course: course,
+    current: currentLevel,
+    next: nextLevel,
+    learned: learnedCount,
+    now: DateTime.now(),
+  );
+
   void setHaptics(bool v) {
     settings.haptics = v;
     SettingsStore.save(settings);
+    notifyListeners();
+  }
+
+  // --- připomínka série (Android) ---
+  int _reminderDay = -1; // lastActiveDay, pro který je připomínka naplánovaná
+
+  /// Naplánuje (nebo zruší) připomínku podle nastavení a toho, jestli už je
+  /// dnešek do série započítaný.
+  Future<void> syncReminder() {
+    _reminderDay = store.lastActiveDay;
+    return Reminder.sync(
+      enabled: settings.reminderEnabled,
+      minutes: settings.reminderMinutes,
+      lastActiveDay: store.lastActiveDay,
+    );
+  }
+
+  /// Zapnutí vyžádá povolení oznámení; vrací false, když ho uživatel odmítl.
+  Future<bool> setReminderEnabled(bool v) async {
+    if (v && !await Reminder.requestPermission()) return false;
+    settings.reminderEnabled = v;
+    SettingsStore.save(settings);
+    await syncReminder();
+    notifyListeners();
+    return true;
+  }
+
+  void setReminderTime(int minutes) {
+    settings.reminderMinutes = minutes.clamp(0, 1439);
+    SettingsStore.save(settings);
+    syncReminder();
     notifyListeners();
   }
 
@@ -458,6 +566,7 @@ class StudyController extends ChangeNotifier {
 
   @override
   void dispose() {
+    openWord.dispose();
     store.dispose();
     super.dispose();
   }

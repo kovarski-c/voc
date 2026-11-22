@@ -408,14 +408,15 @@ class PlacementPlan {
     final nowMs = now.millisecondsSinceEpoch;
     final out = <int, CardProgress>{};
 
-    // 1) slova, na která se test ptal a člověk je znal: ověřená, normální interval
+    // 1) slova, na která se test ptal a člověk je znal: ověřená, normální interval.
+    // Jen pod hranicí odhadu; slovo nad ní (osamělé "znám" mezi neznámými)
+    // se neoznačí jako umím a zůstane mezi novými.
     for (final e in evidence.entries) {
       final rank = e.key;
-      if (!e.value || rank < 0 || rank >= order.length) continue;
+      if (!e.value || rank < 0 || rank >= n) continue;
       final key = order[rank];
       if (existing.contains(key)) continue;
-      final base = rank < n ? stabilityAt(rank / n) : 0.0;
-      final s = math.max(evidenceStability, base);
+      final s = math.max(evidenceStability, stabilityAt(rank / n));
       out[key] = CardProgress(
         stage: CardStage.review,
         stability: s,

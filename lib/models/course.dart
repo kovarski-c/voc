@@ -3,6 +3,17 @@ import 'dart:math' as math;
 import 'level.dart';
 import 'word.dart';
 
+/// Příklady mnemotechnických pomůcek pro jeden jazyk (do denních tipů).
+/// Každý příklad je volitelný; bez něj se tip ukáže jen jako obecná rada.
+class Mnemonics {
+  final String? sound; // zvuková asociace
+  final String? image; // živý obraz
+  final String? sentence; // vlastní věta
+  final String? related; // příbuzná slova
+
+  const Mnemonics({this.sound, this.image, this.sentence, this.related});
+}
+
 /// Jeden "kurz" = jedna dvojice jazyků se seznamem slovíček.
 /// Seznamy jsou řazené od nejčastějších slov po méně časté.
 ///
@@ -30,6 +41,9 @@ class Course {
   /// Úrovně slovní zásoby (A1, A2, ...) podle počtu naučených slov.
   final List<LevelStep> levels;
 
+  /// Příklady mnemotechnik pro denní tipy (každý jazyk má vlastní).
+  final Mnemonics mnemonics;
+
   /// True = při prvním spuštění převezme pokrok ze starého souboru skills.json.
   final bool migratesLegacyProgress;
 
@@ -48,6 +62,7 @@ class Course {
     this.vulgar,
     this.flagCode,
     this.levels = const [],
+    this.mnemonics = const Mnemonics(),
     this.migratesLegacyProgress = false,
   }) : assert(fronts.length == backs.length,
             'Course $id: fronts a backs musí mít stejnou délku'),
@@ -64,6 +79,7 @@ class Course {
     required List<Word> words,
     String? flagCode,
     List<LevelStep> levels = const [],
+    Mnemonics mnemonics = const Mnemonics(),
   }) =>
       Course(
         id: id,
@@ -76,6 +92,7 @@ class Course {
         vulgar: [for (final w in words) w.vulgar],
         flagCode: flagCode,
         levels: levels,
+        mnemonics: mnemonics,
       );
 
   int get length => math.min(fronts.length, backs.length);

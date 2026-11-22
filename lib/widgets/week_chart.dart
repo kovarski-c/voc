@@ -14,7 +14,7 @@ String _newWords(int n) =>
 /// vzadu = naučená + zopakovaná (součet), tmavý vpředu = jen naučená. Tmavý
 /// sloupec je plný, když den dosáhl cíle nových slov, jinak jen obrys.
 /// Přerušovaná šedá čára = denní cíl, tmavá = cíl nových slov; fajfka nad
-/// sloupcem = splněný denní cíl. Vybraný den má obrys a tučný popisek.
+/// sloupcem = splněny oba cíle (denní i nových slov). Vybraný den má obrys a tučný popisek.
 class WeekChart extends StatefulWidget {
   final List<DayStat> week; // 7 dní, poslední = dnes
   final List<DayStat> previousWeek; // předchozích 7 dní (srovnání)
@@ -88,13 +88,31 @@ class _WeekChartState extends State<WeekChart> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Posledních 7 dní',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              color: kMuted,
-            ),
+          Row(
+            children: [
+              Text(
+                'Posledních 7 dní',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: kMuted,
+                ),
+              ),
+              const Spacer(),
+              // ? = vysvětlení grafu; větší plocha pro klepnutí než ikona
+              InkResponse(
+                onTap: _showLegend,
+                radius: 18,
+                child: Padding(
+                  padding: const EdgeInsets.all(2),
+                  child: Icon(
+                    Icons.help_outline_rounded,
+                    size: 18,
+                    color: kMuted,
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 4),
           Text(
@@ -121,6 +139,141 @@ class _WeekChartState extends State<WeekChart> {
           _chart(week),
         ],
       ),
+    );
+  }
+
+  // ------------------------------------------------------------ legenda
+  Widget _legendBar(Color fill) {
+    return Container(
+      width: 20,
+      height: 24,
+      decoration: BoxDecoration(
+        color: fill,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(6)),
+      ),
+    );
+  }
+
+  Widget _legendDash(Color color) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (var i = 0; i < 3; i++) ...[
+          Container(width: 5, height: 2, color: color),
+          if (i < 2) const SizedBox(width: 3),
+        ],
+      ],
+    );
+  }
+
+  Widget _legendRow(Widget swatch, String title, String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 44,
+            height: 24,
+            child: Align(alignment: Alignment.centerLeft, child: swatch),
+          ),
+          Expanded(
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: '$title ',
+                    style: TextStyle(fontWeight: FontWeight.w800, color: kInk),
+                  ),
+                  TextSpan(text: text),
+                ],
+              ),
+              style: TextStyle(fontSize: 14, color: kMuted, height: 1.35),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showLegend() {
+    final dark = Color.lerp(kToneBlue.solidA, Colors.white, 0.35)!;
+    final lightC = Color.lerp(kToneBlue.solidA, Colors.white, 0.55 * 1.3)!;
+    final lightLine = Color.lerp(kToneBlue.solidA, Colors.white, 0.55)!;
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      backgroundColor: kBg,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder:
+          (_) => SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: kFaint,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Jak číst graf',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    color: kInk,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Klepnutím na sloupec uvidíš čísla za daný den.',
+                  style: TextStyle(fontSize: 13, color: kMuted),
+                ),
+                const SizedBox(height: 18),
+                _legendRow(
+                  _legendBar(lightC),
+                  'Světlý sloupec:',
+                  'všechna slova dne, nová i zopakovaná. Plný je, když splníš '
+                      'denní cíl (${widget.goal}), do té doby je jen obrys.',
+                ),
+                _legendRow(
+                  _legendBar(dark),
+                  'Tmavý sloupec:',
+                  'jen nová naučená slova. Plný je, když splníš cíl nových '
+                      'slov (${widget.newGoal}), do té doby je jen obrys.',
+                ),
+                _legendRow(
+                  _legendDash(lightLine),
+                  'Světlá čára:',
+                  'denní cíl (${widget.goal} slov).',
+                ),
+                _legendRow(
+                  _legendDash(kToneBlue.solidA.withValues(alpha: 0.55)),
+                  'Tmavá čára:',
+                  'cíl nových slov (${widget.newGoal}).',
+                ),
+                _legendRow(
+                  Icon(
+                    Icons.check_circle_rounded,
+                    size: 20,
+                    color: kToneBlue.accent,
+                  ),
+                  'Fajfka:',
+                  'tento den jsou splněné oba cíle.',
+                ),
+              ],
+            ),
+          ),
     );
   }
 
@@ -235,7 +388,11 @@ class _WeekChartState extends State<WeekChart> {
                       Builder(
                         builder: (context) {
                           final d = week[sel];
-                          final reached = d.total >= widget.goal && d.total > 0;
+                          final both =
+                              d.total >= widget.goal &&
+                              d.total > 0 &&
+                              d.learned > 0 &&
+                              d.learned >= widget.newGoal;
                           final cx = _gutter + (sel + 0.5) * colW;
                           final barTop =
                               _chartHeight -
@@ -252,7 +409,7 @@ class _WeekChartState extends State<WeekChart> {
                                   .toDouble();
                           return Positioned(
                             left: left,
-                            top: barTop - _bubbleH - 8 - (reached ? 16 : 0),
+                            top: barTop - _bubbleH - 8 - (both ? 16 : 0),
                             child: IgnorePointer(child: _bubble(d)),
                           );
                         },
@@ -305,6 +462,7 @@ class _WeekChartState extends State<WeekChart> {
     final selected = _selected == i;
     final reached = d.total >= widget.goal && d.total > 0;
     final newReached = d.learned > 0 && d.learned >= widget.newGoal;
+    final both = reached && newReached; // fajfka jen při splnění obou cílů
     final dark = Color.lerp(kToneBlue.solidA, Colors.white, 0.35)!;
     final light = Color.lerp(kToneBlue.solidA, Colors.white, 0.55 * 1.3)!;
     const double radiusVal = 8.0;
@@ -430,7 +588,7 @@ class _WeekChartState extends State<WeekChart> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (reached)
+                if (both)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 2),
                     child: Icon(

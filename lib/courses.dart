@@ -33,6 +33,15 @@ Future<List<Course>> loadCourses() async {
         levelB2(4500),
         levelC1(8000),
       ],
+      mnemonics: const Mnemonics(
+        sound: 'angl. cheap (čti „číp“) = levný → „čip je levný“.',
+        image:
+            'angl. rude (hrubý): představ si rudého vzteklouna, který na tebe křičí.',
+        sentence:
+            'místo „window = okno“ si řekni „I open the window every morning.“',
+        related:
+            'information ≈ informace, doctor ≈ doktor, music ≈ hudba (muzika).',
+      ),
     ),
   ];
 
@@ -55,6 +64,15 @@ Future<List<Course>> loadCourses() async {
             levelB2(3500),
             levelC1(5000),
           ],
+          mnemonics: const Mnemonics(
+            sound:
+                'fr. chat (čti „ša“) = kočka → „ša, ša!“, jak kočku odháníš.',
+            image:
+                'fr. regarder (čti regardé) = dívat se: představ si člena národní gardy, jak se na tebe podezíravě dívá.',
+            sentence:
+                'místo „pain = chléb“ si řekni „Je mange du pain chaque matin.“ (Jím chleba každé ráno.)',
+            related: 'restaurant ≈ restaurace, musée ≈ muzeum, hôtel ≈ hotel.',
+          ),
         ),
       );
     }
@@ -76,6 +94,10 @@ Future<List<Course>> loadCourses() async {
         levelB1(1300),
         levelB2(2000, top: true), // nejvyšší úroveň seznamu = purpurová
       ],
+      // TODO: doplnit další příklady (zbytek tipu se ukáže bez příkladu).
+      mnemonics: const Mnemonics(
+        sound: 'lug. ssente (čti „sente“) = peníze → „cent“.',
+      ),
       migratesLegacyProgress: true, // pokrok ze starého skills.json patří sem
     ),
   );

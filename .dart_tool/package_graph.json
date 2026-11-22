@@ -10,9 +10,12 @@
         "country_flags",
         "cupertino_icons",
         "flutter",
+        "flutter_local_notifications",
+        "flutter_timezone",
         "material_ui",
         "path_provider",
         "shared_preferences",
+        "timezone",
         "web"
       ],
       "devDependencies": [
@@ -57,6 +60,37 @@
         "stream_channel",
         "test_api",
         "vector_math"
+      ]
+    },
+    {
+      "name": "flutter_timezone",
+      "version": "5.1.1",
+      "dependencies": [
+        "equatable",
+        "flutter",
+        "flutter_web_plugins",
+        "meta"
+      ]
+    },
+    {
+      "name": "timezone",
+      "version": "0.11.2",
+      "dependencies": [
+        "http",
+        "path"
+      ]
+    },
+    {
+      "name": "flutter_local_notifications",
+      "version": "22.3.3",
+      "dependencies": [
+        "clock",
+        "flutter",
+        "flutter_local_notifications_linux",
+        "flutter_local_notifications_platform_interface",
+        "flutter_local_notifications_web",
+        "flutter_local_notifications_windows",
+        "timezone"
       ]
     },
     {
@@ -263,6 +297,74 @@
         "stream_channel",
         "string_scanner",
         "term_glyph"
+      ]
+    },
+    {
+      "name": "flutter_web_plugins",
+      "version": "0.0.0",
+      "dependencies": [
+        "flutter"
+      ]
+    },
+    {
+      "name": "equatable",
+      "version": "3.0.0",
+      "dependencies": [
+        "collection",
+        "meta"
+      ]
+    },
+    {
+      "name": "http",
+      "version": "1.6.0",
+      "dependencies": [
+        "async",
+        "http_parser",
+        "meta",
+        "web"
+      ]
+    },
+    {
+      "name": "flutter_local_notifications_platform_interface",
+      "version": "12.2.0",
+      "dependencies": [
+        "plugin_platform_interface",
+        "timezone"
+      ]
+    },
+    {
+      "name": "flutter_local_notifications_web",
+      "version": "1.0.0",
+      "dependencies": [
+        "collection",
+        "flutter",
+        "flutter_local_notifications_platform_interface",
+        "timezone",
+        "web"
+      ]
+    },
+    {
+      "name": "flutter_local_notifications_windows",
+      "version": "3.1.1",
+      "dependencies": [
+        "ffi",
+        "flutter",
+        "flutter_local_notifications_platform_interface",
+        "meta",
+        "timezone",
+        "xml"
+      ]
+    },
+    {
+      "name": "flutter_local_notifications_linux",
+      "version": "8.0.2",
+      "dependencies": [
+        "dbus",
+        "ffi",
+        "flutter",
+        "flutter_local_notifications_platform_interface",
+        "path",
+        "xdg_directories"
       ]
     },
     {
@@ -511,13 +613,43 @@
       ]
     },
     {
-      "name": "http",
-      "version": "1.6.0",
+      "name": "http_parser",
+      "version": "4.1.2",
       "dependencies": [
-        "async",
-        "http_parser",
+        "collection",
+        "source_span",
+        "string_scanner",
+        "typed_data"
+      ]
+    },
+    {
+      "name": "plugin_platform_interface",
+      "version": "2.1.8",
+      "dependencies": [
+        "meta"
+      ]
+    },
+    {
+      "name": "ffi",
+      "version": "2.1.4",
+      "dependencies": []
+    },
+    {
+      "name": "xdg_directories",
+      "version": "1.1.0",
+      "dependencies": [
         "meta",
-        "web"
+        "path"
+      ]
+    },
+    {
+      "name": "dbus",
+      "version": "0.7.12",
+      "dependencies": [
+        "args",
+        "ffi",
+        "meta",
+        "xml"
       ]
     },
     {
@@ -539,36 +671,9 @@
       ]
     },
     {
-      "name": "flutter_web_plugins",
-      "version": "0.0.0",
-      "dependencies": [
-        "flutter"
-      ]
-    },
-    {
-      "name": "plugin_platform_interface",
-      "version": "2.1.8",
-      "dependencies": [
-        "meta"
-      ]
-    },
-    {
-      "name": "ffi",
-      "version": "2.1.4",
-      "dependencies": []
-    },
-    {
       "name": "platform",
       "version": "3.1.6",
       "dependencies": []
-    },
-    {
-      "name": "xdg_directories",
-      "version": "1.1.0",
-      "dependencies": [
-        "meta",
-        "path"
-      ]
     },
     {
       "name": "petitparser",
@@ -600,13 +705,10 @@
       "dependencies": []
     },
     {
-      "name": "http_parser",
-      "version": "4.1.2",
+      "name": "typed_data",
+      "version": "1.4.0",
       "dependencies": [
-        "collection",
-        "source_span",
-        "string_scanner",
-        "typed_data"
+        "collection"
       ]
     },
     {
@@ -614,13 +716,6 @@
       "version": "3.1.2",
       "dependencies": [
         "typed_data"
-      ]
-    },
-    {
-      "name": "typed_data",
-      "version": "1.4.0",
-      "dependencies": [
-        "collection"
       ]
     }
   ],

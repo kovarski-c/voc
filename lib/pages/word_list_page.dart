@@ -28,7 +28,117 @@ class _WordListPageState extends State<WordListPage> {
   final TextEditingController _searchCtl = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    widget.controller.openWord.addListener(_onOpenWord);
+  }
+
+  /// Ikonka úprav na kartě: najede na slovo v seznamu a otevře jeho detail.
+  void _onOpenWord() {
+    final c = widget.controller;
+    final key = c.openWord.value;
+    if (key == null) return;
+    c.openWord.value = null;
+    final pos = c.order.indexOf(key);
+    if (pos < 0) return;
+    _jumpTo(pos);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _showDetail(key);
+    });
+  }
+
+  /// Ruční změna stavu slova.
+  Future<void> _pickKind(int idx) async {
+    final c = widget.controller;
+    final cur = c.infoOf(idx).kind;
+    final options = <(CardKind, String, String)>[
+      (CardKind.newCard, 'Nové', 'Zatím neznám, přijde na řadu mezi novými.'),
+      (CardKind.learning, 'Učím se', 'Zařadí se do učení od začátku.'),
+      (CardKind.review, 'Umím', 'Půjde rovnou do opakování.'),
+    ];
+    final picked = await showModalBottomSheet<CardKind>(
+      context: context,
+      backgroundColor: Colors.white,
+      showDragHandle: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder:
+          (ctx) => SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(12, 0, 12, 8),
+                    child: Text(
+                      'Změnit stav slova',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
+                  for (final o in options)
+                    InkWell(
+                      borderRadius: BorderRadius.circular(14),
+                      onTap: () => Navigator.pop(ctx, o.$1),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 10,
+                        ),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 28,
+                              child:
+                                  cur == o.$1
+                                      ? Icon(
+                                        Icons.check_rounded,
+                                        color: kToneBlue.accent,
+                                      )
+                                      : null,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    o.$2,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  Text(
+                                    o.$3,
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: kMuted,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+    );
+    if (picked != null && picked != cur) c.setWordKind(idx, picked);
+  }
+
+  @override
   void dispose() {
+    widget.controller.openWord.removeListener(_onOpenWord);
     _scroll.dispose();
     _searchCtl.dispose();
     super.dispose();
@@ -150,17 +260,28 @@ class _WordListPageState extends State<WordListPage> {
                       const SizedBox(height: 14),
                       _DetailRow(
                         label: 'Stav',
-                        child: Row(
-                          children: [
-                            CardStatus(info: info, reserveIndicator: false),
-                            if (info.kind == CardKind.review) ...[
-                              const SizedBox(width: 10),
-                              Text(
-                                'jistota ${(info.confidence * 100).round()} %',
-                                style: TextStyle(fontSize: 14, color: kMuted),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(12),
+                          onTap: () => _pickKind(idx),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              CardStatus(info: info, reserveIndicator: false),
+                              if (info.kind == CardKind.review) ...[
+                                const SizedBox(width: 10),
+                                Text(
+                                  'jistota ${(info.confidence * 100).round()} %',
+                                  style: TextStyle(fontSize: 14, color: kMuted),
+                                ),
+                              ],
+                              const SizedBox(width: 8),
+                              Icon(
+                                Icons.edit_outlined,
+                                size: 18,
+                                color: kMuted,
                               ),
                             ],
-                          ],
+                          ),
                         ),
                       ),
                       const SizedBox(height: 14),

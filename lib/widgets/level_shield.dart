@@ -52,7 +52,12 @@ class LevelShield extends StatelessWidget {
 class _ShieldPainter extends CustomPainter {
   final LevelStep level;
   final bool earned;
-  const _ShieldPainter(this.level, this.earned);
+  // barvy se zachytí při vytvoření, aby se štít přebarvil po změně tématu
+  final Color light;
+  final Color dark;
+  _ShieldPainter(this.level, this.earned)
+    : light = level.light,
+      dark = level.dark;
 
   static Path _path(double w, double h) {
     final r = w * 0.16;
@@ -79,7 +84,7 @@ class _ShieldPainter extends CustomPainter {
           ..shader = LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [level.light, level.dark],
+            colors: [light, dark],
           ).createShader(rect),
       );
     } else {
@@ -101,7 +106,10 @@ class _ShieldPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_ShieldPainter old) =>
-      old.level != level || old.earned != earned;
+      old.level != level ||
+      old.earned != earned ||
+      old.light != light ||
+      old.dark != dark;
 }
 
 /// Osa úrovní nad pruhem pokroku: štíty na místech, kde úroveň leží

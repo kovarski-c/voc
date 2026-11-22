@@ -5,12 +5,14 @@ import 'models/course.dart';
 import 'pages/language_picker_page.dart';
 import 'pages/home_shell.dart';
 import 'services/progress_store.dart';
+import 'services/reminder.dart';
 import 'services/settings_store.dart';
 import 'study_controller.dart';
 import 'theme.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Reminder.init();
   runApp(const MyApp());
 }
 
