@@ -59,7 +59,7 @@ class StudyController extends ChangeNotifier {
   Future<void> init() async {
     await store.load(migrateLegacy: course.migratesLegacyProgress);
     _rebuildView();
-    Motivation.seedBadges(store, learnedCount);
+    Motivation.seedBadges(store, badgeCount);
     Motivation.seedLevels(store, course.levels, learnedCount);
     // Kdo už nějaký pokrok má, se na úvodní výběr úrovně neptá.
     if (store.cards.isNotEmpty && !store.placementDone) {
@@ -114,7 +114,11 @@ class StudyController extends ChangeNotifier {
     store.placementDone = true;
     // po snížení úrovně se přepočítají štíty a odznaky nad novým počtem slov
     store.levelCodes.clear();
-    store.badges.removeWhere((m) => m > learnedCount);
+    store.badgeBase =
+        store.cards.values
+            .where((p) => p.fromPlacement && p.stage == CardStage.review)
+            .length;
+    store.badges.removeWhere((m) => m > badgeCount);
     Motivation.syncSilently(store, course.levels, learnedCount);
     store.scheduleSave();
     _rebuildView();
@@ -184,6 +188,9 @@ class StudyController extends ChangeNotifier {
           .where((e) => e.value.stage == CardStage.review && !_hidden(e.key))
           .length;
 
+  /// Slova naučená uživatelem pro odznaky (bez slov z úvodního testu).
+  int get badgeCount => math.max(0, learnedCount - store.badgeBase);
+
   /// Slova s jistotou aspoň 75 %.
   int get solidCount =>
       store.cards.entries
@@ -244,6 +251,7 @@ class StudyController extends ChangeNotifier {
         store: store,
         goal: settings.dailyGoal,
         learnedCount: learnedCount,
+        badgeCount: badgeCount,
         now: DateTime.now(),
         levels: course.levels,
       ),

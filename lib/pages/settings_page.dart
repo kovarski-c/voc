@@ -471,7 +471,7 @@ class _ReminderSection extends StatelessWidget {
             children: [
               const Expanded(
                 child: Text(
-                  'Připomenout, když série hrozí',
+                  'Připomenout procvičování',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
               ),

@@ -63,7 +63,7 @@ _Style _styleOf(Achievement a, int total, List<LevelStep> levels) {
         Icons.military_tech_rounded,
         [kToneAmber.a, kToneAmber.solidA],
         '${a.value} slov',
-        'Už umíš ${a.value} slov z $total.',
+        'Naučených slov: ${a.value}.',
       );
     case AchievementType.level:
       final lv = levels.firstWhere((l) => l.code == a.code);

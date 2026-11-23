@@ -81,6 +81,12 @@ class StudySession {
   static const int reviewBatch = 40;
   static const int earlyBatch = 20; // předčasné opakování nesplatných karet
 
+  /// Skupina menší než [minGroup] karet se doplní splatnými opakováními:
+  /// [fillerPerMissing] opakování za každou chybějící kartu, aby se slova
+  /// nevracela hned za sebou.
+  static const int minGroup = 3;
+  static const int fillerPerMissing = 3;
+
   /// Viditelné klíče karet v pořadí učení (bez skrytých).
   final List<int> order;
 
@@ -115,6 +121,8 @@ class StudySession {
   final Set<int> _firstTry = {};
   bool _recallGroup = false;
   int _newCursor = 0;
+  // Kolik nových slov (newInBlock) smí skupina nejvýš mít; hlídá doplňování.
+  int _newLimit = newPerBlock;
 
   int serial = 0; // zvyšuje se při každé změně karty nahoře (pro klíče widgetů)
   int phaseDone = 0;
@@ -176,6 +184,45 @@ class StudySession {
           .length;
 
   int get unseenCount => order.where((k) => !cards.containsKey(k)).length;
+
+  List<int> _learningKeys() =>
+      cards.entries
+          .where((e) => e.value.stage == CardStage.learning && !isHidden(e.key))
+          .map((e) => e.key)
+          .toList()
+        ..sort();
+
+  /// Kolik zbývá do dnešního cíle nových slov (0 = splněn). V režimu
+  /// "Jen učení" se cíl nehlídá.
+  int get goalRemaining {
+    if (mode == StudyMode.learnOnly || newWordsGoal == null) return 1 << 20;
+    return math.max(0, newWordsGoal!() - (learnedToday?.call() ?? 0));
+  }
+
+  /// Cíl nových slov na dnes je splněný (další učení je navíc).
+  bool get goalReached =>
+      mode != StudyMode.learnOnly &&
+      newWordsGoal != null &&
+      goalRemaining == 0;
+
+  /// Kolik nových slov se přidá ke skupině [group] (rozpracovaná slova).
+  /// Rozpracovaná slova (kromě vrácených po chybě) se do cíle započítají,
+  /// až je dokončíš, proto zabírají zbývající cíl.
+  int _newRoomFor(List<int> group) {
+    var room = groupSize - group.length;
+    final remaining = goalRemaining;
+    if (remaining > 0 && remaining < (1 << 20)) {
+      final inGoal = group.where((k) => !(cards[k]?.relearn ?? false)).length;
+      room = math.min(room, remaining - inGoal);
+    }
+    return math.max(0, math.min(room, newPerBlock - newInBlock));
+  }
+
+  /// Kolik karet bude mít příští skupina učení (pro text tlačítka).
+  int get nextGroupCount {
+    final g = _learningKeys().take(groupSize).toList();
+    return g.length + math.min(_newRoomFor(g), unseenCount);
+  }
 
   /// Další nová karta v pořadí (kurzor je POZICE v `order`, ne klíč).
   int? _nextUnseen() {
@@ -320,16 +367,9 @@ class StudySession {
     _recallGroup = recallNew?.call() ?? false;
     _newCursor =
         0; // kurzor se počítá znovu z úložiště (neuložené karty se vrátí)
-    final learning =
-        cards.entries
-            .where(
-              (e) => e.value.stage == CardStage.learning && !isHidden(e.key),
-            )
-            .map((e) => e.key)
-            .toList()
-          ..sort();
+    final learning = _learningKeys();
     final group = learning.take(groupSize).toList();
-    var room = math.min(groupSize - group.length, newPerBlock - newInBlock);
+    var room = _newRoomFor(group);
     // Nejdřív nová slova označená "učit přednostně" (v pořadí učení).
     if (room > 0 && prioritized.isNotEmpty) {
       for (final k in order) {
@@ -355,6 +395,7 @@ class StudySession {
       _newCursor++;
       newInBlock++;
     }
+    _newLimit = newInBlock;
     if (group.isEmpty) {
       _setInterlude(
         _nextUnseen() != null ? InterludeKind.blockDone : InterludeKind.allDone,
@@ -382,11 +423,32 @@ class StudySession {
         }),
       );
     }
+    // Malá skupina: doplní se splatnými opakováními (jen mimo "Jen učení").
+    var fillerCount = 0;
+    if (mode != StudyMode.learnOnly && group.length < minGroup) {
+      final now = _clock().millisecondsSinceEpoch;
+      final fillers =
+          cards.entries
+              .where(
+                (e) =>
+                    e.value.stage == CardStage.review &&
+                    e.value.dueMs <= now &&
+                    !isHidden(e.key) &&
+                    !group.contains(e.key),
+              )
+              .toList()
+            ..sort((a, b) => a.value.dueMs.compareTo(b.value.dueMs));
+      final take = (minGroup - group.length) * fillerPerMissing;
+      for (final e in fillers.take(take)) {
+        _queue.add(e.key);
+        fillerCount++;
+      }
+    }
     if (_intro.isEmpty && _firstTry.isEmpty) _queue.shuffle(_rng);
     phase = Phase.learning;
     interlude = null;
     phaseDone = 0;
-    phaseTotal = group.length;
+    phaseTotal = group.length + fillerCount;
     serial++;
   }
 
@@ -411,7 +473,7 @@ class StudySession {
   /// Když člověk slovo zahodí jako známé, doplní se skupina novým slovem,
   /// aby se vždy učila celá pětice skutečně nových slov.
   void _refill() {
-    if (phase != Phase.learning || newInBlock >= newPerBlock) return;
+    if (phase != Phase.learning || newInBlock >= _newLimit) return;
     final k = _refillWord();
     if (k == null) return;
     newInBlock++;

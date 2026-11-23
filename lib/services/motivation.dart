@@ -21,16 +21,19 @@ class Motivation {
   /// Nejvíc ochranných dnů (použijí se samy, když jeden den vynecháš).
   static const int maxFreezes = 2;
 
+  /// Odznaky za slova naučená uživatelem (bez slov z úvodního testu).
   static const List<int> milestones = [
-    10, 50, 100, 250, 500, 1000, 1500, 2000, 3000, 4000, 5000, 7500, 10000,
+    10, 20, 50, 100, 200, 300, 500, 750, 1000, 1500, 2000, 2500, 3000, 3500,
+    4000, 4500, 5000, 6000, 7000, 8000, 9000, 10000,
   ];
   static const List<int> streakMarks = [3, 7, 14, 30, 50, 100, 200, 365];
 
   /// Při prvním načtení se už dosažené milníky zapíšou potichu (bez oslav).
-  static void seedBadges(ProgressStore s, int learned) {
+  static void seedBadges(ProgressStore s, int badgeCount) {
     if (s.badgesSeeded) return;
+    s.badges.removeWhere((m) => !milestones.contains(m));
     for (final m in milestones) {
-      if (learned >= m) s.badges.add(m);
+      if (badgeCount >= m) s.badges.add(m);
     }
     s.badgesSeeded = true;
     s.scheduleSave();
@@ -47,14 +50,12 @@ class Motivation {
     s.scheduleSave();
   }
 
-  /// Po úvodním výběru úrovně: dosažené úrovně a milníky se zapíšou potichu.
+  /// Po úvodním výběru úrovně: dosažené úrovně se zapíšou potichu.
+  /// Odznaky ne, ty se počítají od nuly (jen slova naučená po testu).
   static void syncSilently(
       ProgressStore s, List<LevelStep> levels, int learned) {
     for (final l in levels) {
       if (learned >= l.threshold) s.levelCodes.add(l.code);
-    }
-    for (final m in milestones) {
-      if (learned >= m) s.badges.add(m);
     }
     s.scheduleSave();
   }
@@ -73,6 +74,7 @@ class Motivation {
     required ProgressStore store,
     required int goal,
     required int learnedCount,
+    required int badgeCount,
     required DateTime now,
     List<LevelStep> levels = const [],
   }) {
@@ -128,7 +130,7 @@ class Motivation {
 
     // Číselný milník se při současném posunu úrovně zapíše jen tiše.
     for (final m in milestones) {
-      if (learnedCount >= m && !store.badges.contains(m)) {
+      if (badgeCount >= m && !store.badges.contains(m)) {
         store.badges.add(m);
         if (!levelUp) out.add(Achievement(AchievementType.milestone, m));
         store.scheduleSave();

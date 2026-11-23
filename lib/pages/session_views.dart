@@ -16,6 +16,9 @@ import '../widgets/swipe_hint.dart';
 import '../widgets/tone_button.dart';
 import '../widgets/backup_reminder.dart';
 
+String _slov(int n) =>
+    n == 1 ? 'slovo' : (n >= 2 && n <= 4 ? 'slova' : 'slov');
+
 /// Obrazovka mezi fázemi (po opakování, po pětici, po dávce): shrnutí a volba, jak dál.
 class InterludeView extends StatelessWidget {
   final StudyController c;
@@ -38,10 +41,7 @@ class InterludeView extends StatelessWidget {
         colors = [kToneGreen.solidA, kToneGreen.solidB];
         title = 'Opakování hotovo';
         tiles.add(_Tile(s.reviewedInBlock, 'zopakováno', kReviewColor));
-        final more =
-            s.mode == StudyMode.both
-                ? s.backlog >= StudySession.reviewBatch
-                : s.backlog > 0;
+        final more = s.backlog > 0;
         if (more) {
           subtitle = 'Zbývá ještě ${s.backlog} splatných slov.';
           tiles.add(_Tile(s.backlog, 'zbývá', kToneAmber.accent));
@@ -49,8 +49,12 @@ class InterludeView extends StatelessWidget {
           primary = c.continueReviews;
         } else if (s.mode == StudyMode.both &&
             s.unseenCount + s.learningCount > 0) {
-          subtitle = 'Hotovo! Začít ${StudySession.groupSize} nových slov?';
-          primaryLabel = 'Učit nová slova';
+          final n = s.nextGroupCount;
+          subtitle =
+              s.goalReached
+                  ? 'Dnešní cíl nových slov máš splněný. Chceš se učit dál?'
+                  : 'Hotovo! Začít s novými slovy?';
+          primaryLabel = 'Učit $n ${_slov(n)}';
           primary = c.startLearning;
         } else {
           subtitle = 'Dnes máš opakování hotové.';
@@ -59,12 +63,15 @@ class InterludeView extends StatelessWidget {
         icon = Icons.auto_awesome_rounded;
         colors = [kToneAmber.a, kToneAmber.solidA];
         title = 'Skupina hotová';
-        subtitle = 'Další skupina nových slov čeká.';
+        subtitle =
+            s.goalReached
+                ? 'Dnešní cíl nových slov máš splněný. Chceš se učit dál?'
+                : 'Další skupina nových slov čeká.';
         tiles.add(_Tile(s.learnedInBlock, 'naučeno', kToneAmber.accent));
         if (s.skippedInBlock > 0) {
           tiles.add(_Tile(s.skippedInBlock, 'přeskočeno', kBlue));
         }
-        primaryLabel = 'Další skupina';
+        primaryLabel = 'Učit ${s.nextGroupCount} ${_slov(s.nextGroupCount)}';
         primary = c.startLearning;
       case InterludeKind.blockDone:
         icon = Icons.emoji_events_rounded;

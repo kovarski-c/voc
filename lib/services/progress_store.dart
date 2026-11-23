@@ -50,6 +50,10 @@ class ProgressStore {
   final Set<int> badges = {};
   bool badgesSeeded = false;
 
+  /// Kolik slov z úvodního testu bylo při jeho zapsání v opakování. Odznaky
+  /// počítají jen slova naučená nad tuto základnu.
+  int badgeBase = 0;
+
   /// Kódy dosažených úrovní slovní zásoby ('A1', ...).
   final Set<String> levelCodes = {};
   bool levelsSeeded = false;
@@ -169,7 +173,8 @@ class ProgressStore {
     freezes = (m['f'] as num?)?.toInt() ?? 0;
     goalCelebratedDay = (m['g'] as num?)?.toInt() ?? 0;
     badges.addAll(List<int>.from((m['badges'] as List?) ?? const []));
-    badgesSeeded = ((m['seeded'] as num?)?.toInt() ?? 0) == 1;
+    badgesSeeded = ((m['seeded'] as num?)?.toInt() ?? 0) >= 2;
+    badgeBase = (m['bb'] as num?)?.toInt() ?? 0;
     levelCodes.addAll(List<String>.from((m['lv'] as List?) ?? const []));
     levelsSeeded = ((m['lvSeeded'] as num?)?.toInt() ?? 0) == 1;
     placementDone = ((m['pl'] as num?)?.toInt() ?? 0) == 1;
@@ -186,7 +191,8 @@ class ProgressStore {
       'f': freezes,
       'g': goalCelebratedDay,
       'badges': badges.toList()..sort(),
-      'seeded': badgesSeeded ? 1 : 0,
+      'seeded': badgesSeeded ? 2 : 0,
+      'bb': badgeBase,
       'lv': levelCodes.toList()..sort(),
       'lvSeeded': levelsSeeded ? 1 : 0,
       'pl': placementDone ? 1 : 0,
