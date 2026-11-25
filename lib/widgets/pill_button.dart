@@ -65,7 +65,7 @@ class PillButton extends StatelessWidget {
                     end: Alignment.bottomRight,
                   )
                   : null,
-          color: filled ? null : Colors.white,
+          color: filled ? null : kSurface,
           border: filled ? null : Border.all(color: color, width: 2),
           boxShadow:
               filled

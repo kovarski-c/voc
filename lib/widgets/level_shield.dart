@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:material_ui/material_ui.dart';
+import '../theme.dart';
 
 import '../models/level.dart';
 
@@ -36,10 +37,7 @@ class LevelShield extends StatelessWidget {
                 fontSize: width * 0.40,
                 fontWeight: FontWeight.w800,
                 height: 1.0,
-                color:
-                    earned
-                        ? level.onColor
-                        : const Color.fromARGB(255, 162, 164, 169),
+                color: earned ? level.onColor : kInactShieldTxt,
               ),
             ),
           ),
@@ -88,7 +86,7 @@ class _ShieldPainter extends CustomPainter {
           ).createShader(rect),
       );
     } else {
-      canvas.drawPath(path, Paint()..color = Colors.grey.shade200);
+      canvas.drawPath(path, Paint()..color = kInactShieldBg);
       final stroke = math.max(1.4, size.width * 0.07);
       canvas.save();
       // obrys vykreslený dovnitř štítu
@@ -182,7 +180,15 @@ class LevelScale extends StatelessWidget {
                       top: 0,
                       bottom: 0,
                       width: 2,
-                      child: const ColoredBox(color: Color(0xCCFFFFFF)),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color:
+                              kSurface, // barva se nastavuje tady, ne přímo na Containeru
+                          borderRadius: BorderRadius.circular(
+                            16,
+                          ), // poloměr zaoblení v pixelech
+                        ),
+                      ),
                     ),
               ],
             ),

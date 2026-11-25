@@ -14,7 +14,7 @@ import 'services/scheduler.dart';
 import 'services/settings_store.dart';
 import 'services/tips.dart';
 import 'services/study_session.dart';
-import 'theme.dart' show AppThemeId;
+import 'theme.dart' show AppBrightness, AppThemeId;
 import 'models/day_stat.dart';
 
 /// Souhrn jedné "stovky" slov pro mapu slov.
@@ -131,7 +131,10 @@ class StudyController extends ChangeNotifier {
   /// Kolik slov nad úrovní [known] má vlastní pokrok (neoznačené z testu).
   int practicedAbove(int known) =>
       store.cards.entries
-          .where((e) => !e.value.fromPlacement && (_posInOrder[e.key] ?? -1) >= known)
+          .where(
+            (e) =>
+                !e.value.fromPlacement && (_posInOrder[e.key] ?? -1) >= known,
+          )
           .length;
 
   // --- filtr vulgarit a číslování ---
@@ -153,7 +156,8 @@ class StudyController extends ChangeNotifier {
       isHidden: _hidden,
       cards: store.cards,
       prioritized: store.prioritized,
-      onCardDone: (learned, wasDue) => store.recordDone(learned, wasDue: wasDue),
+      onCardDone:
+          (learned, wasDue) => store.recordDone(learned, wasDue: wasDue),
       newWordsGoal: () => settings.newWordsGoal,
       recallNew: () => settings.newWordMode == NewWordMode.recall,
       learnedToday:
@@ -543,6 +547,7 @@ class StudyController extends ChangeNotifier {
       enabled: settings.reminderEnabled,
       minutes: settings.reminderMinutes,
       lastActiveDay: store.lastActiveDay,
+      streak: Motivation.streakNow(store, DateTime.now()),
     );
   }
 
@@ -560,6 +565,13 @@ class StudyController extends ChangeNotifier {
     settings.reminderMinutes = minutes.clamp(0, 1439);
     SettingsStore.save(settings);
     syncReminder();
+    notifyListeners();
+  }
+
+  void setAppearance(AppBrightness b) {
+    if (settings.appearance == b) return;
+    settings.appearance = b;
+    SettingsStore.save(settings);
     notifyListeners();
   }
 

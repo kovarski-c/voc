@@ -58,7 +58,7 @@ class _WordListPageState extends State<WordListPage> {
     ];
     final picked = await showModalBottomSheet<CardKind>(
       context: context,
-      backgroundColor: Colors.white,
+      backgroundColor: kSurface,
       showDragHandle: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -167,7 +167,7 @@ class _WordListPageState extends State<WordListPage> {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.white,
+      backgroundColor: kSurface,
       showDragHandle: true,
       constraints: BoxConstraints(
         maxHeight: MediaQuery.of(context).size.height * 0.7,
@@ -379,7 +379,7 @@ class _WordListPageState extends State<WordListPage> {
                 borderSide: BorderSide.none,
               ),
               filled: true,
-              fillColor: Colors.white,
+              fillColor: kSurface,
             ),
             onChanged: (value) => setState(() => _search = value),
           ),
@@ -428,7 +428,7 @@ class _WordListPageState extends State<WordListPage> {
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12),
-                                    color: Colors.white,
+                                    color: kSurface,
                                   ),
                                   child: Stack(
                                     alignment: Alignment.center,
@@ -532,7 +532,7 @@ class _Toggle extends StatelessWidget {
           duration: const Duration(milliseconds: 180),
           height: 40,
           decoration: BoxDecoration(
-            color: selected ? Colors.white : kTrack,
+            color: selected ? kSurface : kTrack,
             borderRadius: BorderRadius.circular(12),
             boxShadow: selected ? softShadow(0.08) : null,
           ),

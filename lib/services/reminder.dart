@@ -61,6 +61,8 @@ class Reminder {
   static tz.TZDateTime _nextDay(tz.TZDateTime d) =>
       tz.TZDateTime(tz.local, d.year, d.month, d.day + 1, d.hour, d.minute);
 
+  static String _dni(int n) => n == 1 ? 'den' : (n <= 4 ? 'dny' : 'dní');
+
   /// Zruší starou připomínku a podle nastavení naplánuje novou.
   /// [lastActiveDay] = poslední studijní den započítaný do série
   /// (viz ProgressStore.lastActiveDay).
@@ -68,6 +70,7 @@ class Reminder {
     required bool enabled,
     required int minutes,
     required int lastActiveDay,
+    required int streak,
   }) async {
     if (!_ready) return;
     try {
@@ -85,17 +88,24 @@ class Reminder {
       );
       if (!when.isAfter(now)) when = _nextDay(when);
       // Studijní den (začíná ve 4:00), který už je v sérii, se přeskočí.
-      for (var i = 0;
-          i < 3 && Scheduler.studyDayNumber(when) <= lastActiveDay;
-          i++) {
+      for (
+        var i = 0;
+        i < 3 && Scheduler.studyDayNumber(when) <= lastActiveDay;
+        i++
+      ) {
         when = _nextDay(when);
       }
 
       await _plugin.zonedSchedule(
         id: _id,
-        title: 'Neztrať svou sérii 🔥',
+        title:
+            streak > 0
+                ? 'Už se učíš $streak ${_dni(streak)}!'
+                : 'Neztrať svou sérii 🔥',
         body:
-            'Stačí ${Motivation.streakMinCards} karet a dnešek se ti do série započítá.',
+            streak > 0
+                ? 'Dotáhneš to na ${streak + 1}? Stačí ${Motivation.streakMinCards} slovíček 🔥'
+                : 'Stačí ${Motivation.streakMinCards} karet a dnešek se ti započítá do série.',
         scheduledDate: when,
         notificationDetails: const NotificationDetails(
           android: AndroidNotificationDetails(

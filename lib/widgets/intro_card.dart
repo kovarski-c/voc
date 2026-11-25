@@ -151,7 +151,7 @@ class _IntroCardState extends State<IntroCard>
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(kCardRadius),
       ),
-      color: Colors.white,
+      color: kSurface,
       child: ConstrainedBox(
         constraints: BoxConstraints(
           minWidth: kCardSize,

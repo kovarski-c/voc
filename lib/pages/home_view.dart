@@ -230,7 +230,7 @@ class _Header extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: kSurface,
                 borderRadius: BorderRadius.circular(26),
                 boxShadow: softShadow(),
               ),
@@ -278,7 +278,7 @@ class _Header extends StatelessWidget {
             height: 46,
             padding: const EdgeInsets.all(7),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: kSurface,
               shape: BoxShape.circle,
               boxShadow: softShadow(),
             ),
@@ -318,7 +318,7 @@ class _Header extends StatelessWidget {
             height: 46,
             padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: kSurface,
               borderRadius: BorderRadius.circular(23),
               boxShadow: softShadow(),
             ),
@@ -374,16 +374,15 @@ class _ProgressCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final darkColor =
-        level?.dark ?? Color.lerp(kToneBlue.inkSoft, Colors.white, 0.3)!;
-    final lightColor = Color.lerp(darkColor, Colors.white, 0.5)!;
+        level?.dark ?? Color.lerp(kToneBlue.inkSoft, kTrack, 0.3)!;
+    final lightColor = Color.lerp(darkColor, kTrack, 0.5)!;
     // přechod pruhu = barvy štítu aktuální úrovně (light -> dark)
-    final startColor =
-        level?.light ?? Color.lerp(darkColor, Colors.white, 0.3)!;
-    final paleStart = Color.lerp(startColor, Colors.white, 0.5)!;
+    final startColor = level?.light ?? Color.lerp(darkColor, kTrack, 0.3)!;
+    final paleStart = Color.lerp(startColor, kTrack, 0.5)!;
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: kSurface,
         borderRadius: BorderRadius.circular(24),
         boxShadow: softShadow(),
       ),
@@ -501,7 +500,7 @@ class _StatPill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: kSurface,
         borderRadius: BorderRadius.circular(18),
         boxShadow: softShadow(0.05),
       ),
@@ -611,9 +610,7 @@ class _DirectionPicker extends StatelessWidget {
                     // Neaktivní výplň má barvu podkladu (neprůhledná), jinak by
                     // při animaci stín prosvítal a problikl by tmavě.
                     color:
-                        c.settings.directionMode == e.key
-                            ? Colors.white
-                            : kTrack,
+                        c.settings.directionMode == e.key ? kSurface : kTrack,
                     borderRadius: BorderRadius.circular(12),
                     boxShadow:
                         c.settings.directionMode == e.key
@@ -685,6 +682,7 @@ class _ModeCardState extends State<_ModeCard> {
     final accent = enabled ? tone.accent : _offAccent;
     final titleColor = enabled ? tone.ink : kMuted;
     final subColor = enabled ? tone.inkSoft : kMuted;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final titleText = Text(
       w.title,
@@ -750,7 +748,12 @@ class _ModeCardState extends State<_ModeCard> {
           color: enabled ? null : _offBg,
           borderRadius: radius,
           border: Border.all(
-            color: enabled ? Colors.white.withValues(alpha: 0.9) : _offBorder,
+            color:
+                enabled
+                    ? (isDark
+                        ? tone.accent.withValues(alpha: 0)
+                        : kSurface.withValues(alpha: 0))
+                    : _offBorder,
             width: 1.5,
           ),
         ),

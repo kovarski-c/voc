@@ -169,7 +169,7 @@ class InterludeView extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: kSurface,
                   borderRadius: BorderRadius.circular(18),
                   boxShadow: softShadow(0.05),
                 ),
@@ -270,7 +270,7 @@ class _Tile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: kSurface,
         borderRadius: BorderRadius.circular(18),
         boxShadow: softShadow(0.06),
       ),

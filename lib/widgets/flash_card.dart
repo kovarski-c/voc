@@ -215,7 +215,7 @@ class _FlashCardState extends State<FlashCard> with TickerProviderStateMixin {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(kCardRadius),
       ),
-      color: Colors.white,
+      color: kSurface,
       child: ConstrainedBox(
         // Výška: aspoň čtverec, s dlouhým textem se protáhne (karta zůstane
         // vycentrovaná) až do maxHeight, pak se text uvnitř scrolluje.

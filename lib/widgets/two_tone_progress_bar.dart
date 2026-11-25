@@ -56,7 +56,7 @@ class TwoToneProgressBar extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey[300],
+                  color: kBarTrack,
                   borderRadius: radius,
                 ),
               ),

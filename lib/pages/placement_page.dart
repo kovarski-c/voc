@@ -202,7 +202,7 @@ class _PlacementPageState extends State<PlacementPage> {
                     },
                     icon: Icon(Icons.arrow_back_rounded, color: kInk),
                     style: IconButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: kSurface,
                       fixedSize: const Size(44, 44),
                       shadowColor: Colors.black,
                       elevation: 1,
@@ -679,11 +679,11 @@ class _OptionCardState extends State<_OptionCard> {
         child: Container(
           decoration: BoxDecoration(
             gradient: tone?.soft(),
-            color: white ? Colors.white : null,
+            color: white ? kSurface : null,
             borderRadius: radius,
             boxShadow: white ? softShadow() : null,
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.9),
+              color: kSurface.withValues(alpha: 0.9),
               width: 1.5,
             ),
           ),
@@ -732,7 +732,7 @@ class _OptionCardState extends State<_OptionCard> {
                             style: TextStyle(
                               fontSize: w.big ? 19 : 17,
                               fontWeight: FontWeight.w800,
-                              color: white ? kInk : Colors.black,
+                              color: kInk,
                             ),
                           ),
                           const SizedBox(height: 3),
@@ -740,7 +740,7 @@ class _OptionCardState extends State<_OptionCard> {
                             w.subtitle,
                             style: TextStyle(
                               fontSize: 13.5,
-                              color: white ? kMuted : Colors.black87,
+                              color: white ? kMuted : kInk.withValues(alpha: 0.87),
                             ),
                           ),
                         ],
@@ -813,7 +813,7 @@ class _TestCardState extends State<_TestCard>
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Colors.white, Color.lerp(Colors.white, kToneBlue.b, 0.5)!],
+          colors: [kSurface, Color.lerp(kSurface, kToneBlue.b, 0.5)!],
         ),
         borderRadius: BorderRadius.circular(30),
         border: Border.all(color: kBlue.withValues(alpha: 0.10), width: 1.5),

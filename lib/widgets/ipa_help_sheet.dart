@@ -66,7 +66,7 @@ Future<void> showIpaHelp(BuildContext context, Course course) {
                     const SizedBox(height: 8),
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: kSurface,
                         borderRadius: BorderRadius.circular(18),
                         boxShadow: softShadow(0.05),
                       ),

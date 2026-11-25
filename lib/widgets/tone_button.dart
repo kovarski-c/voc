@@ -114,7 +114,7 @@ class _ToneButtonState extends State<ToneButton> {
           color: enabled ? null : _offBg,
           borderRadius: radius,
           border: Border.all(
-            color: Colors.white.withValues(alpha: 0.9),
+            color: kSurface.withValues(alpha: 0.9),
             width: 1.5,
           ),
         ),

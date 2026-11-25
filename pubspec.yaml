@@ -58,6 +58,7 @@ flutter_icons:
   remove_alpha_ios: true
   adaptive_icon_background: "#FFFFFF"
   adaptive_icon_foreground: "assets/icons/icon_foreground.png"
+  adaptive_icon_monochrome: "assets/icons/icon_monochromatic.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

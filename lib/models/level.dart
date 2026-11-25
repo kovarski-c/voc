@@ -32,8 +32,7 @@ class LevelStep {
 
   Color get light => _light(palette); // světlejší konec přechodu
   Color get dark => _dark(palette); // sytější konec přechodu / obrys
-  Color get onColor =>
-      _onColor?.call(palette) ?? const Color(0xFFFFFFFF); // písmena na štítu
+  Color get onColor => _onColor?.call(palette) ?? kSurface; // písmena na štítu
 }
 
 /// Výchozí texty podle kódu úrovně. Úrovně jsou podle počtu slov, ne podle

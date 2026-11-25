@@ -48,15 +48,33 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     if (state != AppLifecycleState.resumed) _controller?.flush();
   }
 
+  /// Paleta podle schématu, režimu a jasu systému.
+  AppPalette _resolvePalette(AppSettings s) => paletteFor(
+    s.theme,
+    dark: resolveDark(
+      s.appearance,
+      WidgetsBinding.instance.platformDispatcher.platformBrightness,
+    ),
+  );
+
   void _syncTheme() {
-    final p = paletteFor(_settings!.theme);
+    final s = _settings;
+    if (s == null) return;
+    final p = _resolvePalette(s);
     if (!identical(p, palette)) setState(() => palette = p);
+  }
+
+  // Přepnutí jasu systému (při režimu "Podle systému").
+  @override
+  void didChangePlatformBrightness() {
+    super.didChangePlatformBrightness();
+    _syncTheme();
   }
 
   Future<void> _boot() async {
     final settings = await SettingsStore.load();
     _settings = settings;
-    palette = paletteFor(settings.theme);
+    palette = _resolvePalette(settings);
     _courses = await loadCourses();
     Course? course;
     for (final c in _courses) {
@@ -159,7 +177,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       title: 'Voc | Learn words from most useful',
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: kBlue),
+        brightness: palette.dark ? Brightness.dark : Brightness.light,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: kBlue,
+          brightness: palette.dark ? Brightness.dark : Brightness.light,
+        ),
         scaffoldBackgroundColor: kBg,
         sliderTheme: SliderThemeData(
           tickMarkShape: SliderTickMarkShape.noTickMark,

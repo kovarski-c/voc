@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:material_ui/material_ui.dart';
+import '../theme.dart';
 
 /// Pruh průběhu, jehož výplň má vždy zaoblené konce (i při velmi malé hodnotě).
 /// Výplň je nejméně tak široká jako vysoká, takže na začátku vypadá jako kolečko.
@@ -30,7 +31,7 @@ class RoundedProgressBar extends StatelessWidget {
             children: [
               Container(
                 decoration:
-                    BoxDecoration(color: Colors.grey[300], borderRadius: radius),
+                    BoxDecoration(color: kBarTrack, borderRadius: radius),
               ),
               AnimatedContainer(
                 duration: const Duration(milliseconds: 300),

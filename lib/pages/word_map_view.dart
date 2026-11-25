@@ -171,7 +171,7 @@ class WordMapView extends StatelessWidget {
   void _showBand(BuildContext context, BandStat b) {
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: Colors.white,
+      backgroundColor: kSurface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),

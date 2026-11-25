@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import '../theme.dart' show AppThemeId;
+import '../theme.dart' show AppBrightness, AppThemeId;
 import 'storage.dart';
 
 /// Jak se volí strana karty, která se ukáže jako první.
@@ -35,8 +35,11 @@ class AppSettings {
   /// Skrýt vulgární slova (vulgar=1). Výchozí je zapnuto.
   bool hideVulgar;
 
-  /// Barevné téma.
+  /// Barevné schéma.
   AppThemeId theme;
+
+  /// Světlý / tmavý režim (výchozí podle systému).
+  AppBrightness appearance;
 
   /// Zobrazovat denní tip na domovské stránce.
   bool showTips;
@@ -57,6 +60,7 @@ class AppSettings {
     this.haptics = true,
     this.hideVulgar = true,
     this.theme = AppThemeId.classic,
+    this.appearance = AppBrightness.system,
     this.showTips = true,
     this.reminderEnabled = false,
     this.reminderMinutes = 20 * 60,
@@ -72,6 +76,7 @@ class AppSettings {
         'hap': haptics ? 1 : 0,
         'vul': hideVulgar ? 1 : 0,
         'thm': theme.index,
+        'app': appearance.index,
         'tips': showTips ? 1 : 0,
         'rem': reminderEnabled ? 1 : 0,
         'remt': reminderMinutes,
@@ -91,6 +96,8 @@ class AppSettings {
         hideVulgar: ((m['vul'] as num?)?.toInt() ?? 1) == 1,
         theme: AppThemeId
             .values[((m['thm'] as num?)?.toInt() ?? 0).clamp(0, AppThemeId.values.length - 1)],
+        appearance: AppBrightness
+            .values[((m['app'] as num?)?.toInt() ?? 0).clamp(0, AppBrightness.values.length - 1)],
         showTips: ((m['tips'] as num?)?.toInt() ?? 1) == 1,
         reminderEnabled: ((m['rem'] as num?)?.toInt() ?? 0) == 1,
         reminderMinutes:

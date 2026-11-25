@@ -38,7 +38,7 @@ class LanguagePickerPage extends StatelessWidget {
           for (final c in courses)
             Card(
               elevation: 0,
-              color: Colors.white,
+              color: kSurface,
               margin: const EdgeInsets.only(bottom: 10),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),

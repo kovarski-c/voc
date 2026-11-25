@@ -81,7 +81,7 @@ class _WeekChartState extends State<WeekChart> {
     return Container(
       padding: const EdgeInsets.fromLTRB(18, 16, 18, 14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: kSurface,
         borderRadius: BorderRadius.circular(22),
         boxShadow: softShadow(),
       ),
@@ -197,9 +197,13 @@ class _WeekChartState extends State<WeekChart> {
   }
 
   void _showLegend() {
-    final dark = Color.lerp(kToneBlue.solidA, Colors.white, 0.35)!;
-    final lightC = Color.lerp(kToneBlue.solidA, Colors.white, 0.55 * 1.3)!;
-    final lightLine = Color.lerp(kToneBlue.solidA, Colors.white, 0.55)!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final dark =
+        Color.lerp(kToneBlue.solidA, Colors.white, isDark ? 0.0 : 0.35)!;
+    final lightC =
+        Color.lerp(kToneBlue.solidA, kSurface, isDark ? 0.6 : (0.55 * 1.3))!;
+    final lightLine =
+        Color.lerp(kToneBlue.solidA, Colors.white, isDark ? 0.0 : 0.55)!;
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -242,13 +246,13 @@ class _WeekChartState extends State<WeekChart> {
                 const SizedBox(height: 18),
                 _legendRow(
                   _legendBar(lightC),
-                  'Světlý sloupec:',
+                  'Méně výrazný sloupec:',
                   'všechna slova dne, nová i zopakovaná. Plný je, když splníš '
                       'denní cíl (${widget.goal}), do té doby je jen obrys.',
                 ),
                 _legendRow(
                   _legendBar(dark),
-                  'Tmavý sloupec:',
+                  'Výraznější sloupec:',
                   'jen nová naučená slova. Plný je, když splníš cíl nových '
                       'slov (${widget.newGoal}), do té doby je jen obrys.',
                 ),
@@ -436,9 +440,9 @@ class _WeekChartState extends State<WeekChart> {
       height: _bubbleH,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: kSurface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white, width: 1.6),
+        border: Border.all(color: kSurface, width: 1.6),
         boxShadow: softShadow(0.18),
       ),
       child: Column(
@@ -459,12 +463,14 @@ class _WeekChartState extends State<WeekChart> {
     required double scale,
     required double grow,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final selected = _selected == i;
     final reached = d.total >= widget.goal && d.total > 0;
     final newReached = d.learned > 0 && d.learned >= widget.newGoal;
     final both = reached && newReached; // fajfka jen při splnění obou cílů
-    final dark = Color.lerp(kToneBlue.solidA, Colors.white, 0.35)!;
-    final light = Color.lerp(kToneBlue.solidA, Colors.white, 0.55 * 1.3)!;
+    final dark = Color.lerp(kToneBlue.solidA, kSurface, isDark ? 0 : 0.35)!;
+    final light =
+        Color.lerp(kToneBlue.solidA, kSurface, isDark ? 0.6 : (0.55 * 1.3))!;
     const double radiusVal = 8.0;
 
     double h(int v) {
@@ -544,11 +550,15 @@ class _WeekChartState extends State<WeekChart> {
               fill:
                   reached
                       ? Color.lerp(light, dark, selected ? 0.5 : 0)!
-                      : Colors.white,
+                      : kSurface,
               border:
                   reached
                       ? null
-                      : Color.lerp(light, dark, selected ? 0.5 : 0.0)!,
+                      : Color.lerp(
+                        light,
+                        dark,
+                        selected ? (isDark ? 0 : 0.5) : 0.0,
+                      )!,
             ),
             // 2. vpředu: jen naučená; plná při splněném cíli, jinak obrys
             if (hLearn > 0)
@@ -561,7 +571,7 @@ class _WeekChartState extends State<WeekChart> {
                           kToneBlue.solidA,
                           selected ? 0.6 : 0,
                         )!
-                        : Colors.white,
+                        : kSurface,
                 border:
                     newReached
                         ? null

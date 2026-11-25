@@ -221,21 +221,46 @@ class SettingsPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               _Section(
-                title: 'Vzhled',
+                title: 'Režim',
                 child: Row(
                   children: [
-                    for (final t in AppThemeId.values) ...[
-                      if (t != AppThemeId.values.first)
-                        const SizedBox(width: 12),
+                    for (final b in AppBrightness.values) ...[
+                      if (b != AppBrightness.values.first)
+                        const SizedBox(width: 10),
                       Expanded(
-                        child: _ThemeOption(
-                          id: t,
-                          selected: c.settings.theme == t,
-                          onTap: () => c.setTheme(t),
+                        child: _Choice(
+                          label: b.label,
+                          selected: c.settings.appearance == b,
+                          onTap: () => c.setAppearance(b),
                         ),
                       ),
                     ],
                   ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              _Section(
+                title: 'Barevné schéma',
+                child: LayoutBuilder(
+                  builder: (context, box) {
+                    // Dva sloupce; další schémata se zalamují na nové řádky.
+                    final w = (box.maxWidth - 12) / 2;
+                    return Wrap(
+                      spacing: 12,
+                      runSpacing: 12,
+                      children: [
+                        for (final t in AppThemeId.values)
+                          SizedBox(
+                            width: w,
+                            child: _ThemeOption(
+                              id: t,
+                              selected: c.settings.theme == t,
+                              onTap: () => c.setTheme(t),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 16),
@@ -413,7 +438,7 @@ class _Section extends StatelessWidget {
           width: double.infinity,
           padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: kSurface,
             borderRadius: BorderRadius.circular(22),
             boxShadow: softShadow(),
           ),
@@ -545,7 +570,8 @@ class _ThemeOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final p = paletteFor(id);
+    // Náhled schématu v právě používaném režimu (světlý/tmavý).
+    final p = paletteFor(id, dark: palette.dark);
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: onTap,
