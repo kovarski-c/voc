@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.voc_autumn_2025"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 37
     ndkVersion = "29.0.14033849"
 
     compileOptions {
