@@ -33,7 +33,7 @@ class Reminder {
       tz.setLocalLocation(tz.getLocation(zone.identifier));
       await _plugin.initialize(
         settings: InitializationSettings(
-          android: const AndroidInitializationSettings('@mipmap/ic_launcher'),
+          android: const AndroidInitializationSettings('ic_notification'),
         ),
       );
       _ready = true;
@@ -114,6 +114,7 @@ class Reminder {
             channelDescription: 'Denní připomínka, aby se neztratila série.',
             importance: Importance.high,
             priority: Priority.high,
+            icon: 'ic_notification',
           ),
         ),
         // Nepřesný čas (může se opozdit o pár minut) nevyžaduje zvláštní
