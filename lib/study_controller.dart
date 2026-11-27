@@ -12,6 +12,7 @@ import 'services/progress_store.dart';
 import 'services/reminder.dart';
 import 'services/scheduler.dart';
 import 'services/settings_store.dart';
+import 'services/streak_store.dart';
 import 'services/tips.dart';
 import 'services/study_session.dart';
 import 'theme.dart' show AppBrightness, AppThemeId;
@@ -35,11 +36,15 @@ class BandStat {
 
 /// Spojuje relaci (StudySession), ukládání, nastavení a UI.
 class StudyController extends ChangeNotifier {
-  StudyController(this.course, this.store, this.settings);
+  StudyController(this.course, this.store, this.settings, this.streakStore);
 
   final Course course;
   final ProgressStore store;
   final AppSettings settings; // sdílené nastavení celé aplikace
+  final StreakStore streakStore; // série společná pro všechny kurzy
+
+  /// Nastavení tohoto kurzu (cíle, režim nových slov, vulgární slova, směr karet).
+  late final CourseSettings cs = settings.forCourse(course.id);
   late StudySession session;
   List<int> _order = const []; // viditelné klíče v pořadí učení
   Map<int, int> _posInOrder = const {}; // klíč -> pozice ve viditelném seznamu
@@ -66,6 +71,8 @@ class StudyController extends ChangeNotifier {
       store.placementDone = true;
       store.scheduleSave();
     }
+    // Série se mohla dostat přes hranici (např. po převzetí ze starých kurzů).
+    Motivation.creditStreak(streakStore, DateTime.now());
     await syncReminder();
   }
 
@@ -106,7 +113,7 @@ class StudyController extends ChangeNotifier {
       known: known,
       answers: answers,
       existing: store.cards.keys.toSet(),
-      perDay: PlacementPlan.perDayFor(settings.dailyGoal),
+      perDay: PlacementPlan.perDayFor(cs.dailyGoal),
       now: DateTime.now(),
     );
     store.cards.addAll(plan);
@@ -138,14 +145,19 @@ class StudyController extends ChangeNotifier {
           .length;
 
   // --- filtr vulgarit a číslování ---
-  bool _hidden(int key) =>
-      !course.has(key) || (settings.hideVulgar && course.isVulgar(key));
+  bool _hiddenBase(int key) =>
+      !course.has(key) || (cs.hideVulgar && course.isVulgar(key));
+
+  /// Skrytá slova (vulgarity a slova vyřazená tlačítkem „Neučit“). Vyřazená
+  /// zůstávají v seznamu slov (jde je vrátit), ale session je nenabízí a
+  /// nepočítají se do pokroku.
+  bool _hidden(int key) => _hiddenBase(key) || store.excluded.contains(key);
 
   /// Přepočítá viditelný seznam a založí novou relaci (postup v úložišti zůstává).
   void _rebuildView() {
     _order = [
       for (final k in course.keys)
-        if (!_hidden(k)) k,
+        if (!_hiddenBase(k)) k,
     ];
     _posInOrder = {for (var i = 0; i < _order.length; i++) _order[i]: i};
     _undo.clear();
@@ -157,9 +169,12 @@ class StudyController extends ChangeNotifier {
       cards: store.cards,
       prioritized: store.prioritized,
       onCardDone:
-          (learned, wasDue) => store.recordDone(learned, wasDue: wasDue),
-      newWordsGoal: () => settings.newWordsGoal,
-      recallNew: () => settings.newWordMode == NewWordMode.recall,
+          (learned, wasDue) {
+            store.recordDone(learned, wasDue: wasDue);
+            streakStore.recordCard();
+          },
+      newWordsGoal: () => cs.newWordsGoal,
+      recallNew: () => cs.newWordMode == NewWordMode.recall,
       learnedToday:
           () =>
               store.history[Scheduler.studyDayNumber(DateTime.now())]?[1] ?? 0,
@@ -216,10 +231,10 @@ class StudyController extends ChangeNotifier {
 
   // --- motivace ---
   int get doneToday => store.doneToday;
-  int get dailyGoal => settings.dailyGoal;
-  int get newWordsGoal => settings.newWordsGoal;
-  int get streak => Motivation.streakNow(store, DateTime.now());
-  int get bestStreak => store.bestStreak;
+  int get dailyGoal => cs.dailyGoal;
+  int get newWordsGoal => cs.newWordsGoal;
+  int get streak => Motivation.streakNow(streakStore, DateTime.now());
+  int get bestStreak => streakStore.bestStreak;
   Set<int> get badges => store.badges;
 
   List<DayStat> lastDays(int count, {int endOffset = 0}) {
@@ -253,7 +268,8 @@ class StudyController extends ChangeNotifier {
     _pending.addAll(
       Motivation.update(
         store: store,
-        goal: settings.dailyGoal,
+        streakStore: streakStore,
+        goal: cs.dailyGoal,
         learnedCount: learnedCount,
         badgeCount: badgeCount,
         now: DateTime.now(),
@@ -289,6 +305,43 @@ class StudyController extends ChangeNotifier {
     return bands;
   }
 
+  // --- vyřazená slova („Neučit“) ---
+  bool isExcluded(int key) => store.excluded.contains(key);
+
+  /// Při představení lze vyřadit jen nové (ještě nezačaté) slovo.
+  bool canExclude(int key) =>
+      !store.cards.containsKey(key) && !store.excluded.contains(key);
+
+  /// Vyřazení nového slova při představení / prvním pokusu.
+  void excludeNew(int key) {
+    if (!canExclude(key)) return;
+    store.excluded.add(key);
+    store.prioritized.remove(key);
+    session.dropNew(key);
+    _undo.clear();
+    _afterProgress();
+    _changed();
+  }
+
+  /// Vyřazení libovolného slova ze seznamu (smaže i jeho pokrok).
+  void excludeWord(int key) {
+    store.excluded.add(key);
+    store.prioritized.remove(key);
+    store.cards.remove(key);
+    session.forget(key);
+    _undo.clear();
+    _afterProgress();
+    _changed();
+  }
+
+  /// Vrátí vyřazené slovo mezi nová.
+  void restoreWord(int key) {
+    if (!store.excluded.remove(key)) return;
+    _undo.clear();
+    _afterProgress();
+    _changed();
+  }
+
   // --- učit přednostně ---
   /// Označit lze jen nové slovo (naučená a rozpracovaná se řídí rozvrhem).
   bool canPrioritize(int key) => !store.cards.containsKey(key);
@@ -320,7 +373,7 @@ class StudyController extends ChangeNotifier {
 
   /// Která strana karty se ukáže jako první: true = rodné slovo (course.front).
   bool nativeFrontFor(int i) {
-    switch (settings.directionMode) {
+    switch (cs.directionMode) {
       case DirectionMode.nativeFront:
         return true;
       case DirectionMode.learnedFront:
@@ -333,7 +386,7 @@ class StudyController extends ChangeNotifier {
           if (p.streak == 1) return true; // 2. zkoušení: vybavit si učené slovo
         }
         final rnd = math.Random(i * 7919 + (_shown[i] ?? 0) * 104729 + 17);
-        return rnd.nextDouble() < settings.nativeFrontProb;
+        return rnd.nextDouble() < cs.nativeFrontProb;
     }
   }
 
@@ -349,6 +402,7 @@ class StudyController extends ChangeNotifier {
       _Undo(
         session.snapshot(),
         store.snapshotStats(),
+        streakStore.snapshot(),
         _pending.length,
         shownKey,
       ),
@@ -362,6 +416,7 @@ class StudyController extends ChangeNotifier {
     final u = _undo.removeLast();
     session.restore(u.session);
     store.restoreStats(u.stats);
+    streakStore.restore(u.streak);
     final k = u.shownKey;
     if (k != null) {
       final n = (_shown[k] ?? 0) - 1;
@@ -381,7 +436,7 @@ class StudyController extends ChangeNotifier {
   void _changed() {
     showBack = false;
     // Série se dnes právě započítala (nebo se to vzalo zpět): přeplánovat připomínku.
-    if (store.lastActiveDay != _reminderDay) syncReminder();
+    if (streakStore.lastActiveDay != _reminderDay) syncReminder();
     store.scheduleSave();
     notifyListeners();
   }
@@ -452,32 +507,32 @@ class StudyController extends ChangeNotifier {
   }
 
   void setDirectionMode(DirectionMode m) {
-    settings.directionMode = m;
+    cs.directionMode = m;
     SettingsStore.save(settings);
     notifyListeners();
   }
 
   void setNativeFrontProb(double v) {
-    settings.nativeFrontProb = v;
+    cs.nativeFrontProb = v;
     SettingsStore.save(settings);
     notifyListeners();
   }
 
   void setDailyGoal(int v) {
-    settings.dailyGoal = v;
+    cs.dailyGoal = v;
     SettingsStore.save(settings);
     notifyListeners();
   }
 
   void setNewWordsGoal(int v) {
-    settings.newWordsGoal = v.clamp(1, 50);
+    cs.newWordsGoal = v.clamp(1, 50);
     SettingsStore.save(settings);
     notifyListeners();
   }
 
   void setHideVulgar(bool v) {
-    if (settings.hideVulgar == v) return;
-    settings.hideVulgar = v;
+    if (cs.hideVulgar == v) return;
+    cs.hideVulgar = v;
     SettingsStore.save(settings);
     store.scheduleSave();
     _rebuildView(); // rozpracovaná relace se zahodí, postup zůstává
@@ -486,6 +541,7 @@ class StudyController extends ChangeNotifier {
 
   /// Ruční změna stavu slova (nové / učím se / umím) z detailu slova.
   void setWordKind(int key, CardKind kind) {
+    store.excluded.remove(key);
     final now = DateTime.now();
     final ms = now.millisecondsSinceEpoch;
     switch (kind) {
@@ -509,8 +565,20 @@ class StudyController extends ChangeNotifier {
     _changed();
   }
 
+  void markExcludeHelpSeen() {
+    if (settings.seenExcludeHelp) return;
+    settings.seenExcludeHelp = true;
+    SettingsStore.save(settings);
+  }
+
+  void markTipsHelpSeen() {
+    if (settings.seenTipsHelp) return;
+    settings.seenTipsHelp = true;
+    SettingsStore.save(settings);
+  }
+
   void setNewWordMode(NewWordMode m) {
-    settings.newWordMode = m;
+    cs.newWordMode = m;
     SettingsStore.save(settings);
     notifyListeners();
   }
@@ -537,17 +605,17 @@ class StudyController extends ChangeNotifier {
   }
 
   // --- připomínka série (Android) ---
-  int _reminderDay = -1; // lastActiveDay, pro který je připomínka naplánovaná
+  int _reminderDay = -1; // lastActiveDay série, pro který je připomínka naplánovaná
 
   /// Naplánuje (nebo zruší) připomínku podle nastavení a toho, jestli už je
   /// dnešek do série započítaný.
   Future<void> syncReminder() {
-    _reminderDay = store.lastActiveDay;
+    _reminderDay = streakStore.lastActiveDay;
     return Reminder.sync(
       enabled: settings.reminderEnabled,
       minutes: settings.reminderMinutes,
-      lastActiveDay: store.lastActiveDay,
-      streak: Motivation.streakNow(store, DateTime.now()),
+      lastActiveDay: streakStore.lastActiveDay,
+      streak: Motivation.streakNow(streakStore, DateTime.now()),
     );
   }
 
@@ -582,7 +650,7 @@ class StudyController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> flush() => store.flush();
+  Future<void> flush() => Future.wait([store.flush(), streakStore.flush()]);
 
   @override
   void dispose() {
@@ -595,7 +663,14 @@ class StudyController extends ChangeNotifier {
 class _Undo {
   final SessionSnapshot session;
   final StatsSnapshot stats;
+  final StreakSnapshot streak;
   final int pendingLen;
   final int? shownKey;
-  const _Undo(this.session, this.stats, this.pendingLen, this.shownKey);
+  const _Undo(
+    this.session,
+    this.stats,
+    this.streak,
+    this.pendingLen,
+    this.shownKey,
+  );
 }

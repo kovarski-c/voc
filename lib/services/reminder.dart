@@ -10,9 +10,10 @@ import 'scheduler.dart';
 /// Denní připomínka, aby člověk neztratil sérii. Jen Android; jinde (web,
 /// ostatní platformy) jsou všechny metody bez efektu a [supported] je false.
 ///
-/// Naplánuje se jedno opakující se oznámení (každý den ve stejný čas). Když je
-/// dnešek už do série započítaný, začne se opakovat až od zítřka, takže dnes
-/// už nepřijde.
+/// Naplánuje se řada jednorázových oznámení počítaná od posledního dne
+/// započítaného do (společné) série: týden každý den, pak jednou týdně
+/// a po měsíci už nic. Po každé změně (otevření aplikace, den započítaný do
+/// série) se plánuje znovu, takže po splnění série dnešní oznámení nepřijde.
 class Reminder {
   static const int _id = 1;
   static const String _channelId = 'streak_reminder';
@@ -58,14 +59,24 @@ class Reminder {
     }
   }
 
-  static tz.TZDateTime _nextDay(tz.TZDateTime d) =>
-      tz.TZDateTime(tz.local, d.year, d.month, d.day + 1, d.hour, d.minute);
-
   static String _dni(int n) => n == 1 ? 'den' : (n <= 4 ? 'dny' : 'dní');
+  static String _slovicek(int n) =>
+      n == 1 ? 'slovíčko' : (n <= 4 ? 'slovíčka' : 'slovíček');
 
-  /// Zruší starou připomínku a podle nastavení naplánuje novou.
+  /// Kolik oznámení se nejvíc plánuje předem (ID 1 až [_maxIds]).
+  static const int _maxIds = 12;
+
+  /// Dny po posledním započítaném dni, kdy přijde oznámení: nejdřív týden
+  /// každý den, pak jednou týdně a po měsíci už nic.
+  static const List<int> _offsets = [1, 2, 3, 4, 5, 6, 7, 8, 15, 22, 29];
+
+  /// Poslední den s denním oznámením (dál jen týdenní "vraťte se").
+  static const int _dailyUntil = 8;
+
+  /// Zruší staré připomínky a podle nastavení naplánuje novou řadu.
   /// [lastActiveDay] = poslední studijní den započítaný do série
-  /// (viz ProgressStore.lastActiveDay).
+  /// (viz StreakStore.lastActiveDay). Oznámení jsou jednorázová a plánují se
+  /// předem, takže řada doběhne i bez spuštěné aplikace.
   static Future<void> sync({
     required bool enabled,
     required int minutes,
@@ -74,11 +85,14 @@ class Reminder {
   }) async {
     if (!_ready) return;
     try {
-      await _plugin.cancel(id: _id);
+      for (var id = 1; id <= _maxIds; id++) {
+        await _plugin.cancel(id: id);
+      }
       if (!enabled) return;
 
       final now = tz.TZDateTime.now(tz.local);
-      var when = tz.TZDateTime(
+      // Čas připomínky dnes (může být už v minulosti) a jeho studijní den.
+      final first = tz.TZDateTime(
         tz.local,
         now.year,
         now.month,
@@ -86,42 +100,60 @@ class Reminder {
         minutes ~/ 60,
         minutes % 60,
       );
-      if (!when.isAfter(now)) when = _nextDay(when);
-      // Studijní den (začíná ve 4:00), který už je v sérii, se přeskočí.
-      for (
-        var i = 0;
-        i < 3 && Scheduler.studyDayNumber(when) <= lastActiveDay;
-        i++
-      ) {
-        when = _nextDay(when);
-      }
+      final firstDay = Scheduler.studyDayNumber(first);
+      // Kdo ještě nikdy nestudoval, počítá se od dneška.
+      final base = lastActiveDay == 0 ? firstDay - 1 : lastActiveDay;
 
-      await _plugin.zonedSchedule(
-        id: _id,
-        title:
-            streak > 0
-                ? 'Už se učíš $streak ${_dni(streak)}!'
-                : 'Neztrať svou sérii 🔥',
-        body:
-            streak > 0
-                ? 'Dotáhneš to na ${streak + 1}? Stačí ${Motivation.streakMinCards} slovíček 🔥'
-                : 'Stačí ${Motivation.streakMinCards} karet a dnešek se ti započítá do série.',
-        scheduledDate: when,
-        notificationDetails: const NotificationDetails(
-          android: AndroidNotificationDetails(
-            _channelId,
-            'Připomínka série',
-            channelDescription: 'Denní připomínka, aby se neztratila série.',
-            importance: Importance.high,
-            priority: Priority.high,
-            icon: 'ic_notification',
+      var id = 1;
+      for (final offset in _offsets) {
+        final targetDay = base + offset;
+        final when = tz.TZDateTime(
+          tz.local,
+          first.year,
+          first.month,
+          first.day + (targetDay - firstDay),
+          first.hour,
+          first.minute,
+        );
+        if (!when.isAfter(now)) continue; // dnešek po čase nebo už splněné dny
+
+        final String title, body;
+        if (offset > _dailyUntil) {
+          title = 'Tvé budoucí já doporučuje:';
+          body =
+              'zopakuj si ${Motivation.streakMinCards} ${_slovicek(Motivation.streakMinCards)} a nastartuj novou sérii';
+        } else if (offset == 1 && streak > 0) {
+          // Série ještě žije jen do konce tohoto dne.
+          title = 'Je čas na procvičování';
+          body =
+              'Zopakuj si ${Motivation.streakMinCards} ${_slovicek(Motivation.streakMinCards)} a tvá série bude $streak ${_dni(streak)} dlooouuuhá';
+        } else {
+          title = 'Jak zesílit svou slovní zásobu?';
+          body =
+              'Tím, že si dnes projdeš ${Motivation.streakMinCards} ${_slovicek(Motivation.streakMinCards)}!';
+        }
+
+        await _plugin.zonedSchedule(
+          id: id++,
+          title: title,
+          body: body,
+          scheduledDate: when,
+          notificationDetails: const NotificationDetails(
+            android: AndroidNotificationDetails(
+              _channelId,
+              'Připomínka série',
+              channelDescription: 'Denní připomínka, aby se neztratila série.',
+              importance: Importance.high,
+              priority: Priority.high,
+              icon: 'ic_notification',
+            ),
           ),
-        ),
-        // Nepřesný čas (může se opozdit o pár minut) nevyžaduje zvláštní
-        // oprávnění pro přesné budíky.
-        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-        matchDateTimeComponents: DateTimeComponents.time,
-      );
+          // Nepřesný čas (může se opozdit o pár minut) nevyžaduje zvláštní
+          // oprávnění pro přesné budíky. Oznámení se neopakují (bez
+          // matchDateTimeComponents), řadu plánuje tato metoda.
+          androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        );
+      }
     } catch (e) {
       debugPrint('Plánování připomínky selhalo: $e');
     }

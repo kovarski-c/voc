@@ -41,24 +41,60 @@ class _HomeShellState extends State<HomeShell> {
   void initState() {
     super.initState();
     widget.controller.addListener(_onController);
-    WidgetsBinding.instance.addPostFrameCallback((_) => _maybeAskPlacement());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _maybeAskPlacement();
+      _maybeExplainExclude();
+    });
+  }
+
+  /// Jednou (nový uživatel i po aktualizaci) vysvětlí rozdíl Umím / Neučit.
+  void _maybeExplainExclude() {
+    final c = widget.controller;
+    if (!mounted || c.needsPlacement || c.settings.seenExcludeHelp) return;
+    c.markExcludeHelpSeen();
+    showDialog<void>(
+      context: context,
+      builder:
+          (ctx) => AlertDialog(
+            backgroundColor: kSurface,
+            title: const Text('Přidali jsme tlačítko Neučit'),
+            content: const Text(
+              'U nového slova teď máš tři možnosti:\n\n'
+              '• Naučit: slovo se zařadí do učení.\n'
+              '• Umím: slovo znáš, ale v opakování se ti občas ukáže.\n'
+              '• Neučit: slovo už neuvidíš a nepočítá se do pokroku. '
+              'Vrátit ho můžeš v seznamu slov.\n\n'
+              'Tipy k učení najdeš pod žárovkou v učení.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: const Text('Rozumím'),
+              ),
+            ],
+          ),
+    );
   }
 
   /// Při prvním otevření kurzu bez pokroku nabídne výběr úrovně / test.
   void _maybeAskPlacement() {
     final c = widget.controller;
     if (!mounted || !c.needsPlacement) return;
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        fullscreenDialog: true,
-        builder:
-            (_) => PlacementPage(
-              controller: c,
-              firstRun: true,
-              onBackToLanguage: widget.onBackToLanguage,
-            ),
-      ),
-    );
+    Navigator.of(context)
+        .push(
+          MaterialPageRoute<void>(
+            fullscreenDialog: true,
+            builder:
+                (_) => PlacementPage(
+                  controller: c,
+                  firstRun: true,
+                  onBackToLanguage: widget.onBackToLanguage,
+                ),
+          ),
+        )
+        .then((_) {
+          if (mounted) _maybeExplainExclude();
+        });
   }
 
   @override

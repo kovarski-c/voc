@@ -15,9 +15,9 @@ class BackupData {
 /// Záloha = jeden JSON se všemi soubory aplikace (nastavení a postup kurzů).
 class BackupService {
   static const _app = 'voc';
-  /// Povolené názvy souborů: settings.json a progress_<id>.json.
+  /// Povolené názvy souborů: settings.json, streak.json a progress_<id>.json.
   static bool _okName(String n) {
-    if (n == 'settings.json') return true;
+    if (n == 'settings.json' || n == 'streak.json') return true;
     if (!n.startsWith('progress_') || !n.endsWith('.json')) return false;
     if (n.length <= 'progress_.json'.length) return false;
     final id = n.substring(9, n.length - 5);
@@ -86,6 +86,11 @@ class BackupService {
   static Future<void> restore(BackupData backup) async {
     for (final e in backup.files.entries) {
       await Storage.write(e.key, jsonEncode(e.value));
+    }
+    // Starší záloha bez společné série: ta se při příštím spuštění znovu
+    // převezme z postupu kurzů.
+    if (!backup.files.containsKey('streak.json')) {
+      await Storage.delete('streak.json');
     }
   }
 }

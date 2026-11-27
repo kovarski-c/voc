@@ -62,6 +62,12 @@ class Tips {
     for (final t in [
       'Tlačítko „Už umím“ používej upřímně: přeskočené slovo se vrátí až za '
           'zhruba ${Scheduler.skipStabilityDays.round()} dní.',
+      'Tlačítko „Neučit“ u nového slova ho vyřadí: už ho neuvidíš a nepočítá '
+          'se do pokroku. „Umím“ ho naopak ještě zařadí do opakování. '
+          'Vyřazená slova vrátíš v seznamu slov.',
+      'Žárovka vlevo nahoře při učení otevře tipy k zapamatování slov a '
+          'vysvětlení tlačítek. Při učení tě nerušíme, tipy se otevřou jen '
+          'klepnutím.',
       'Poslední odpovědi můžeš vrátit šipkou zpět.',
       'Která strana karty je první (rodný, nebo učený jazyk), se přepíná '
           'na domovské stránce.',

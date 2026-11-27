@@ -183,7 +183,8 @@ class StudySession {
           .where((e) => e.value.stage == CardStage.learning && !isHidden(e.key))
           .length;
 
-  int get unseenCount => order.where((k) => !cards.containsKey(k)).length;
+  int get unseenCount =>
+      order.where((k) => !cards.containsKey(k) && !isHidden(k)).length;
 
   List<int> _learningKeys() =>
       cards.entries
@@ -226,7 +227,8 @@ class StudySession {
 
   /// Další nová karta v pořadí (kurzor je POZICE v `order`, ne klíč).
   int? _nextUnseen() {
-    while (_newCursor < order.length && cards.containsKey(order[_newCursor])) {
+    while (_newCursor < order.length &&
+        (cards.containsKey(order[_newCursor]) || isHidden(order[_newCursor]))) {
       _newCursor++;
     }
     return _newCursor < order.length ? order[_newCursor] : null;
@@ -489,6 +491,14 @@ class StudySession {
   }
 
   /// Slovo se změnilo mimo relaci (ruční změna stavu): vypadne z fronty.
+  /// "Neučit": nové slovo se při představení zahodí (do limitu nových slov
+  /// se nepočítá) a už se nenabídne.
+  void dropNew(int key) {
+    final wasIntro = _intro.contains(key) || _midNew.contains(key);
+    forget(key);
+    if (wasIntro && newInBlock > 0) newInBlock--;
+  }
+
   void forget(int key) {
     final inSession = _queue.contains(key) || _intro.contains(key);
     _intro.remove(key);

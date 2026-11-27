@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import '../models/level.dart';
 import 'progress_store.dart';
 import 'scheduler.dart';
+import 'streak_store.dart';
 
 enum AchievementType { goal, streak, milestone, level }
 
@@ -61,7 +62,7 @@ class Motivation {
   }
 
   /// Aktuální série (0, pokud už by byla přerušená).
-  static int streakNow(ProgressStore s, DateTime now) {
+  static int streakNow(StreakStore s, DateTime now) {
     if (s.lastActiveDay == 0) return 0;
     final gap = Scheduler.studyDayNumber(now) - s.lastActiveDay;
     if (gap <= 1) return s.streak;
@@ -69,9 +70,44 @@ class Motivation {
     return 0;
   }
 
+  /// Započítá dnešek do série, pokud je dnes hotových aspoň [streakMinCards]
+  /// karet (v součtu přes všechny kurzy). Vrací oslavu série, nebo null.
+  static Achievement? creditStreak(StreakStore s, DateTime now) {
+    final today = Scheduler.studyDayNumber(now);
+    if (s.cardsToday(today) < streakMinCards || s.lastActiveDay >= today) {
+      return null;
+    }
+    final last = s.lastActiveDay;
+    if (last == 0) {
+      s.streak = 1;
+    } else {
+      final gap = today - last;
+      if (gap == 1) {
+        s.streak++;
+      } else {
+        final missed = gap - 1;
+        if (s.freezes >= missed) {
+          s.freezes -= missed;
+          s.streak++;
+        } else {
+          s.streak = 1;
+        }
+      }
+    }
+    if (s.streak % 7 == 0 && s.freezes < maxFreezes) s.freezes++;
+    s.bestStreak = math.max(s.bestStreak, s.streak);
+    s.lastActiveDay = today;
+    s.scheduleSave();
+    if (streakMarks.contains(s.streak)) {
+      return Achievement(AchievementType.streak, s.streak);
+    }
+    return null;
+  }
+
   /// Volá se po každé zodpovězené kartě. Vrací nové úspěchy k oslavě.
   static List<Achievement> update({
     required ProgressStore store,
+    required StreakStore streakStore,
     required int goal,
     required int learnedCount,
     required int badgeCount,
@@ -82,34 +118,8 @@ class Motivation {
     final today = Scheduler.studyDayNumber(now);
     final done = store.doneToday;
 
-    if (done >= streakMinCards &&
-        store.lastActiveDay != today &&
-        store.lastActiveDay <= today) {
-      final last = store.lastActiveDay;
-      if (last == 0) {
-        store.streak = 1;
-      } else {
-        final gap = today - last;
-        if (gap == 1) {
-          store.streak++;
-        } else {
-          final missed = gap - 1;
-          if (store.freezes >= missed) {
-            store.freezes -= missed;
-            store.streak++;
-          } else {
-            store.streak = 1;
-          }
-        }
-      }
-      if (store.streak % 7 == 0 && store.freezes < maxFreezes) store.freezes++;
-      store.bestStreak = math.max(store.bestStreak, store.streak);
-      store.lastActiveDay = today;
-      if (streakMarks.contains(store.streak)) {
-        out.add(Achievement(AchievementType.streak, store.streak));
-      }
-      store.scheduleSave();
-    }
+    final streakAchievement = creditStreak(streakStore, now);
+    if (streakAchievement != null) out.add(streakAchievement);
 
     if (done >= goal && store.goalCelebratedDay != today) {
       store.goalCelebratedDay = today;

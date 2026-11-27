@@ -70,6 +70,7 @@ Future<void> importBackup(BuildContext context, StudyController c) async {
 
   try {
     c.store.freeze(); // staré údaje v paměti už nesmí nic přepsat
+    c.streakStore.freeze();
     await BackupService.restore(backup);
     reloadPage();
   } catch (e) {

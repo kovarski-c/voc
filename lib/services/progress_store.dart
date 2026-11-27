@@ -37,6 +37,9 @@ class ProgressStore {
   /// Značka se zruší, jakmile se slovo poprvé představí.
   final Set<int> prioritized = {};
 
+  /// Slova vyřazená tlačítkem "Neučit": nenabízejí se a nepočítají se.
+  final Set<int> excluded = {};
+
   // --- statistiky ---
   /// číslo studijního dne -> [zopakováno, naučeno, zopakováno po termínu]
   /// (třetí číslo je podmnožina prvního: opakování karet, které v okamžiku
@@ -129,6 +132,9 @@ class ProgressStore {
         prioritized
           ..clear()
           ..addAll(List<int>.from((data['prio'] as List?) ?? const []));
+        excluded
+          ..clear()
+          ..addAll(List<int>.from((data['excl'] as List?) ?? const []));
         final now = DateTime.now();
         rawCards.forEach((k, v) {
           final i = int.parse(k);
@@ -140,6 +146,7 @@ class ProgressStore {
         prioritized.removeWhere(
           cards.containsKey,
         ); // už viděná slova značku nemají
+        prioritized.removeAll(excluded);
         if (version < 3) {
           await Storage.write('$name.v2.bak', raw);
           await flush();
@@ -154,6 +161,7 @@ class ProgressStore {
         cards.clear();
         history.clear();
         prioritized.clear();
+        excluded.clear();
       }
     }
     if (migrateLegacy) await _migrateLegacy();
@@ -259,6 +267,7 @@ class ProgressStore {
         'version': 3,
         'stats': _statsJson(),
         'prio': prioritized.toList()..sort(),
+        if (excluded.isNotEmpty) 'excl': excluded.toList()..sort(),
         'cards': {for (final e in cards.entries) '${e.key}': e.value.toJson()},
       });
       await Storage.write(_name, json);

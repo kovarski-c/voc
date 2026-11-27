@@ -7,6 +7,7 @@ import 'pages/home_shell.dart';
 import 'services/progress_store.dart';
 import 'services/reminder.dart';
 import 'services/settings_store.dart';
+import 'services/streak_store.dart';
 import 'study_controller.dart';
 import 'theme.dart';
 
@@ -28,6 +29,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   AppSettings? _settings;
   List<Course> _courses = const [];
   StudyController? _controller;
+  StreakStore? _streak; // série společná pro všechny kurzy
 
   @override
   void initState() {
@@ -76,6 +78,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     _settings = settings;
     palette = _resolvePalette(settings);
     _courses = await loadCourses();
+    final ids = _courses.map((c) => c.id).toList();
+    // Každý kurz má vlastní nastavení; při přechodu ze starého souboru se všem
+    // zkopírují dosavadní společné hodnoty.
+    settings.ensureCourses(ids);
+    SettingsStore.save(settings);
+    _streak = await StreakStore.load(ids);
     Course? course;
     for (final c in _courses) {
       if (c.id == settings.courseId) course = c;
@@ -97,6 +105,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       course,
       ProgressStore(course.id),
       settings,
+      _streak!,
     );
     await controller.init();
     // Jazyk se pamatuje až po výběru úrovně / testu; do té doby se po

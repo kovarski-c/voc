@@ -28,7 +28,7 @@ class SettingsPage extends StatelessWidget {
       child: ListenableBuilder(
         listenable: c,
         builder: (context, _) {
-          final p = c.settings.nativeFrontProb;
+          final p = c.cs.nativeFrontProb;
           final pct = (p * 100).round();
           return ListView(
             padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
@@ -77,6 +77,14 @@ class SettingsPage extends StatelessWidget {
                       ],
                     ),
                   ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(4, 8, 4, 0),
+                child: Text(
+                  'Denní cíl, nová slova, vulgární slova a směr karet se '
+                  'nastavují zvlášť pro každý jazyk.',
+                  style: TextStyle(fontSize: 12.5, color: kMuted),
                 ),
               ),
               const SizedBox(height: 16),
@@ -191,7 +199,7 @@ class SettingsPage extends StatelessWidget {
                           child: _Choice(
                             label: 'Představit',
                             selected:
-                                c.settings.newWordMode == NewWordMode.introduce,
+                                c.cs.newWordMode == NewWordMode.introduce,
                             onTap:
                                 () => c.setNewWordMode(NewWordMode.introduce),
                           ),
@@ -201,7 +209,7 @@ class SettingsPage extends StatelessWidget {
                           child: _Choice(
                             label: 'Zkusit vybavit',
                             selected:
-                                c.settings.newWordMode == NewWordMode.recall,
+                                c.cs.newWordMode == NewWordMode.recall,
                             onTap: () => c.setNewWordMode(NewWordMode.recall),
                           ),
                         ),
@@ -209,7 +217,7 @@ class SettingsPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      c.settings.newWordMode == NewWordMode.introduce
+                      c.cs.newWordMode == NewWordMode.introduce
                           ? 'Nové slovo se nejdřív ukáže i s překladem a pak se zkouší.'
                           : 'Nové slovo se hned zkouší jako otáčecí kartička. '
                               'Když ho napoprvé znáš, přeskočí se rovnou do '
@@ -228,6 +236,7 @@ class SettingsPage extends StatelessWidget {
                       if (b != AppBrightness.values.first)
                         const SizedBox(width: 10),
                       Expanded(
+                        flex: b.label == 'Podle systému' ? 3 : 2,
                         child: _Choice(
                           label: b.label,
                           selected: c.settings.appearance == b,
@@ -333,7 +342,7 @@ class SettingsPage extends StatelessWidget {
                         ),
                       ),
                       Switch(
-                        value: c.settings.hideVulgar,
+                        value: c.cs.hideVulgar,
                         onChanged: c.setHideVulgar,
                       ),
                     ],

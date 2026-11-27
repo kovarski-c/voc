@@ -39,14 +39,11 @@ class _ToneButtonState extends State<ToneButton> {
 
   Widget _icon(bool enabled, double size) {
     final w = widget;
-    // Ikona ve stejném sytém přechodu jako dřív kruh.
-    return enabled
-        ? ShaderMask(
-          blendMode: BlendMode.srcIn,
-          shaderCallback: (bounds) => w.tone.solid.createShader(bounds),
-          child: Icon(w.icon, size: size, color: Colors.white),
-        )
-        : Icon(w.icon, size: size, color: _offAccent);
+    return Icon(
+      w.icon,
+      size: size,
+      color: enabled ? w.tone.solidA : _offAccent,
+    );
   }
 
   Widget _inline(bool enabled) {
@@ -102,6 +99,7 @@ class _ToneButtonState extends State<ToneButton> {
     final w = widget;
     final enabled = w.onPressed != null;
     final radius = BorderRadius.circular(w.height / 3);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return AnimatedScale(
       scale: enabled && _pressed ? 0.97 : 1.0,
@@ -115,7 +113,7 @@ class _ToneButtonState extends State<ToneButton> {
           borderRadius: radius,
           border: Border.all(
             color: kSurface.withValues(alpha: 0.9),
-            width: 1.5,
+            width: isDark ? 0 : 1.5,
           ),
         ),
         child: Material(

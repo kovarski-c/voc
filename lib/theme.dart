@@ -91,6 +91,7 @@ class AppPalette {
   final Tone toneBlue; // hlavní akce, nová slova
   final Tone toneGreen; // opakování
   final Tone toneAmber; // učení
+  final Tone toneNeutral;
   final Color purpleA;
   final Color purpleB;
 
@@ -111,6 +112,7 @@ class AppPalette {
     required this.toneBlue,
     required this.toneGreen,
     required this.toneAmber,
+    required this.toneNeutral,
     required this.purpleA,
     required this.purpleB,
   });
@@ -161,6 +163,16 @@ const AppPalette kClassicLightPalette = AppPalette(
     ink: Color(0xFF6B3E08),
     inkSoft: Color(0xFF8F5410),
     onSolid: Color(0xFFFFF3DC),
+  ),
+  toneNeutral: Tone(
+    a: Color(0xFFD6DCE8),
+    b: Color(0xFFE6EBF3),
+    accent: Color(0xFF535D6E),
+    solidA: Color(0xFF737E92),
+    solidB: Color(0xFF555F72),
+    ink: Color(0xFF343B47),
+    inkSoft: Color(0xFF586274),
+    onSolid: Color(0xFFF8FAFC),
   ),
 );
 
@@ -223,6 +235,16 @@ const AppPalette kAutumnLightPalette = AppPalette(
     inkSoft: Color(0xFF704313), // Hřejivá hnědá podtónu
     onSolid: Color(0xFFFFF9EE), // Světlý text na plném pozadí
   ),
+  toneNeutral: Tone(
+    a: Color(0xFFE5D7C7),
+    b: Color(0xFFF0E5D8),
+    accent: Color(0xFF6D5B4C),
+    solidA: Color(0xFF8C7765),
+    solidB: Color(0xFF6E5B4B),
+    ink: Color(0xFF47382C),
+    inkSoft: Color(0xFF6E5B4C),
+    onSolid: Color(0xFFFFF9F2),
+  ),
 );
 
 /// Klasické schéma, tmavý režim: téměř černé pozadí, tmavě šedé karty.
@@ -271,6 +293,16 @@ const AppPalette kClassicDarkPalette = AppPalette(
     ink: Color(0xFFFFE8BF),
     inkSoft: Color(0xFFE6BE7E),
     onSolid: Color(0xFFFFF3DC),
+  ),
+  toneNeutral: Tone(
+    a: Color(0xFF2A2F3A),
+    b: Color(0xFF222731),
+    accent: Color(0xFFAEB6C4),
+    solidA: Color(0xFF6B7485),
+    solidB: Color(0xFF4E5666),
+    ink: Color(0xFFD6DCE6),
+    inkSoft: Color(0xFF9EA7B7),
+    onSolid: Color(0xFFF3F6FA),
   ),
 );
 
@@ -321,6 +353,17 @@ const AppPalette kAutumnDarkPalette = AppPalette(
     inkSoft: Color(0xFFE0B97E),
     onSolid: Color(0xFFFFF9EE),
   ),
+  // Podzimní tmavé schéma (pozadí 0xFF17120E, karty 0xFF241C16):
+  toneNeutral: Tone(
+    a: Color(0xFF3A2E25),
+    b: Color(0xFF2E241D),
+    accent: Color(0xFFC2AE9D),
+    solidA: Color(0xFF8B7766),
+    solidB: Color(0xFF6A5849),
+    ink: Color(0xFFE6D8CA),
+    inkSoft: Color(0xFFB5A292),
+    onSolid: Color(0xFFFFF8F2),
+  ),
 );
 
 /// Světlá a tmavá paleta jednoho schématu.
@@ -368,6 +411,7 @@ Color get kOffBorder => palette.offBorder;
 Tone get kToneBlue => palette.toneBlue;
 Tone get kToneGreen => palette.toneGreen;
 Tone get kToneAmber => palette.toneAmber;
+Tone get kToneNeutral => palette.toneNeutral;
 Color get kInactShieldBg => palette.inactShieldBg;
 Color get kInactShieldTxt => palette.inactShieldTxt;
 Color get kAactShieldTxt => palette.actShieldTxt;

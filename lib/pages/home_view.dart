@@ -529,7 +529,7 @@ void _showDirectionHelp(
   StudyController c,
   VoidCallback onOpenSettings,
 ) {
-  final pct = (c.settings.nativeFrontProb * 100).round();
+  final pct = (c.cs.nativeFrontProb * 100).round();
   showModalBottomSheet<void>(
     context: context,
     backgroundColor: kBg,
@@ -610,10 +610,10 @@ class _DirectionPicker extends StatelessWidget {
                     // Neaktivní výplň má barvu podkladu (neprůhledná), jinak by
                     // při animaci stín prosvítal a problikl by tmavě.
                     color:
-                        c.settings.directionMode == e.key ? kSurface : kTrack,
+                        c.cs.directionMode == e.key ? kSurface : kTrack,
                     borderRadius: BorderRadius.circular(12),
                     boxShadow:
-                        c.settings.directionMode == e.key
+                        c.cs.directionMode == e.key
                             ? softShadow(0.08)
                             : null,
                   ),
@@ -625,10 +625,10 @@ class _DirectionPicker extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight:
-                          c.settings.directionMode == e.key
+                          c.cs.directionMode == e.key
                               ? FontWeight.w700
                               : FontWeight.w500,
-                      color: c.settings.directionMode == e.key ? kInk : kMuted,
+                      color: c.cs.directionMode == e.key ? kInk : kMuted,
                     ),
                   ),
                 ),

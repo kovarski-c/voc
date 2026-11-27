@@ -10,14 +10,14 @@ import '../widgets/card_status.dart';
 import '../widgets/flash_card.dart';
 import '../widgets/intro_card.dart';
 import '../widgets/ipa_help_sheet.dart';
+import '../widgets/learning_tips_sheet.dart';
 import '../widgets/pill_button.dart';
 import '../widgets/rounded_progress_bar.dart';
 import '../widgets/swipe_hint.dart';
 import '../widgets/tone_button.dart';
 import '../widgets/backup_reminder.dart';
 
-String _slov(int n) =>
-    n == 1 ? 'slovo' : (n >= 2 && n <= 4 ? 'slova' : 'slov');
+String _slov(int n) => n == 1 ? 'slovo' : (n >= 2 && n <= 4 ? 'slova' : 'slov');
 
 /// Obrazovka mezi fázemi (po opakování, po pětici, po dávce): shrnutí a volba, jak dál.
 class InterludeView extends StatelessWidget {
@@ -60,7 +60,7 @@ class InterludeView extends StatelessWidget {
           subtitle = 'Dnes máš opakování hotové.';
         }
       case InterludeKind.groupDone:
-        icon = Icons.auto_awesome_rounded;
+        icon = Icons.lightbulb_rounded;
         colors = [kToneAmber.a, kToneAmber.solidA];
         title = 'Skupina hotová';
         subtitle =
@@ -69,7 +69,7 @@ class InterludeView extends StatelessWidget {
                 : 'Další skupina nových slov čeká.';
         tiles.add(_Tile(s.learnedInBlock, 'naučeno', kToneAmber.accent));
         if (s.skippedInBlock > 0) {
-          tiles.add(_Tile(s.skippedInBlock, 'přeskočeno', kBlue));
+          tiles.add(_Tile(s.skippedInBlock, 'známé', kBlue));
         }
         primaryLabel = 'Učit ${s.nextGroupCount} ${_slov(s.nextGroupCount)}';
         primary = c.startLearning;
@@ -83,7 +83,7 @@ class InterludeView extends StatelessWidget {
           tiles.add(_Tile(s.reviewedInBlock, 'zopakováno', kReviewColor));
         }
         if (s.skippedInBlock > 0) {
-          tiles.add(_Tile(s.skippedInBlock, 'přeskočeno', kToneAmber.accent));
+          tiles.add(_Tile(s.skippedInBlock, 'známé', kToneAmber.accent));
         }
         primaryLabel = 'Pokračovat';
         primary = c.nextBlock;
@@ -203,7 +203,7 @@ class InterludeView extends StatelessWidget {
                 color: colors.last,
                 onPressed: primary,
               ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 20),
             if (c.canUndo)
               SizedBox(
                 height: 46,
@@ -239,7 +239,7 @@ class InterludeView extends StatelessWidget {
                 ),
               ),
             SizedBox(
-              height: 46,
+              height: 42,
               child: TextButton(
                 onPressed: c.finish,
                 child: Text(
@@ -316,6 +316,35 @@ class _PracticeViewState extends State<PracticeView> {
   StudyController get c => widget.c;
 
   @override
+  void initState() {
+    super.initState();
+    // Poprvé (i po aktualizaci) se žárovka s tipy sama otevře, ať je jasné,
+    // co pod ní je.
+    if (!c.settings.seenTipsHelp) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || c.settings.seenTipsHelp) return;
+        c.markTipsHelpSeen();
+        showLearningTips(context, c.course, firstTime: true);
+      });
+    }
+  }
+
+  void _exclude(int key) {
+    c.excludeNew(key);
+    ScaffoldMessenger.of(context)
+      ..clearSnackBars()
+      ..showSnackBar(
+        SnackBar(
+          content: const Text('Slovo vyřazeno, už ho neuvidíš.'),
+          action: SnackBarAction(
+            label: 'Vrátit',
+            onPressed: () => c.restoreWord(key),
+          ),
+        ),
+      );
+  }
+
+  @override
   void dispose() {
     _drag.dispose();
     super.dispose();
@@ -352,23 +381,37 @@ class _PracticeViewState extends State<PracticeView> {
                       width: 80,
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: SizedBox(
-                          width: 40,
-                          height: 32,
-                          child:
-                              hasIpaHelp(c.course)
-                                  ? IconButton(
-                                    padding: EdgeInsets.zero,
-                                    iconSize: 22,
-                                    color: kMuted,
-                                    tooltip: 'Fonetická abeceda',
-                                    onPressed:
-                                        () => showIpaHelp(context, c.course),
-                                    icon: const Icon(
-                                      Icons.help_outline_rounded,
-                                    ),
-                                  )
-                                  : null,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              width: 40,
+                              height: 32,
+                              child: IconButton(
+                                padding: EdgeInsets.zero,
+                                iconSize: 24,
+                                color: kToneAmber.solidA,
+                                tooltip: 'Tipy k učení',
+                                onPressed:
+                                    () => showLearningTips(context, c.course),
+                                icon: const Icon(Icons.lightbulb_rounded),
+                              ),
+                            ),
+                            if (hasIpaHelp(c.course))
+                              SizedBox(
+                                width: 40,
+                                height: 32,
+                                child: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  iconSize: 22,
+                                  color: kMuted,
+                                  tooltip: 'Fonetická abeceda',
+                                  onPressed:
+                                      () => showIpaHelp(context, c.course),
+                                  icon: const Icon(Icons.help_outline_rounded),
+                                ),
+                              ),
+                          ],
                         ),
                       ),
                     ),
@@ -534,7 +577,14 @@ class _PracticeViewState extends State<PracticeView> {
                                         : c.ackIntro,
                               ),
                             ),
-                            const SizedBox(width: 12),
+                            if (top != null && c.canExclude(top)) ...[
+                              const SizedBox(width: 8),
+                              _ExcludeButton(
+                                height: kIntroButtonHeight,
+                                onPressed: () => _exclude(top),
+                              ),
+                            ],
+                            const SizedBox(width: 8),
                             Expanded(
                               child: ToneButton(
                                 label: firstTry ? 'Umím' : 'Už umím',
@@ -557,6 +607,58 @@ class _PracticeViewState extends State<PracticeView> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Malé neutrální tlačítko "Neučit" vedle Naučit / Umím.
+class _ExcludeButton extends StatelessWidget {
+  final double height;
+  final VoidCallback onPressed;
+  final isDark = palette.dark;
+  _ExcludeButton({required this.height, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    final tone = kToneNeutral;
+    return Tooltip(
+      message: 'Neučit: slovo se už nezobrazí',
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: onPressed,
+          child: Ink(
+            width: 64,
+            height: height,
+            decoration: BoxDecoration(
+              //gradient: tone.soft(),
+              borderRadius: BorderRadius.circular(16),
+              color: kToneNeutral.a,
+              //border: Border.all(
+              //  color: kSurface.withValues(alpha: 0.9),
+              //  width: isDark ? 0 : 1.5,
+              //),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.visibility_off_outlined, size: 18, color: tone.ink),
+                const SizedBox(height: 1),
+                Text(
+                  'Neučit',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: tone.ink,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

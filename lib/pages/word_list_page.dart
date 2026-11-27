@@ -50,13 +50,14 @@ class _WordListPageState extends State<WordListPage> {
   /// Ruční změna stavu slova.
   Future<void> _pickKind(int idx) async {
     final c = widget.controller;
-    final cur = c.infoOf(idx).kind;
-    final options = <(CardKind, String, String)>[
+    final CardKind? cur = c.isExcluded(idx) ? null : c.infoOf(idx).kind;
+    final options = <(CardKind?, String, String)>[
       (CardKind.newCard, 'Nové', 'Zatím neznám, přijde na řadu mezi novými.'),
       (CardKind.learning, 'Učím se', 'Zařadí se do učení od začátku.'),
       (CardKind.review, 'Umím', 'Půjde rovnou do opakování.'),
+      (null, 'Neučit', 'Slovo se nebude zobrazovat ani počítat. Půjde vrátit.'),
     ];
-    final picked = await showModalBottomSheet<CardKind>(
+    final picked = await showModalBottomSheet<(CardKind?, String, String)>(
       context: context,
       backgroundColor: kSurface,
       showDragHandle: true,
@@ -84,7 +85,7 @@ class _WordListPageState extends State<WordListPage> {
                   for (final o in options)
                     InkWell(
                       borderRadius: BorderRadius.circular(14),
-                      onTap: () => Navigator.pop(ctx, o.$1),
+                      onTap: () => Navigator.pop(ctx, o),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 12,
@@ -133,7 +134,13 @@ class _WordListPageState extends State<WordListPage> {
             ),
           ),
     );
-    if (picked != null && picked != cur) c.setWordKind(idx, picked);
+    if (picked == null || picked.$1 == cur) return;
+    final kind = picked.$1;
+    if (kind == null) {
+      c.excludeWord(idx);
+    } else {
+      c.setWordKind(idx, kind);
+    }
   }
 
   @override
@@ -266,7 +273,12 @@ class _WordListPageState extends State<WordListPage> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              CardStatus(info: info, reserveIndicator: false),
+                              c.isExcluded(idx)
+                                  ? const _ExcludedChip()
+                                  : CardStatus(
+                                    info: info,
+                                    reserveIndicator: false,
+                                  ),
                               if (info.kind == CardKind.review) ...[
                                 const SizedBox(width: 10),
                                 Text(
@@ -352,7 +364,7 @@ class _WordListPageState extends State<WordListPage> {
 
   Widget _buildList(StudyController c) {
     final course = c.course;
-    final q = _search.toLowerCase();
+    final q = _search.trim().toLowerCase();
     final filtered = <int>[
       for (final i in c.order)
         if (q.isEmpty ||
@@ -478,10 +490,13 @@ class _WordListPageState extends State<WordListPage> {
                                 ),
                                 SizedBox(
                                   width: 100,
-                                  child: CardStatus(
-                                    info: c.infoOf(idx),
-                                    reserveIndicator: false,
-                                  ),
+                                  child:
+                                      c.isExcluded(idx)
+                                          ? const Center(child: _ExcludedChip())
+                                          : CardStatus(
+                                            info: c.infoOf(idx),
+                                            reserveIndicator: false,
+                                          ),
                                 ),
                                 const SizedBox(width: 6),
                                 Transform.rotate(
@@ -601,6 +616,31 @@ class _DetailRow extends StatelessWidget {
         ),
         Expanded(child: Align(alignment: Alignment.centerLeft, child: child)),
       ],
+    );
+  }
+}
+
+
+/// Štítek u slova vyřazeného tlačítkem "Neučit".
+class _ExcludedChip extends StatelessWidget {
+  const _ExcludedChip();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+      decoration: BoxDecoration(
+        color: kFaint.withValues(alpha: 0.35),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        'vyřazeno',
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w700,
+          color: kMuted,
+        ),
+      ),
     );
   }
 }
